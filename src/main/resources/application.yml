@@ -3,7 +3,9 @@ server:
 spring:
   application:
     name: eni-reports
-
+  mvc:
+    view:
+      suffix: .html
 app:
   base-url: http://localhost:8081
   security:
@@ -25,7 +27,7 @@ app:
 spring:
   profiles: local
 app:
-  base-url: http://eni-reports.internal.shutterfly.com:8081
+  base-url: http://localhost:8081
   security:
     auth:
       gateway-endpoint: http://dsbsapp84-lv.internal.shutterfly.com:8080
@@ -43,7 +45,3 @@ app:
     auth:
       gateway-endpoint: http://dsbsapp84-lv.internal.shutterfly.com:8080
       cookie-domain: internal.shutterfly.com
-logging:
-  level:
-    root: debug
-
