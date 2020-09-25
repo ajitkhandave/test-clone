@@ -1,16 +1,11 @@
 server:
   port: 8081
 spring:
-  mvc:
-    view:
-      suffix: .html
   application:
-    name: eni-parity
+    name: eni-reports
 
 app:
   base-url: http://localhost:8081
-  approval-queue-endpoint: http://localhost:8443
-  epress-endpoint: http://dsbsapp30-lv.internal.shutterfly.com:8080
   security:
     auth:
       access-token-cookie-max-age: 1800
@@ -26,23 +21,29 @@ app:
       customer-base-endpoint: ${app.security.auth.gateway-endpoint}
       customer-web-endpoint: ${app.base-url}
       log-ui-error: ${app.base-url}/api/log
-      sso-url: /saml/login
-      notification-url: ${app.approval-queue-endpoint}/pop/notification/
-      epress-url: ${app.epress-endpoint}/epub/landing
 ---
 spring:
   profiles: local
 app:
   base-url: http://eni-reports.internal.shutterfly.com:8081
-  approval-queue-endpoint: http://dsbsapp110-lv.internal.shutterfly.com:8080
-  epress-endpoint: http://dsbsapp30-lv.internal.shutterfly.com:8080
   security:
     auth:
       gateway-endpoint: http://dsbsapp84-lv.internal.shutterfly.com:8080
       cookie-domain: internal.shutterfly.com
-  ui:
-    storefront:
+logging:
+  level:
+    root: debug
+
+---
+spring:
+  profiles: dev
+app:
+  base-url: http://dsbsapp107-lv.eni-reports.internal.shutterfly.com:8081
+  security:
+    auth:
+      gateway-endpoint: http://dsbsapp84-lv.internal.shutterfly.com:8080
       cookie-domain: internal.shutterfly.com
 logging:
   level:
     root: debug
+
