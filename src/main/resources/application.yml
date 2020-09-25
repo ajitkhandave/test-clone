@@ -38,7 +38,7 @@ logging:
 spring:
   profiles: dev
 app:
-  base-url: http://dsbsapp107-lv.eni-reports.internal.shutterfly.com:8081
+  base-url: http://dsbsapp107-lv.internal.shutterfly.com:8081
   security:
     auth:
       gateway-endpoint: http://dsbsapp84-lv.internal.shutterfly.com:8080
