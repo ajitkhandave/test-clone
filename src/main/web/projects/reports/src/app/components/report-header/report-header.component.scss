@@ -1,0 +1,41 @@
+@import "../../../../../../src/assets/style/variable.scss";
+@import "../../../../../../node_modules/bootstrap/scss/bootstrap.scss";
+
+.secondary-nav{
+  .nav-item{
+    margin: 0.5rem 1rem 0px;
+    text-align: center;
+    .nav-link{
+      font-weight: 900;
+      font-family: Avenir-Heavy;
+      font-size: 16px;
+      padding: 0px 0px 5px;
+      color: $site-secondary-color;
+      cursor: pointer;
+      &:hover, &.active{
+        border-bottom: 3px solid $site-primary-color;
+        color: #122377;
+      }
+    }
+  }
+  padding: 0 1rem;
+  padding-top: 0.5rem;
+}
+.fas{
+  font-family: "Font Awesome 5 Free", Avenir-Light;
+}
+
+.storefront-header-blue-bar {
+  @extend .d-block, .mt-1;
+  height: 40px;
+  width: 100%;
+  position: relative;
+  left: 0;
+  background: url("/assets/images/img_Top_BlueBar.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.navbar .autocomplete-wrapper {
+  max-width: 40%;
+}

@@ -1,0 +1,54 @@
+.description{
+  font-size: 24px;
+  color: #58595B;
+  border-bottom: .5px solid #DCDEE1;
+  border-bottom-style: inset;
+  padding-top: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 0px;
+  margin-left: 2rem;
+  width: 70%;
+}
+
+.phoneno {
+  padding-bottom: 2rem;
+  color: #122377;
+  font-size: 20px;
+  font-weight: 600;
+  display: flex;
+}
+
+.contact {
+  padding-left: 3rem;
+  margin-top: 1rem;
+  .desc{
+    height: 60px;
+    font-size: 20px;
+    color: #58595B;
+  }
+}
+
+.email a{
+  color: #122377;
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  display: flex;
+}
+
+.sc1 {
+  height: 100%;
+}
+
+.fontawesome {
+  font-size: 32px;
+}
+.fontawesomemail{
+  color: #122377;
+  font-size: 26px;
+  text-decoration: none
+}
+
+.brand-image {
+  width: 420px;
+}

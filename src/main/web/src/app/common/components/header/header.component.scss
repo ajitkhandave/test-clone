@@ -1,0 +1,21 @@
+.nav-item {
+  font-size: 22px;
+  margin-top: 10px;
+  .nav-link {
+    font-size: 14px;
+  }
+}
+::ng-deep {
+  .nav-item {
+    app-user {
+      .feedback-link {
+        display: flex;
+        padding-top: 4px;
+      }
+    }
+  }
+}
+
+.logo {
+  box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.1);
+}
