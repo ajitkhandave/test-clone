@@ -36,6 +36,6 @@ export function getBaseHref(platformLocation: PlatformLocation): string {
 }
 
 export function AppConfigFactory(config: AppConfig) {
-    const serviceUrl = 'http://localhost:8081/public/api/ui-config/';
+    const serviceUrl = '/public/api/ui-config/';
     return () => config.load(serviceUrl);
 }
