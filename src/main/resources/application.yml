@@ -3,6 +3,22 @@ server:
 spring:
   application:
     name: eni-reports
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    test-while-idle: true
+    validation-query: SELECT 1
+    time-between-eviction-runs-millis: 3600000
+    jmx-enabled: true
+  flyway:
+    check-location: true
+    enabled: true
+    locations: classpath:db/migration
+    sql-migration-prefix: v
+    sql-migration-suffix: .sql
+    outOfOrder: true
+    baseline-on-migrate: true
+    validateOnMigrate: false
+    table: schema_version
   mvc:
     view:
       suffix: .html
@@ -23,9 +39,14 @@ app:
       customer-base-endpoint: ${app.security.auth.gateway-endpoint}
       customer-web-endpoint: ${app.base-url}
       log-ui-error: ${app.base-url}/api/log
+
 ---
 spring:
   profiles: local
+  datasource:
+    url: jdbc:mysql://localhost:3306/eni
+    username: root
+    password: root
 app:
   base-url: http://localhost:8081
   security:
@@ -39,6 +60,10 @@ logging:
 ---
 spring:
   profiles: dev
+  datasource:
+    url: jdbc:mysql://dsbssql01-lv.internal.shutterfly.com:3306/EnI
+    username: sbs_eni_svc
+    password: sbs_eni_svc
 app:
   base-url: http://dsbsapp107-lv.internal.shutterfly.com:8081
   security:
