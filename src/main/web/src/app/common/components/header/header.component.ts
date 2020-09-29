@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-// import { AuthService, User } from '@sbs/ngpc-auth';
+import { AuthService, User } from '@sbs/ngpc-auth';
 
 
 @Component({
@@ -10,19 +10,18 @@ import { Observable } from 'rxjs';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  // public user$: Observable<User>;
+  public user$: Observable<User>;
 
   constructor(
     public router: Router,
-    // private authService: AuthService,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
-    // this.user$ = this.authService.loggedInUser;
+    this.user$ = this.authService.loggedInUser;
   }
 
   onLogout() {
-    // const user = this.authService.user.user_name;
-    // this.authService.logout();
+    this.authService.logout();
   }
 }
