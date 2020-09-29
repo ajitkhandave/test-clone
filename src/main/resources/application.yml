@@ -19,6 +19,9 @@ spring:
     baseline-on-migrate: true
     validateOnMigrate: false
     table: schema_version
+  mvc:
+    view:
+      suffix: .html
 app:
   base-url: http://localhost:8081
   security:
@@ -67,7 +70,3 @@ app:
     auth:
       gateway-endpoint: http://dsbsapp84-lv.internal.shutterfly.com:8080
       cookie-domain: internal.shutterfly.com
-logging:
-  level:
-    root: debug
-
