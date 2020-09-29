@@ -15,13 +15,12 @@ import lombok.NoArgsConstructor;
  * @author Abhishek Bhuskute
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table
 @Builder
-public class SkuItem extends AuditableBaseEntity implements Serializable {
+public class SkuItem implements Serializable {
 
     @Id
     private String itemNumber;
