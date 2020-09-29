@@ -8,6 +8,7 @@ import { ReportHeaderComponent } from './components/report-header/report-header.
 import { ReportsComponent } from './components/reports/reports.component';
 import { HomeComponent } from './components/home/home.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
+import { ErrorComponent } from './components/error/error.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ContactUsComponent } from './components/contact-us/contact-us.component
     ReportHeaderComponent,
     ReportsComponent,
     HomeComponent,
-    ContactUsComponent
+    ContactUsComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +25,7 @@ import { ContactUsComponent } from './components/contact-us/contact-us.component
     AppRoutingModule
   ],
   providers: [
-    {provide: 'APPNAME', useValue: 'reports'},
+    { provide: 'APPNAME', useValue: 'reports' },
     CommonProviders
   ],
   bootstrap: [AppComponent]

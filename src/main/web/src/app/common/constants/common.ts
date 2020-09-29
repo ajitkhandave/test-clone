@@ -1,4 +1,4 @@
-// import {AuthInterceptor, NgpcAuthModule, RefreshTokenInterceptor} from "@sbs/ngpc-auth";
+import {AuthInterceptor, NgpcAuthModule, RefreshTokenInterceptor} from "@sbs/ngpc-auth";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserModule} from "@angular/platform-browser";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -18,15 +18,15 @@ export const CommonModules = [
     FormsModule,
     AppParentModule,
     ReactiveFormsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
     // LoaderModule,
-    // NgpcAuthModule.forRoot({loginUrl: 'auth', appCode: 'eni', baseUrl: 'http://localhost:8080'})
+    NgpcAuthModule.forRoot({loginUrl: 'reports/error', appCode: 'eni'})
 ];
 
 export const CommonProviders = [
     {provide: APP_BASE_HREF, useFactory: getBaseHref, deps: [PlatformLocation]},
-    // {provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true},
-    // {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: APP_INITIALIZER, useFactory: AppConfigFactory, deps: [AppConfig], multi: true},
     AppConfig
 ];

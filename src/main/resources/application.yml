@@ -39,7 +39,10 @@ app:
       customer-base-endpoint: ${app.security.auth.gateway-endpoint}
       customer-web-endpoint: ${app.base-url}
       log-ui-error: ${app.base-url}/api/log
-
+    reports:
+      customer-base-endpoint: ${app.security.auth.gateway-endpoint}
+      customer-web-endpoint: ${app.base-url}
+      log-ui-error: ${app.base-url}/api/log
 ---
 spring:
   profiles: local
