@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class UIPathController {
 
-  @RequestMapping(value = {"/reports", "/reports/type/**", "/reports/contact"})
+  @RequestMapping(value = {"/reports", "/reports/type/**", "/reports/contact", "/reports/error"})
   public String reportsIndex(HttpServletResponse response) {
     String headerValue = CacheControl.maxAge(3600, TimeUnit.SECONDS).getHeaderValue();
     response.addHeader("Cache-Control", headerValue);
