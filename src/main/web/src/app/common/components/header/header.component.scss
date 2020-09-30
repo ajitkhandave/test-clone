@@ -1,0 +1,22 @@
+.nav-item {
+  font-size: 22px;
+  margin-top: 10px;
+  .nav-link {
+    font-size: 14px;
+  }
+  .feedback-link,
+  .feedback-link:hover {
+    color: #58595b;
+    text-decoration: none;
+    cursor: pointer;
+    display: flex;
+    padding-top: 4px;
+  }
+  .username{
+    font-size: 14px;
+  }
+}
+
+.logo {
+  box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.1);
+}

@@ -1,1 +1,76 @@
 /* You can add global styles to this file, and also import other style files */
+@import "./assets/style/variable.scss";
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+
+$fa-font-path: "../node_modules/@fortawesome/fontawesome-free/webfonts";
+$custom-font-path: "./assets/fonts/Graphik-Regular.otf";
+@import "../node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "../node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
+@import "../node_modules/@fortawesome/fontawesome-free/scss/brands.scss";
+
+$avenir-font-path: "assets/fonts/";
+
+@import '~ngx-toastr/toastr-bs4-alert';
+
+
+@font-face {
+  font-family: Avenir-Roman;
+  src: url($avenir-font-path + 'avenir/hinted-Avenir-Roman.eot');
+  src: local('Avenir Roman'), local('Avenir-Roman'),
+  url($avenir-font-path + 'avenir/hinted-Avenir-Roman.eot?#iefix') format('embedded-opentype'),
+  url($avenir-font-path + 'avenir/hinted-Avenir-Roman.woff2') format('woff2'),
+  url($avenir-font-path + 'avenir/hinted-Avenir-Roman.woff') format('woff'),
+  url($avenir-font-path + 'avenir/hinted-Avenir-Roman.ttf') format('truetype'),
+  url($avenir-font-path + 'avenir/hinted-Avenir-Roman.svg#Avenir-Roman') format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+* {
+  font-family: $site-primary-font;
+}
+
+@font-face {
+  font-family: Avenir-Heavy;
+  src: url($avenir-font-path + 'avenir-heavy/Avenir-Heavy.eot');
+  src: url($avenir-font-path + 'avenir-heavy/Avenir-Heavy.eot?#iefix') format('embedded-opentype'),
+  url($avenir-font-path + 'avenir-heavy/Avenir-Heavy.woff2') format('woff2'),
+  url($avenir-font-path + 'avenir-heavy/Avenir-Heavy.woff') format('woff'),
+  url($avenir-font-path + 'avenir-heavy/Avenir-Heavy.ttf') format('truetype'),
+  url($avenir-font-path + 'avenir-heavy/Avenir-Heavy.svg#Avenir-Heavy') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.popover-content {
+  @extend .d-block;
+  line-height: 2;
+  color: $greyish-brown-two;
+}
+
+.username-popover {
+  width: 160px;
+  box-shadow: 0 0 15px 0 rgba(0, 0, 20, 0.08), 0 0 4px 0 rgba(0, 0, 10, 0.11);
+  .user-logout {
+    @extend .d-block,
+    .pl-2;
+    color: hsl(0, 0%, 27%);;
+    color: $greyish-brown;
+    font-size: $spacing-unit-2 * 7;
+    line-height: 2.43;
+    font-weight: 400;
+    margin-left: 20px;
+    &:before {
+      @extend .mr-2;
+      font-size: 10px;
+    }
+    &:active,
+    &:hover,
+    &:focus {
+      cursor: pointer;
+      background-color: #F5F6F8;
+    }
+
+  }
+}
