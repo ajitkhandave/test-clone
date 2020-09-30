@@ -8,13 +8,12 @@ spring:
     test-while-idle: true
     validation-query: SELECT 1
     time-between-eviction-runs-millis: 3600000
-    jmx-enabled: true
   flyway:
     check-location: true
     enabled: true
     locations: classpath:db/migration
     sql-migration-prefix: v
-    sql-migration-suffix: .sql
+    sql-migration-suffixes: .sql
     outOfOrder: true
     baseline-on-migrate: true
     validateOnMigrate: false
