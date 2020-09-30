@@ -1,4 +1,4 @@
-create table if not exists `reports_details_entity`
+create table if not exists `reports_details`
 (
     `report_id` bigint(20) NOT NULL AUTO_INCREMENT,
     `report_name` varchar(255) not null,
@@ -10,7 +10,7 @@ create table if not exists `reports_details_entity`
 
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-create table if not exists `reports_query_details_entity`
+create table if not exists `reports_query_details`
 (
     `id` bigint(20) NOT NULL AUTO_INCREMENT,
     `report_id` bigint(20) NOT NULL,
@@ -21,6 +21,6 @@ create table if not exists `reports_query_details_entity`
     `modified_by` varchar(255) DEFAULT 'admin',
     `modified_date` datetime DEFAULT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (report_id) REFERENCES reports_details_entity (report_id)
+    FOREIGN KEY (report_id) REFERENCES reports_details (report_id)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

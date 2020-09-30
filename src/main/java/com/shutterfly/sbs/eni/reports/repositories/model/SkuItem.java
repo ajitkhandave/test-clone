@@ -1,13 +1,13 @@
 package com.shutterfly.sbs.eni.reports.repositories.model;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -23,10 +23,22 @@ import lombok.NoArgsConstructor;
 public class SkuItem implements Serializable {
 
     @Id
+    @Column(name = "item_number")
     private String itemNumber;
+
+    @Column(name = "item_name")
     private String itemName;
+
+    @Column(name = "document_type")
     private String documentType;
+
+    @Column(name = "is_static")
     private boolean isStatic;
+
+    @Column(name = "static_configurable")
+    private String staticConfigurable;
+
+    @Column(name = "asset_url")
     private String assetUrl;
 
 }
