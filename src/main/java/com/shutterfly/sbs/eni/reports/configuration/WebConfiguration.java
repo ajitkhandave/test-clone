@@ -1,17 +1,19 @@
 package com.shutterfly.sbs.eni.reports.configuration;
 
+import com.shutterfly.sbs.eni.reports.repositories.ExtendedRepositoryImpl;
 import com.shutterfly.sbs.nextgen.security.config.AuthRestClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 @Configuration
+@EnableJpaRepositories(basePackages = "com.shutterfly.sbs.eni.reports.repositories",
+    repositoryBaseClass = ExtendedRepositoryImpl.class)
 @RequiredArgsConstructor
 public class WebConfiguration {
     private final AuthConfiguration authConfig;
@@ -47,5 +49,6 @@ public class WebConfiguration {
         public void addViewControllers(ViewControllerRegistry registry) {
             registry.addRedirectViewController("/", "/reports/");
         }
+
     }
 }
