@@ -1,0 +1,55 @@
+.pagination-wrapper {
+    margin-top: 20px;
+    margin-bottom: 25px;
+    font-size: 14px;
+    .page-selector.form-control {
+      text-align: center;
+      border-style: none;
+      margin-left: 10px;
+      width: auto;
+      height: auto;
+      padding: 5px;
+      display: inline-block;
+    }
+    .active-page {
+      max-height: 30px;
+      height: 30px;
+      max-width: 35px;
+      width: 35px;
+      -moz-appearance: textfield;
+      text-align: center;
+      padding: 16px 0px;
+      background-color: #F5F6F8;
+      box-shadow: none;
+      outline: none;
+      border-style: none;
+
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    }
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      .active-page {
+        padding: 4px 0px;
+      }
+    }
+    .btn-link {
+      color: #58595b;
+      transition: 50ms;
+      font-size: 14px;
+      text-decoration: none;
+      &.btn-disabled {
+        color: #9FA0A3;
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+      &:hover:not(.btn-disabled) {
+        color: #1A2A7C;
+      }
+      &:active,
+      &:focus {
+        color: #00213E;
+      }
+    }
+}
