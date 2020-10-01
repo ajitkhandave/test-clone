@@ -7,16 +7,19 @@ import { ReportType } from '../models/report-type';
 })
 export class ReportService {
 
+  reportTypes: ReportType[];
+
   constructor() { }
 
   getReportTypes(): Observable<ReportType[]> {
-    const types: ReportType[] = [{
-      id: 'pie',
-      name: 'Report 1'
-    }, {
-      id: 'column',
-      name: 'Report 2'
-    }];
-    return of(types);
+    return of(this.reportTypes);
+  }
+
+  getReprot(reportId: string): ReportType {
+    return this.reportTypes.find(report => report.id === reportId);
+  }
+
+  setReportTypes(types: ReportType[]): void {
+    this.reportTypes = types;
   }
 }
