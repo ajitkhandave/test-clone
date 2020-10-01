@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ReportService } from '../../services/report.service';
 
 @Component({
   selector: 'app-reports',
@@ -9,8 +10,11 @@ export class ReportsComponent implements OnInit {
 
   columns: any[];
   sorts: any[];
+  data: any;
 
-  constructor() { }
+  constructor(
+    private reportService: ReportService
+  ) { }
 
   ngOnInit() {
     this.columns = [
@@ -26,6 +30,7 @@ export class ReportsComponent implements OnInit {
     ];
 
     this.sorts = [{ prop: 'orderNumber', dir: 'desc' }];
+    this.reportService.fetchOrders().subscribe((resp) => this.data = resp.orders);
   }
 
 }

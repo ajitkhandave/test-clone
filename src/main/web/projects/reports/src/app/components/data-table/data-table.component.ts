@@ -11,11 +11,12 @@ import { Sort } from '../../models/sort';
 export class DataTableComponent implements OnInit {
   @Input() sorts: Sort[] = [];
   @Input() columns: TableColumn[] = [];
+  @Input() masterOrders: any[];
   @ViewChild(DatatableComponent) tableCmp: DatatableComponent;
   setPage$: EventEmitter<number> = new EventEmitter();
   pageOffset: number = 0;
   totalCount: number;
-  masterOrders = [];
+  // masterOrders = [];
 
   constructor() { }
 
