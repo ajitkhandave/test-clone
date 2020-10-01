@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ReportType } from '../models/report-type';
@@ -7,16 +8,25 @@ import { ReportType } from '../models/report-type';
 })
 export class ReportService {
 
-  constructor() { }
+  reportTypes: ReportType[];
+
+  constructor(
+    private http: HttpClient
+  ) { }
 
   getReportTypes(): Observable<ReportType[]> {
-    const types: ReportType[] = [{
-      id: 'pie',
-      name: 'Report 1'
-    }, {
-      id: 'column',
-      name: 'Report 2'
-    }];
-    return of(types);
+    return of(this.reportTypes);
+  }
+
+  getReport(reportId: string): ReportType {
+    return this.reportTypes.find(report => report.id === reportId);
+  }
+
+  setReportTypes(types: ReportType[]): void {
+    this.reportTypes = types;
+  }
+
+  fetchOrders(): Observable<any> {
+    return this.http.get<any>('/assets/orders.json');
   }
 }
