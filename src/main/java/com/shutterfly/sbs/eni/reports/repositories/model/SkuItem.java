@@ -32,9 +32,6 @@ public class SkuItem implements Serializable {
     @Column(name = "document_type")
     private String documentType;
 
-    @Column(name = "is_static")
-    private boolean isStatic;
-
     @Column(name = "static_configurable")
     private String staticConfigurable;
 
