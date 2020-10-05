@@ -2,10 +2,10 @@ package com.shutterfly.sbs.eni.reports.controllers;
 
 import com.shutterfly.sbs.eni.reports.configuration.RepositoryFactory;
 import com.shutterfly.sbs.eni.reports.models.dto.ReportNames;
-import com.shutterfly.sbs.eni.reports.repositories.ReportQueryDetailsRepo;
-import com.shutterfly.sbs.eni.reports.repositories.SkuItemRepo;
-import com.shutterfly.sbs.eni.reports.repositories.model.ReportsDetails;
-import com.shutterfly.sbs.eni.reports.repositories.model.SkuItem;
+import com.shutterfly.sbs.eni.reports.repositories.eni.ReportQueryDetailsRepo;
+import com.shutterfly.sbs.eni.reports.repositories.eni.SkuItemRepo;
+import com.shutterfly.sbs.eni.reports.repositories.eni.model.ReportsDetails;
+import com.shutterfly.sbs.eni.reports.repositories.eni.model.SkuItem;
 import java.util.List;
 import java.util.stream.Collectors;
 import io.swagger.annotations.ApiOperation;

@@ -1,4 +1,4 @@
-package com.shutterfly.sbs.eni.reports.repositories.model;
+package com.shutterfly.sbs.eni.reports.repositories.eni.model;
 
 import java.io.Serializable;
 import javax.persistence.Column;

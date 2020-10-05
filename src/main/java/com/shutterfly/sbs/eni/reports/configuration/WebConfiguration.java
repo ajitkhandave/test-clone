@@ -1,7 +1,7 @@
 package com.shutterfly.sbs.eni.reports.configuration;
 
 import com.shutterfly.sbs.eni.reports.converters.ReportControllerParamConverter;
-import com.shutterfly.sbs.eni.reports.repositories.ExtendedRepositoryImpl;
+import com.shutterfly.sbs.eni.reports.repositories.eni.ExtendedRepositoryImpl;
 import com.shutterfly.sbs.nextgen.security.config.AuthRestClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.config.ServiceLocatorFactoryBean;
@@ -15,8 +15,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.shutterfly.sbs.eni.reports.repositories",
-    repositoryBaseClass = ExtendedRepositoryImpl.class)
 @RequiredArgsConstructor
 public class WebConfiguration {
     private final AuthConfiguration authConfig;

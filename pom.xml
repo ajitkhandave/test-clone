@@ -19,6 +19,7 @@
 		<swagger.version>3.0.0-SNAPSHOT</swagger.version>
 		<flyway.version>6.5.7</flyway.version>
 		<spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
+		<commons.dbcp.version>1.4</commons.dbcp.version>
 	</properties>
 
 	<dependencies>
@@ -45,6 +46,11 @@
 			<groupId>com.auth0</groupId>
 			<artifactId>jwks-rsa</artifactId>
 			<version>0.9.0</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>${commons.dbcp.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>

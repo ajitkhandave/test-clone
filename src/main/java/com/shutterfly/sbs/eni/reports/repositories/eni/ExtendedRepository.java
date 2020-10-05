@@ -1,4 +1,4 @@
-package com.shutterfly.sbs.eni.reports.repositories;
+package com.shutterfly.sbs.eni.reports.repositories.eni;
 
 import java.io.Serializable;
 import java.util.List;

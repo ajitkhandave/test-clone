@@ -1,11 +1,10 @@
-package com.shutterfly.sbs.eni.reports.repositories.model;
+package com.shutterfly.sbs.eni.reports.repositories.eni.model;
 
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;

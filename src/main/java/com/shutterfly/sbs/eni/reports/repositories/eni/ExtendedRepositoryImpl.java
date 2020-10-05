@@ -1,5 +1,6 @@
-package com.shutterfly.sbs.eni.reports.repositories;
+package com.shutterfly.sbs.eni.reports.repositories.eni;
 
+import com.shutterfly.sbs.eni.reports.repositories.eni.ExtendedRepository;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -13,7 +14,7 @@ import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 public class ExtendedRepositoryImpl <T, ID extends Serializable>
-    extends SimpleJpaRepository<T, ID> implements ExtendedRepository<T, ID>  {
+    extends SimpleJpaRepository<T, ID> implements ExtendedRepository<T, ID> {
 
   @Autowired
   private EntityManager entityManager;
