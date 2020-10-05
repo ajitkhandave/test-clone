@@ -9,6 +9,9 @@ import { ReportsComponent } from './components/reports/reports.component';
 import { HomeComponent } from './components/home/home.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
 import { ErrorComponent } from './components/error/error.component';
+import { DataTableComponent } from './components/data-table/data-table.component';
+import { PaginationComponent } from './components/pagination/pagination.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   declarations: [
@@ -17,11 +20,14 @@ import { ErrorComponent } from './components/error/error.component';
     ReportsComponent,
     HomeComponent,
     ContactUsComponent,
-    ErrorComponent
+    ErrorComponent,
+    DataTableComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,
     CommonModules,
+    NgxDatatableModule,
     AppRoutingModule
   ],
   providers: [

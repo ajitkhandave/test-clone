@@ -1,0 +1,18 @@
+<div class="pagination-wrapper">
+  <span> Rows:</span>
+  <select class="page-selector form-control" [(ngModel)]="pagination.limit" (ngModelChange)="onPaginationLimitChange($event)">
+    <option [ngValue]="10">10</option>
+    <option [ngValue]="50">50</option>
+    <option [ngValue]="100">100</option>
+  </select>
+
+  <span class="pl-4">Page: </span>
+  <input type="number" name="activePage" class="active-page" step="1" [(ngModel)]="pagination.page"
+    (ngModelChange)="onActivePageChange($event)">
+  <span> of {{pagination?.totalPages}}</span>
+  <span class="p-0 pl-4 btn btn-link" [ngClass]="{'btn-disabled': pagination.page <= 1}" (click)="onPrev()"> Prev
+    |</span>
+  <span class="p-0 pr-3 btn btn-link" [ngClass]="{'btn-disabled': pagination.page == pagination.totalPages}"
+    (click)="onNext()"> Next
+  </span>
+</div> 

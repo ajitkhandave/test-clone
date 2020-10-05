@@ -1,0 +1,56 @@
+::ng-deep {
+  .datatable-container {
+    padding-top: 10px;
+    .ngx-datatable {
+      color: #58595B;
+      .datatable-header {
+        text-align: left;
+        border-top: 1px solid #DCDEE1;
+        border-bottom: 1px solid #DCDEE1;
+        background-color: #F5F6F8;
+        .datatable-header-cell.sortable .datatable-header-cell-wrapper {
+          font-size: 12px;
+          line-height: 40px;
+        }
+        .datatable-icon-up:before{
+          content: '';
+        }
+        .datatable-icon-down:before {
+          content: '';
+        }
+        .sortable .sort-btn {
+          font-family: "Font Awesome 5 Free";
+          color: #000;
+          margin-left: 10px;
+          font-size: 13px;
+          &:after {
+            content: "\f0dc"!important;
+          }
+          &.sort-asc.datatable-icon-up:after {
+            content: "\f0de"!important;
+          }
+          &.datatable-icon-down:after {
+            content: "\f0dd"!important;
+          }
+        }
+      }
+      .datatable-body {
+        .datatable-body-row {
+          text-align: left;
+          .datatable-body-cell {
+            padding-top: 10px;
+            cursor: pointer;
+            font-size: 14px;
+          }
+        }
+      }
+      .datatable-row-odd {
+        background-color: #F5F6F8;
+      }
+      .datatable-header-cell,
+      .datatable-body-cell {
+        padding: 0 10px;
+      }
+    }
+  }
+}
