@@ -30,4 +30,8 @@ export class ReportHeaderComponent implements OnInit {
       .pipe(take(1))
       .subscribe(resp => this.reportTypes = resp);
   }
+
+  get errorUrl(): boolean {
+    return !this.router.url.includes('error');
+  }
 }

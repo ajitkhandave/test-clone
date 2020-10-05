@@ -15,34 +15,34 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     const types: ReportType[] = [{
-      id: '1',
+      id: 'all-savers-report',
       name: 'All savers report'
     }, {
-      id: '2',
+      id: 'status-alert-report',
       name: 'Status Alert Report'
     }, {
-      id: '3',
+      id: 'pop-active-products',
       name: 'POP Active Products Report'
     }, {
-      id: '4',
+      id: 'order-status',
       name: 'Order Status Report'
     }, {
-      id: '5',
+      id: 'order-details',
       name: 'Order Details Report'
     }, {
-      id: '6',
+      id: 'onboarding-dashboard',
       name: 'Onboarding Dashboard'
     }, {
-      id: '7',
+      id: 'oe-vp-data',
       name: 'OE VP Data Report'
     }, {
-      id: '8',
+      id: 'eni-monthly-volume',
       name: 'ENI Monthly Volume Report'
     }, {
-      id: '9',
+      id: 'member-engagement',
       name: 'Member Engagement Report'
     }, {
-      id: '10',
+      id: 'invoicing-report',
       name: 'Invoicing Report'
     }];
     this.service.setReportTypes(types);

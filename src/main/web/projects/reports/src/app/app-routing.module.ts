@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
 import { ErrorComponent } from './components/error/error.component';
 import { HomeComponent } from './components/home/home.component';
-import { ReportsComponent } from './components/reports/reports.component';
+import { PopActiveProductsComponent } from './reports/pop-active-products/pop-active-products.component';
 
 const routes: Routes = [
   {
@@ -19,8 +19,12 @@ const routes: Routes = [
         component: HomeComponent
       },
       {
+        path: 'pop-active-products',
+        component: PopActiveProductsComponent
+      },
+      {
         path: 'type/:id',
-        component: ReportsComponent
+        component: PopActiveProductsComponent
       },
       {
         path: 'contact',

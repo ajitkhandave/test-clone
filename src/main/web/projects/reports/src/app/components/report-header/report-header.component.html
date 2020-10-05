@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand secondary-nav">
   <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav mr-auto" *ngIf="errorUrl">
       <li class="nav-item home-nav-item">
         <a class="nav-link" routerLink="/reports" routerLinkActive="active"
           [routerLinkActiveOptions]="{exact: true}">Home</a>
