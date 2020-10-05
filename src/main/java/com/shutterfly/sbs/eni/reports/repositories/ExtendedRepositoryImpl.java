@@ -48,10 +48,10 @@ public class ExtendedRepositoryImpl <T, ID extends Serializable>
   }
 
   @Transactional
-  public List<T> findWithQuery(String query, Object positionalParams[] , Class T) {
+  public List<T> findWithQuery(String query, Object positionalParams[]) {
 
     return entityManager.createNativeQuery(
-        query , T)
+        query , getDomainClass())
         .getResultList();
 
   }

@@ -13,5 +13,5 @@ public interface ExtendedRepository<T, ID extends Serializable>
 
   public T customFind(String whereClause, String attributeName);
 
-  public List<T> findWithQuery(String query, Object positionalParams[] , Class T);
+  public List<T> findWithQuery(String query, Object positionalParams[]);
 }
