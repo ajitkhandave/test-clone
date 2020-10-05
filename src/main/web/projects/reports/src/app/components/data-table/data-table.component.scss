@@ -8,7 +8,7 @@
         border-top: 1px solid #DCDEE1;
         border-bottom: 1px solid #DCDEE1;
         background-color: #F5F6F8;
-        .datatable-header-cell.sortable .datatable-header-cell-wrapper {
+        .datatable-header-cell .datatable-header-cell-wrapper {
           font-size: 12px;
           line-height: 40px;
         }
@@ -37,6 +37,7 @@
       .datatable-body {
         .datatable-body-row {
           text-align: left;
+          padding: 5px 10px;
           .datatable-body-cell {
             padding-top: 10px;
             cursor: pointer;
@@ -49,7 +50,7 @@
       }
       .datatable-header-cell,
       .datatable-body-cell {
-        padding: 0 10px;
+        padding: 0 10px 10px;
       }
     }
   }
