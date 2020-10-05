@@ -6,6 +6,8 @@ import com.shutterfly.sbs.eni.reports.models.dto.ReportNames;
 import com.shutterfly.sbs.eni.reports.repositories.ReportQueryDetailsRepo;
 import com.shutterfly.sbs.eni.reports.repositories.model.ReportsDetails;
 import com.shutterfly.sbs.eni.reports.services.ReportService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,8 +30,9 @@ public class ReportController {
   private final ReportService reportService;
 
 
+  @ApiOperation(value = "ENI Reports Data", authorizations = { @Authorization(value="Authorization") })
   @GetMapping(path = "/fetchReport/{reportName}", produces = "application/json")
-  public List<Object> fetchReports(@PathVariable ReportNames reportName, @Nullable @RequestParam("startDate") Optional<String> startDate, @Nullable @RequestParam("endDate") Optional<String>  endDate ) {
+  public List<Object> fetchReports(@PathVariable ReportNames reportName, @Nullable @RequestParam(value = "startDate", required = false) Optional<String> startDate, @Nullable @RequestParam(value = "endDate", required = false) Optional<String>  endDate ) {
     try {
       Optional<ReportsDetails> result = reportQueryDetailsRepo.findByReportName(reportName.getName());
       if(result.isPresent()) {
