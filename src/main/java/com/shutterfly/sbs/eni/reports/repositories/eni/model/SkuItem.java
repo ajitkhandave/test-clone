@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table
+@Table(name="sku_item",schema="eni")
 @Builder
 public class SkuItem implements Serializable {
 

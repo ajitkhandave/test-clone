@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table
+@Table(name="reports_query_details",schema="eni")
 @Builder
 public class ReportsQueryDetails {
 

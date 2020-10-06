@@ -1,13 +1,11 @@
 package com.shutterfly.sbs.eni.reports.configuration;
 
 import com.shutterfly.sbs.eni.reports.converters.ReportControllerParamConverter;
-import com.shutterfly.sbs.eni.reports.repositories.eni.ExtendedRepositoryImpl;
 import com.shutterfly.sbs.nextgen.security.config.AuthRestClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.config.ServiceLocatorFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;

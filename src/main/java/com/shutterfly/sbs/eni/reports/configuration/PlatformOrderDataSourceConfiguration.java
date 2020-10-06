@@ -1,6 +1,7 @@
 package com.shutterfly.sbs.eni.reports.configuration;
 
-import com.shutterfly.sbs.eni.reports.repositories.platformorder.model.PlatformOrder;
+import com.shutterfly.sbs.eni.reports.repositories.ExtendedRepositoryImpl;
+import com.shutterfly.sbs.eni.reports.repositories.platformorder.PlatformOrder;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,9 +16,10 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.shutterfly.sbs.eni.reports.repositories.platformorder",
-    entityManagerFactoryRef = "eniEntityManagerFactory",
-    transactionManagerRef= "eniTransactionManager")
+@EnableJpaRepositories(basePackages = {"com.shutterfly.sbs.eni.reports.repositories.platformorder"},
+    repositoryBaseClass = ExtendedRepositoryImpl.class,
+    entityManagerFactoryRef = "platformOrderEntityManagerFactory",
+    transactionManagerRef= "platformOrderTransactionManager")
 public class PlatformOrderDataSourceConfiguration {
 
   @Bean

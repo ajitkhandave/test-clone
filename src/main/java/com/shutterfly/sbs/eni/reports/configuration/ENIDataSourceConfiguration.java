@@ -1,8 +1,7 @@
 package com.shutterfly.sbs.eni.reports.configuration;
 
-import com.shutterfly.sbs.eni.reports.repositories.eni.ExtendedRepositoryImpl;
+import com.shutterfly.sbs.eni.reports.repositories.ExtendedRepositoryImpl;
 import com.shutterfly.sbs.eni.reports.repositories.eni.model.ReportsDetails;
-import com.shutterfly.sbs.eni.reports.repositories.eni.model.ReportsQueryDetails;
 import com.shutterfly.sbs.eni.reports.repositories.eni.model.SkuItem;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp.BasicDataSource;
@@ -12,25 +11,28 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.shutterfly.sbs.eni.reports.repositories.eni",
+@EnableJpaRepositories(basePackages = {"com.shutterfly.sbs.eni.reports.repositories.eni"},
     repositoryBaseClass = ExtendedRepositoryImpl.class,
     entityManagerFactoryRef = "eniEntityManagerFactory",
     transactionManagerRef= "eniTransactionManager")
 public class ENIDataSourceConfiguration {
 
   @Bean
+  @Primary
   @ConfigurationProperties("spring.datasource.eni")
   public DataSourceProperties eniDataSourceProperties() {
     return new DataSourceProperties();
   }
 
   @Bean
+  @Primary
   @ConfigurationProperties("spring.datasource.eni.configuration")
   public DataSource eniDataSource() {
     return eniDataSourceProperties().initializeDataSourceBuilder()
@@ -38,6 +40,7 @@ public class ENIDataSourceConfiguration {
   }
 
   @Bean(name = "eniEntityManagerFactory")
+  @Primary
   public LocalContainerEntityManagerFactoryBean eniEntityManagerFactory(
       EntityManagerFactoryBuilder builder) {
     return builder

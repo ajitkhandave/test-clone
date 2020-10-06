@@ -21,6 +21,7 @@ spring:
     url: jdbc:mysql://localhost:3306/eni
     username: root
     password: root
+    schemas: eni
   mvc:
     view:
       suffix: .html
@@ -47,8 +48,7 @@ app:
       log-ui-error: ${app.base-url}/api/log
 ---
 spring:
-  profiles:
-    active: local
+  profiles: local
   datasource:
     eni:
       url: jdbc:mysql://localhost:3306/eni
