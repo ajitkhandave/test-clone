@@ -1,6 +1,7 @@
-package com.shutterfly.sbs.eni.reports.repositories;
+package com.shutterfly.sbs.eni.reports.repositories.eni;
 
-import com.shutterfly.sbs.eni.reports.repositories.model.SkuItem;
+import com.shutterfly.sbs.eni.reports.repositories.ExtendedRepository;
+import com.shutterfly.sbs.eni.reports.repositories.eni.model.SkuItem;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 /**

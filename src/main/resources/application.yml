@@ -18,6 +18,10 @@ spring:
     baseline-on-migrate: true
     validateOnMigrate: false
     table: schema_version
+    url: jdbc:mysql://localhost:3306/eni
+    username: root
+    password: root
+    schemas: eni
   mvc:
     view:
       suffix: .html
@@ -46,9 +50,14 @@ app:
 spring:
   profiles: local
   datasource:
-    url: jdbc:mysql://localhost:3306/eni
-    username: root
-    password: root
+    eni:
+      url: jdbc:mysql://localhost:3306/eni
+      username: root
+      password: root
+    platformorder:
+      url: jdbc:mysql://localhost:3306/sbs_platform_order
+      username: root
+      password: root
 app:
   base-url: http://localhost:8081
   security:

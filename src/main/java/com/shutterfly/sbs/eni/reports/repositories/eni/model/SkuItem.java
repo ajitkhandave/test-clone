@@ -1,4 +1,4 @@
-package com.shutterfly.sbs.eni.reports.repositories.model;
+package com.shutterfly.sbs.eni.reports.repositories.eni.model;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table
+@Table(name="sku_item",schema="eni")
 @Builder
 public class SkuItem implements Serializable {
 
