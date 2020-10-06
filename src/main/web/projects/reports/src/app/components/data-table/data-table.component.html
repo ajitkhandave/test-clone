@@ -1,5 +1,5 @@
 <div class="datatable-container">
-  <ngx-datatable class="bootstrap" [rows]="rows" [columns]="columns" columnMode="force"
+  <ngx-datatable id="data-table" class="bootstrap" [rows]="rows" [columns]="columns" columnMode="force"
       [headerHeight]="50" [rowHeight]="'auto'" [draggable]="false" [offset]="pageOffset" (select)="onSelect($event)"
       (activate)="onActivate($event)" [sorts]="sorts" [selectAllRowsOnPage]="false" [selected]="selected" [selectionType]="tableConfig.selectionType">
   </ngx-datatable>
