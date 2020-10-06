@@ -13,6 +13,9 @@ import { DataTableComponent } from './components/data-table/data-table.component
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { PopActiveProductsComponent } from './reports/pop-active-products/pop-active-products.component';
+import { AllSaversReportComponent } from './reports/all-savers-report/all-savers-report.component';
+import { TitleComponent } from './components/title/title.component';
+import { ExportAsModule } from 'ngx-export-as';
 
 @NgModule({
   declarations: [
@@ -23,14 +26,17 @@ import { PopActiveProductsComponent } from './reports/pop-active-products/pop-ac
     ErrorComponent,
     DataTableComponent,
     PaginationComponent,
-    PopActiveProductsComponent
+    PopActiveProductsComponent,
+    AllSaversReportComponent,
+    TitleComponent
   ],
   imports: [
     BrowserModule,
     CommonModules,
     NgxDatatableModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ExportAsModule
   ],
   providers: [
     { provide: 'APPNAME', useValue: 'reports' },

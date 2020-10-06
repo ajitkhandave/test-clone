@@ -3,6 +3,7 @@ import { DatatableComponent, TableColumn } from '@swimlane/ngx-datatable';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { Sort } from '../../models/sort';
+import { TableConfig } from '../../models/table-config';
 
 @Component({
   selector: 'app-data-table',
@@ -12,7 +13,7 @@ import { Sort } from '../../models/sort';
 export class DataTableComponent implements OnInit, OnDestroy {
   @Input() sorts: Sort[] = [];
   @Input() columns: TableColumn[] = [];
-  @Input() tableConfig;
+  @Input() tableConfig: TableConfig;
   @ViewChild(DatatableComponent) tableCmp: DatatableComponent;
   setPage$: EventEmitter<number> = new EventEmitter();
   pageOffset: number = 0;
@@ -21,6 +22,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   activeFilters;
   masterOrders = [];
   rows: any[] = [];
+  selected: any[] = [];
 
   constructor() { }
 
@@ -47,12 +49,12 @@ export class DataTableComponent implements OnInit, OnDestroy {
   }
 
   applyFilters() {
-    if (this.activeFilters) {
-      // Todo: Implement filtering logic.
-      return;
+    let rows = [].concat(this.masterOrders);
+    if (this.activeFilters && this.tableConfig.query) {
+      rows = this.masterOrders.filter(this.tableConfig.query);
     }
-    this.totalCount = this.masterOrders.length;
-    this.rows = [].concat(this.masterOrders);
+    this.totalCount = rows.length;
+    this.rows = rows;
     this.setPage$.next(1);
   }
 
@@ -61,7 +63,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   }
 
   onSelect(event) {
-
+    this.selected = event.selected;
   }
 
   ngOnDestroy() {
