@@ -25,33 +25,10 @@ public class ExtendedRepositoryImpl <T, ID extends Serializable>
   }
 
   @Transactional
-  public List<T> findByAttributeContainsText(String attributeName, String text) {
-    CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-    CriteriaQuery<T> cQuery = builder.createQuery(getDomainClass());
-    Root<T> root = cQuery.from(getDomainClass());
-    cQuery
-        .select(root)
-        .where(builder
-            .like(root.<String>get(attributeName), "%" + text + "%"));
-    TypedQuery<T> query = entityManager.createQuery(cQuery);
-    return query.getResultList();
-  }
-
-  @Transactional
-  public T customFind(String whereClause, String text) {
-    CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-    CriteriaQuery<T> cq = builder.createQuery(getDomainClass());
-    Root<T> root = cq.from(getDomainClass());
-    cq.select(root).where(builder
-        .like(root.<String>get(whereClause), "%" + text + "%"));
-    return entityManager.createQuery(cq).getSingleResult();
-  }
-
-  @Transactional
-  public List<T> findWithQuery(String query, Object positionalParams[] , Class T) {
+  public List<T> findWithQuery(String query, Object positionalParams[]) {
 
     return entityManager.createNativeQuery(
-        query , T)
+        query , getDomainClass())
         .getResultList();
 
   }
