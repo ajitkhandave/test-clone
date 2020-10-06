@@ -14,15 +14,13 @@ export class PopActiveProductsComponent implements OnInit {
   @ViewChild('assetTpl') assetTpl: TemplateRef<string>;
   columns: any[];
   sorts: any[];
-  data: any;
-
-  filterForm: FormGroup;
-
   tableConfig: TableConfig = {
     filters: new Subject<boolean>(),
     api: () => this.reportService.fetchOrders(),
     query: (row) => this.applyQuery(row)
   };
+
+  filterForm: FormGroup;
 
   constructor(
     private reportService: ReportService

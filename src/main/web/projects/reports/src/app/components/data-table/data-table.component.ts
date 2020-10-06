@@ -22,6 +22,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   activeFilters;
   masterOrders = [];
   rows: any[] = [];
+  selected: any[] = [];
 
   constructor() { }
 
@@ -62,7 +63,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   }
 
   onSelect(event) {
-
+    this.selected = event.selected;
   }
 
   ngOnDestroy() {

@@ -1,3 +1,4 @@
+import { SelectionType } from '@swimlane/ngx-datatable';
 import { Observable, Subject } from 'rxjs';
 
 export interface TableConfig {
@@ -6,7 +7,12 @@ export interface TableConfig {
    * <true> Passing true will filter the data and apply queries.
    * <false> Passing false will remove all the applied filters.
    */
-  filters: Subject<boolean>;
+  filters?: Subject<boolean>;
+
+  /**
+   * Optional parameter to allow Type of selection
+   */
+  selectionType?: SelectionType;
 
   /**
    * Method to call while fetching the data.

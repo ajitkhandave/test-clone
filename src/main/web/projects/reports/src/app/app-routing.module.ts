@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
 import { ErrorComponent } from './components/error/error.component';
 import { HomeComponent } from './components/home/home.component';
+import { AllSaversReportComponent } from './reports/all-savers-report/all-savers-report.component';
 import { PopActiveProductsComponent } from './reports/pop-active-products/pop-active-products.component';
 
 const routes: Routes = [
@@ -21,6 +22,10 @@ const routes: Routes = [
       {
         path: 'pop-active-products',
         component: PopActiveProductsComponent
+      },
+      {
+        path: 'all-savers-report',
+        component: AllSaversReportComponent
       },
       {
         path: 'type/:id',
