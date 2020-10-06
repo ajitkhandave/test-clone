@@ -18,31 +18,31 @@ export class AppComponent implements OnInit {
       id: 'all-savers-report',
       name: 'All savers report'
     }, {
-      id: 'status-alert-report',
+      id: 'type/status-alert-report',
       name: 'Status Alert Report'
     }, {
       id: 'pop-active-products',
       name: 'POP Active Products Report'
     }, {
-      id: 'order-status',
+      id: 'type/order-status',
       name: 'Order Status Report'
     }, {
-      id: 'order-details',
+      id: 'type/order-details',
       name: 'Order Details Report'
     }, {
-      id: 'onboarding-dashboard',
+      id: 'type/onboarding-dashboard',
       name: 'Onboarding Dashboard'
     }, {
-      id: 'oe-vp-data',
+      id: 'type/oe-vp-data',
       name: 'OE VP Data Report'
     }, {
-      id: 'eni-monthly-volume',
+      id: 'type/eni-monthly-volume',
       name: 'ENI Monthly Volume Report'
     }, {
-      id: 'member-engagement',
+      id: 'type/member-engagement',
       name: 'Member Engagement Report'
     }, {
-      id: 'invoicing-report',
+      id: 'type/invoicing-report',
       name: 'Invoicing Report'
     }];
     this.service.setReportTypes(types);
