@@ -52,6 +52,12 @@
       .datatable-body-cell {
         padding: 0 10px 10px;
       }
+      .datatable-row-center {
+        padding-left: 10px;
+        .datatable-header-cell:first-child {
+          padding-left: 20px;
+        }
+      }
     }
   }
 }

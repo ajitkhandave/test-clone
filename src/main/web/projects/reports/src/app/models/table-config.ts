@@ -10,11 +10,6 @@ export interface TableConfig {
   filters?: Subject<boolean>;
 
   /**
-   * Optional parameter to allow Type of selection
-   */
-  selectionType?: SelectionType;
-
-  /**
    * Method to call while fetching the data.
    * It will only get called once during the initialization of the dataTable.
    * Method should return the data as Array. And all the sorting/Filtering will be applied on this array.

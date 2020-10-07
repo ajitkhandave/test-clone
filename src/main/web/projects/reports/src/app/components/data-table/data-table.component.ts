@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { DatatableComponent, TableColumn } from '@swimlane/ngx-datatable';
+import { DatatableComponent, SelectionType, TableColumn } from '@swimlane/ngx-datatable';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { Sort } from '../../models/sort';
@@ -12,9 +12,24 @@ import { TableConfig } from '../../models/table-config';
 })
 export class DataTableComponent implements OnInit, OnDestroy {
   @Input() sorts: Sort[] = [];
-  @Input() columns: TableColumn[] = [];
+  @Input() set columns(cols: TableColumn[]) {
+    const select = {
+      prop: 'selected',
+      name: '',
+      sortable: false,
+      canAutoResize: false,
+      resizable: false,
+      checkboxable: true,
+      headerCheckboxable: true,
+      width: 40
+    };
+    cols.splice(0, -1, select);
+    this._columns = cols;
+  }
   @Input() tableConfig: TableConfig;
   @ViewChild(DatatableComponent) tableCmp: DatatableComponent;
+  selectionType = SelectionType.checkbox;
+  _columns: TableColumn[] = [];
   setPage$: EventEmitter<number> = new EventEmitter();
   pageOffset: number = 0;
   totalCount: number;
