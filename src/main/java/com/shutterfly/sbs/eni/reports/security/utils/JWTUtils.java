@@ -11,7 +11,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shutterfly.sbs.eni.reports.configuration.AuthConfiguration;
-import com.shutterfly.sbs.eni.reports.models.dto.User;
+import com.shutterfly.sbs.eni.reports.repositories.model.User;
 import java.security.interfaces.RSAPublicKey;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -2,7 +2,7 @@ package com.shutterfly.sbs.eni.reports.controllers;
 
 
 import com.shutterfly.sbs.eni.reports.exception.RecordsNotFoundException;
-import com.shutterfly.sbs.eni.reports.models.dto.ReportNames;
+import com.shutterfly.sbs.eni.reports.repositories.model.ReportNames;
 import com.shutterfly.sbs.eni.reports.services.ReportService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
@@ -36,7 +36,7 @@ public class ReportController {
     } catch(RecordsNotFoundException ex) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
     } catch(Exception ex) {
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", ex);
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
     }
   }
 

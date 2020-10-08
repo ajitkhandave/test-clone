@@ -1,4 +1,4 @@
-package com.shutterfly.sbs.eni.reports.models.dto;
+package com.shutterfly.sbs.eni.reports.repositories.model;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
