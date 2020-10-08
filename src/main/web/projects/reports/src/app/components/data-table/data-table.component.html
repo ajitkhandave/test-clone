@@ -8,3 +8,4 @@
   <app-pagination [table]="tableCmp" [setPage$]="setPage$" [rowCount]="totalCount" (pageChange)="pageOffset = $event">
   </app-pagination>
 </div>
+<app-datatable-pdf [columns]="_columns" [rows]="rows" [selected]="selected"></app-datatable-pdf>

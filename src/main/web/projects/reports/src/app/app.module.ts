@@ -15,7 +15,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { PopActiveProductsComponent } from './reports/pop-active-products/pop-active-products.component';
 import { AllSaversReportComponent } from './reports/all-savers-report/all-savers-report.component';
 import { TitleComponent } from './components/title/title.component';
-import { ExportAsModule } from 'ngx-export-as';
+import { DatatablePdfComponent } from './components/datatable-pdf/datatable-pdf.component';
 
 @NgModule({
   declarations: [
@@ -28,15 +28,15 @@ import { ExportAsModule } from 'ngx-export-as';
     PaginationComponent,
     PopActiveProductsComponent,
     AllSaversReportComponent,
-    TitleComponent
+    TitleComponent,
+    DatatablePdfComponent
   ],
   imports: [
     BrowserModule,
     CommonModules,
     NgxDatatableModule,
     AppRoutingModule,
-    ReactiveFormsModule,
-    ExportAsModule
+    ReactiveFormsModule
   ],
   providers: [
     { provide: 'APPNAME', useValue: 'reports' },
