@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { ReportType } from '../models/report-type';
 import { AppConfig } from '../../../../../src/app/common/service/app.config';
 
@@ -10,6 +10,9 @@ import { AppConfig } from '../../../../../src/app/common/service/app.config';
 export class ReportService {
 
   reportTypes: ReportType[];
+
+  public exportAsPdf$: Subject<boolean> = new Subject();
+  public exportAsExcel$: Subject<void> = new Subject();
 
   constructor(
     private http: HttpClient,

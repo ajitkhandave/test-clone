@@ -16,7 +16,6 @@ export class AllSaversReportComponent implements OnInit {
   data: any;
 
   tableConfig: TableConfig = {
-    selectionType: SelectionType.checkbox,
     api: () => this.reportService.fetchOrders(),
   };
 
@@ -26,15 +25,6 @@ export class AllSaversReportComponent implements OnInit {
 
   ngOnInit() {
     this.columns = [
-      {
-        prop: 'selected',
-        name: '',
-        sortable: false,
-        canAutoResize: false,
-        resizable: false,
-        checkboxable: true,
-        width: 40
-      },
       { prop: 'itemNumber', name: 'Item Number', sortable: true, draggable: false },
       { prop: 'itemName', name: 'Product Name', sortable: true, draggable: false },
       { prop: 'assetUrl', name: 'View PDF', sortable: true, draggable: false, cellTemplate: this.assetTpl },

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ExportAsConfig, ExportAsService } from 'ngx-export-as';
-import { take } from 'rxjs/operators';
+import { ReportService } from '../../services/report.service';
 
 @Component({
   selector: 'app-title',
@@ -22,37 +21,18 @@ import { take } from 'rxjs/operators';
 export class TitleComponent implements OnInit {
 
   constructor(
-    private exportAsService: ExportAsService
+    private service: ReportService
   ) { }
 
   ngOnInit() {
   }
 
   exportPdf() {
-    const exportAsConfig: ExportAsConfig = {
-      type: 'pdf',
-      elementIdOrContent: 'data-table',
-      options: {
-        image: { type: 'jpeg', quality: 1 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-      }
-    };
-    this.save(exportAsConfig);
+    this.service.exportAsPdf$.next(true);
   }
 
   exportSheet() {
-    const exportAsConfig: ExportAsConfig = {
-      type: 'xlsx',
-      elementIdOrContent: 'data-table'
-    };
-    this.save(exportAsConfig);
-  }
-
-  save(config: ExportAsConfig) {
-    this.exportAsService.save(config, Date.now().toString()).pipe(
-      take(1)
-    ).subscribe();
+    this.service.exportAsExcel$.next();
   }
 
 }
