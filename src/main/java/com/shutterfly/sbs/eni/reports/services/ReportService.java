@@ -22,6 +22,11 @@ public class ReportService {
   private final ReportQueryDetailsRepo reportQueryDetailsRepo;
   private final RepositoryFactory repositoryFactory;
 
+  /**
+   * This method is used to fetch query associated with particular report
+   * @param reportName
+   * @return List<String> queries
+   */
   public List<String> getQueriesForReport(String reportName) {
     Optional<ReportsDetails> result = reportQueryDetailsRepo.findByReportName(reportName);
     if(result.isPresent()) {
@@ -36,12 +41,17 @@ public class ReportService {
 
   }
 
+  /**
+   * This method is used to fetch report result after running native query
+   * @param sourceRepository, @param queries
+   * @return List<Object> queries
+   */
   public List<Object> getAllActiveProducts(List<String> queries, String sourceRepository) throws RecordsNotFoundException {
     if (!CollectionUtils.isEmpty(queries) && queries.size() == 1) {
       ExtendedRepository extendedRepository = repositoryFactory.getRepository(sourceRepository);
-      List<Object> skuItems = extendedRepository.findWithQuery(queries.get(0), null);
-      if(!CollectionUtils.isEmpty(skuItems)) {
-        return skuItems;
+      List<Object> reportResult = extendedRepository.findWithQuery(queries.get(0), null);
+      if(!CollectionUtils.isEmpty(reportResult)) {
+        return reportResult;
       } else {
         throw new RecordsNotFoundException(ApplicationConstants.NO_REPORT_DATA_FOUND);
       }
