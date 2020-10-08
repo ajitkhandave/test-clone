@@ -4,6 +4,8 @@ import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { Sort } from '../../models/sort';
 import { TableConfig } from '../../models/table-config';
+import { ReportService } from '../../services/report.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-data-table',
@@ -39,7 +41,9 @@ export class DataTableComponent implements OnInit, OnDestroy {
   rows: any[] = [];
   selected: any[] = [];
 
-  constructor() { }
+  constructor(
+    private service: ReportService
+  ) { }
 
   ngOnInit() {
     if (this.tableConfig) {
@@ -61,6 +65,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
         });
       }
     }
+    this.excelExport();
   }
 
   applyFilters() {
@@ -79,6 +84,31 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
   onSelect(event) {
     this.selected = event.selected;
+  }
+
+  excelExport() {
+    this.service.exportAsExcel$
+      .pipe(takeUntil(this.unsub$))
+      .subscribe(() => {
+        /* generate worksheet */
+        const sheet1 = [];
+        const filterdCols = this._columns.filter(col => col.prop !== 'selected');
+        const cols = filterdCols.map(col => col.name);
+        sheet1.push(cols);
+        this.rows.forEach(row => {
+          const data = filterdCols.map(col => row[col.prop]);
+          sheet1.push(data);
+        });
+        /* generate worksheet */
+        const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheet1);
+
+        /* generate workbook and add the worksheet */
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+        /* save to file */
+        XLSX.writeFile(wb, 'myfile.xlsx');
+      });
   }
 
   ngOnDestroy() {

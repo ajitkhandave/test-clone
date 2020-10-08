@@ -12,6 +12,7 @@ export class ReportService {
   reportTypes: ReportType[];
 
   public exportAsPdf$: Subject<boolean> = new Subject();
+  public exportAsExcel$: Subject<void> = new Subject();
 
   constructor(
     private http: HttpClient,

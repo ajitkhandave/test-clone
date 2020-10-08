@@ -32,15 +32,7 @@ export class TitleComponent implements OnInit {
   }
 
   exportSheet() {
-    const exportAsConfig = {
-      type: 'xlsx',
-      elementIdOrContent: 'data-table'
-    };
-    this.save(exportAsConfig);
-  }
-
-  save(config) {
-
+    this.service.exportAsExcel$.next();
   }
 
 }
