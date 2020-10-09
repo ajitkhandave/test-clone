@@ -5,9 +5,7 @@
       color: #58595B;
       .datatable-header {
         text-align: left;
-        border-top: 1px solid #DCDEE1;
-        border-bottom: 1px solid #DCDEE1;
-        background-color: #F5F6F8;
+        background: #ebedf0;
         .datatable-header-cell .datatable-header-cell-wrapper {
           font-size: 12px;
           line-height: 40px;
@@ -37,7 +35,7 @@
       .datatable-body {
         .datatable-body-row {
           text-align: left;
-          padding: 5px 10px;
+          padding: 5px 10px 5px 0px;
           .datatable-body-cell {
             padding-top: 10px;
             cursor: pointer;
@@ -46,17 +44,16 @@
         }
       }
       .datatable-row-odd {
-        background-color: #F5F6F8;
+        background: #ebedf0;
       }
       .datatable-header-cell,
       .datatable-body-cell {
-        padding: 0 10px 10px;
+        padding: 0 10px 0px;
+        overflow: hidden;
+        word-break: break-word;
       }
       .datatable-row-center {
         padding-left: 10px;
-        .datatable-header-cell:first-child {
-          padding-left: 20px;
-        }
       }
     }
   }

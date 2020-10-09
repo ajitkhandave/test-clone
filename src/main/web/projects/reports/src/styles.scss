@@ -17,12 +17,13 @@
     font-weight: bold;
     padding-left: 20px;
     padding-right: 20px;
-    :disabled {
+    &:disabled {
       opacity: 0.3;
       color: #58595B;
       background-color: rgba(255,255,255,0.05);
     }
-    &:hover {
+    &:hover,
+    &:focus {
       border: 1px solid #003DA1;
       color: #014F93;
       background-color: rgba(255,255,255,0.35);
@@ -55,6 +56,15 @@
   font-size: 12px;
   margin-bottom: 0px;
   padding-left: 0.55rem;
+}
+.form-control.filters {
+  color: #929497;
+  background-color: #f5f6f8;
+  border: 1px solid #dcdee1;
+  border-radius: 1px;
+  font-size: 14px;
+  font-family: "Font Awesome 5 Free",Avenir-Roman;
+  padding-left: .55rem;
 }
 
 .report-header {
