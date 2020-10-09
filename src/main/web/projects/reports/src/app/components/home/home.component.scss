@@ -1,0 +1,28 @@
+.card {
+  cursor: pointer;
+  height: calc(100% - 20px);
+  box-shadow: 1px 1px 3px rgb(212, 212, 212), -1px -1px 3px rgb(212, 212, 212);
+  &:hover {
+    .card-overlay {
+      opacity: 0.1;
+    }
+  }
+  .card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    background-color: rgb(0, 0, 0);
+  }
+  .card-body {
+    height: 150px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+  .card-footer {
+    font-size: 18px;
+  }
+}

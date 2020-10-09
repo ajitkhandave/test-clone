@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ReportType } from '../../models/report-type';
+import { ReportService } from '../../services/report.service';
 
 @Component({
   selector: 'app-home',
@@ -6,10 +9,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  reportTypes$: Observable<ReportType[]>;
 
-  constructor() { }
+  constructor(
+    private service: ReportService
+  ) { }
 
   ngOnInit() {
+    this.reportTypes$ = this.service.getReportTypes();
   }
 
 }
