@@ -1,3 +1,17 @@
-<p>
-  home works!
-</p>
+<div class="report">
+  <div class="report-header pb-1 pl-2">
+    <span>Select Reports</span>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-3" *ngFor="let report of reportTypes$ | async">
+    <div class="card mx-2 my-3" [routerLink]="['/reports/', report.id]">
+      <div class="card-body" [ngStyle]="{backgroundImage: 'url('+report.reportImg+')'}"> </div>
+      <div class="card-footer">
+        {{report?.name}}
+      </div>
+      <div class="card-overlay"></div>
+    </div>
+  </div>
+</div>

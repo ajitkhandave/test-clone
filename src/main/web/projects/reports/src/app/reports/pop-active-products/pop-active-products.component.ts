@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { TableConfig } from '../../models/table-config';
 import { ReportService } from '../../services/report.service';
@@ -29,8 +29,8 @@ export class PopActiveProductsComponent implements OnInit {
   ngOnInit() {
     this.columns = [
       { prop: 'itemNumber', name: 'Item Number', sortable: true, draggable: false },
-      { prop: 'itemName', name: 'Product Name', sortable: true, draggable: false },
-      { prop: 'assetUrl', name: 'View PDF', sortable: true, draggable: false, cellTemplate: this.assetTpl },
+      { prop: 'itemName', name: 'Product Name', sortable: true, draggable: false, width: 360 },
+      { prop: 'assetUrl', name: 'View PDF', sortable: true, draggable: false, cellTemplate: this.assetTpl, width: 110 },
       { prop: 'documentType', name: 'Document Type', sortable: true, draggable: false },
       { prop: 'staticConfigurable', name: 'Static/Configurable', sortable: false, draggable: false }
     ];
@@ -41,7 +41,7 @@ export class PopActiveProductsComponent implements OnInit {
       itemNumber: new FormControl(''),
       productName: new FormControl(''),
       staticConfigurable: new FormControl('')
-    });
+    }, { validators: this.filterSelectedValidator });
   }
 
   onSearch() {
@@ -81,6 +81,12 @@ export class PopActiveProductsComponent implements OnInit {
     }
 
     return itemNumberFilter && productNameFilter && staticConfigurableFilter;
+  }
+
+  filterSelectedValidator(formGroup: FormGroup): ValidationErrors | null {
+    const { controls } = formGroup;
+    const isFormValid = Object.values(controls).some(control => !!control.value);
+    return isFormValid ? null : { filterNotSelected: true };
   }
 
 }
