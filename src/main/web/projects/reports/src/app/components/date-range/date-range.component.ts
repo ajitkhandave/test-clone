@@ -21,7 +21,8 @@ export class DateRangeComponent implements OnInit {
   @Output() endDateChange: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(
-    public formatter: NgbDateParserFormatter
+    public formatter: NgbDateParserFormatter,
+    private calendar: NgbCalendar
   ) { }
 
   ngOnInit() {
@@ -32,6 +33,7 @@ export class DateRangeComponent implements OnInit {
         this.toDate = convert(endDate);
       });
     }
+    this.maxDate = this.calendar.getToday();
   }
 
   /**
