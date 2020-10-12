@@ -1,3 +1,5 @@
+@import "../../../../../../src/assets/style/variable.scss";
+
 .card {
   cursor: pointer;
   height: calc(100% - 20px);
@@ -38,5 +40,7 @@
   }
   .card-footer {
     font-size: 16px;
+    background-color: $ng-secondary-color;
+    color: white;
   }
 }
