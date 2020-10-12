@@ -28,4 +28,5 @@ export interface TableConfig {
    * @returns Boolean, True will display the record and False will ignore the record.
    */
   query?(row: any): boolean;
+
 }

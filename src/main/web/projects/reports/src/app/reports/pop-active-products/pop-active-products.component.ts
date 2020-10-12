@@ -16,7 +16,7 @@ export class PopActiveProductsComponent implements OnInit {
   sorts: any[];
   tableConfig: TableConfig = {
     filters: new Subject<boolean>(),
-    api: () => this.reportService.fetchOrders(),
+    api: () => this.reportService.fetchPopActiveReports(),
     query: (row) => this.applyQuery(row)
   };
 
@@ -32,7 +32,7 @@ export class PopActiveProductsComponent implements OnInit {
       { prop: 'itemName', name: 'Product Name', sortable: true, draggable: false, width: 360 },
       { prop: 'assetUrl', name: 'View PDF', sortable: false, draggable: false, cellTemplate: this.assetTpl, width: 110 },
       { prop: 'documentType', name: 'Document Type', sortable: true, draggable: false },
-      { prop: 'staticConfigurable', name: 'Static/Configurable', sortable: false, draggable: false }
+      { prop: 'staticConfigurable', name: 'Static/Configurable', sortable: true, draggable: false }
     ];
 
     this.sorts = [{ prop: 'itemNumber', dir: 'desc' }];
