@@ -16,6 +16,7 @@ import { ReportService } from '../../services/report.service';
         </span>
       </div>
     </div>
+    <router-outlet></router-outlet>
   `
 })
 export class TitleComponent implements OnInit {
