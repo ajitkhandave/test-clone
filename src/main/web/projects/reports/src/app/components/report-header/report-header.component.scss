@@ -17,6 +17,13 @@
         color: #122377;
       }
     }
+    .user-logout.dropdown-item {
+      &:hover {
+        color: #fff;
+        text-decoration: none;
+        background-color: $site-primary-color;
+      }
+    }
   }
   padding: 0 1rem;
   padding-top: 0.5rem;

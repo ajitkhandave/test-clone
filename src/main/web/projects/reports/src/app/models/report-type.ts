@@ -3,4 +3,5 @@ export interface ReportType {
   name: string;
   reportImg?: string;
   submenu?: ReportType[];
+  disabled?: boolean;
 }

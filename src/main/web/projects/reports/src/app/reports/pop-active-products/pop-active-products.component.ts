@@ -30,7 +30,7 @@ export class PopActiveProductsComponent implements OnInit {
     this.columns = [
       { prop: 'itemNumber', name: 'Item Number', sortable: true, draggable: false },
       { prop: 'itemName', name: 'Product Name', sortable: true, draggable: false, width: 360 },
-      { prop: 'assetUrl', name: 'View PDF', sortable: true, draggable: false, cellTemplate: this.assetTpl, width: 110 },
+      { prop: 'assetUrl', name: 'View PDF', sortable: false, draggable: false, cellTemplate: this.assetTpl, width: 110 },
       { prop: 'documentType', name: 'Document Type', sortable: true, draggable: false },
       { prop: 'staticConfigurable', name: 'Static/Configurable', sortable: false, draggable: false }
     ];

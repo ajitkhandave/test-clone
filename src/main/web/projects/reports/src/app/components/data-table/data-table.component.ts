@@ -47,6 +47,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (this.tableConfig) {
+      this.tableConfig.headerHeight = this.tableConfig.headerHeight || 50;
       if (this.tableConfig.filters) {
         this.tableConfig.filters.pipe(
           takeUntil(this.unsub$)

@@ -7,6 +7,17 @@
       opacity: 0.1;
     }
   }
+  &.card-disabled {
+    cursor: default;
+    opacity: 0.4;
+    box-shadow: unset;
+    pointer-events: none;
+    &:hover {
+      .card-overlay {
+        opacity: 0;
+      }
+    }
+  }
   .card-overlay {
     position: absolute;
     top: 0;
@@ -21,8 +32,11 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    background-color: hsl(220, 18%, 97%);
   }
   .card-footer {
-    font-size: 18px;
+    font-size: 16px;
   }
 }

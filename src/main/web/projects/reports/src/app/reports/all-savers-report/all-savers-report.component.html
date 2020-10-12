@@ -1,4 +1,3 @@
-<app-title></app-title>
 <app-data-table [columns]="columns" [sorts]="sorts" [tableConfig]="tableConfig"></app-data-table>
 <ng-template let-row="row" #assetTpl>
   <a [href]="row.assetUrl" target="_blank" *ngIf="row.assetUrl">View PDF</a>

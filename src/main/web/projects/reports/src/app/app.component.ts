@@ -19,41 +19,47 @@ export class AppComponent implements OnInit {
       name: 'All savers report',
       reportImg: '/reports/assets/images/Resources_Accent@2x.png'
     }, {
-      id: 'type/status-alert-report',
+      id: 'status-alert-report',
       name: 'Status Alert Report',
-      reportImg: '/reports/assets/images/report2.png'
+      reportImg: '/reports/assets/images/report2.png',
+      disabled: true
     }, {
       id: 'pop-active-products',
       name: 'POP Active Products Report',
       reportImg: '/reports/assets/images/report1.png'
     }, {
-      id: 'type/order-status',
+      id: 'order-status-report',
       name: 'Order Status Report',
       reportImg: '/reports/assets/images/report3.png'
     }, {
-      id: 'type/order-details',
+      id: 'order-details',
       name: 'Order Details Report',
-      reportImg: '/reports/assets/images/report1.png'
+      reportImg: '/reports/assets/images/report1.png',
+      disabled: true
     }, {
-      id: 'type/onboarding-dashboard',
+      id: 'onboarding-dashboard',
       name: 'Onboarding Dashboard',
-      reportImg: '/reports/assets/images/report3.png'
+      reportImg: '/reports/assets/images/report3.png',
+      disabled: true
     }, {
-      id: 'type/oe-vp-data',
+      id: 'oe-vp-data',
       name: 'OE VP Data Report',
-      reportImg: '/reports/assets/images/report2.png'
+      reportImg: '/reports/assets/images/report2.png',
+      disabled: true
     }, {
-      id: 'type/eni-monthly-volume',
+      id: 'eni-monthly-volume',
       name: 'ENI Monthly Volume Report',
       reportImg: '/reports/assets/images/Resources_Accent@2x.png'
     }, {
-      id: 'type/member-engagement',
+      id: 'member-engagement',
       name: 'Member Engagement Report',
-      reportImg: '/reports/assets/images/Resources_Accent@2x.png'
+      reportImg: '/reports/assets/images/Resources_Accent@2x.png',
+      disabled: true
     }, {
-      id: 'type/invoicing-report',
+      id: 'invoicing-report',
       name: 'Invoicing Report',
-      reportImg: '/reports/assets/images/report1.png'
+      reportImg: '/reports/assets/images/report1.png',
+      disabled: true
     }];
     this.service.setReportTypes(types);
   }
