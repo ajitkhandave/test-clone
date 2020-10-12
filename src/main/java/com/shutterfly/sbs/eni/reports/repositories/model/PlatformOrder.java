@@ -34,6 +34,15 @@ public class PlatformOrder implements Serializable {
   @Column(name="Need_By_Date")
   private String needByDate;
 
+  @Column(name="Order_Date")
+  private String orderDate;
+
+  @Column(name="order_status")
+  private String status;
+
+  @Column(name="last_modified_date")
+  private String modifiedDate;
+
   @Column(name="Print_Vendor")
   private String printVendor;
 
