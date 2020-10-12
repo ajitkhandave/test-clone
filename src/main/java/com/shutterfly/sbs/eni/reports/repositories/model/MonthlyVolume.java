@@ -29,6 +29,12 @@ public class MonthlyVolume implements Serializable {
   @Column(name = "order_date")
   private String orderDate;
 
+  @Column(name = "order_year")
+  private String orderYear;
+
+  @Column(name = "order_month")
+  private String orderMonth;
+
   @Column(name = "Ordered_Qty")
   private String orderedQty;
 
