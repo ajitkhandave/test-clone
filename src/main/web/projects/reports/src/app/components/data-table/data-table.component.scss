@@ -55,6 +55,11 @@
       .datatable-row-center {
         padding-left: 10px;
       }
+      &.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell {
+        white-space: normal;
+        overflow: hidden;
+        word-wrap: break-word;
+      }
     }
   }
 }

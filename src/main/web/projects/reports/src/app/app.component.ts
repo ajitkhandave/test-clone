@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
       name: 'POP Active Products Report',
       reportImg: '/reports/assets/images/report1.png'
     }, {
-      id: 'order-status',
+      id: 'order-status-report',
       name: 'Order Status Report',
       reportImg: '/reports/assets/images/report3.png'
     }, {

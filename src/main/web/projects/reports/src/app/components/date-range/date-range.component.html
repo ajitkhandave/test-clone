@@ -1,0 +1,25 @@
+<div class="date-range-wrapper theme-date-range">
+  <div class="input-group date-range-field">
+    <input class="form-control filters" placeholder="Select date range" id="dateRange" name="dpFromDate"
+      [value]="dateRangeFormatter()">
+    <div class="calendar-icon-holder">
+      <img src="/reports/assets/images/calendar-alt-regular.svg">
+    </div>
+    <div class="input-overlay" (click)="datepicker.toggle()"></div>
+  </div>
+
+  <div class="form-group hidden">
+    <div class="input-group">
+      <input type="hidden" name="datepicker" class="form-control" ngbDatepicker #datepicker="ngbDatepicker"
+        [autoClose]="'outside'" [maxDate]="maxDate" (dateSelect)="onDateSelection($event, datepicker)"
+        [displayMonths]="2" [dayTemplate]="t" [startDate]="fromDate">
+      <ng-template #t let-date let-focused="focused">
+        <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
+          [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date"
+          (mouseleave)="hoveredDate = null">
+          {{ date.day }}
+        </span>
+      </ng-template>
+    </div>
+  </div>
+</div>

@@ -3,6 +3,11 @@ import { Observable, Subject } from 'rxjs';
 
 export interface TableConfig {
   /**
+   * For changing the header's height
+   * ByDefault: 30
+   */
+  headerHeight?: number;
+  /**
    * For intimating the table that filter is applied or removed.
    * <true> Passing true will filter the data and apply queries.
    * <false> Passing false will remove all the applied filters.

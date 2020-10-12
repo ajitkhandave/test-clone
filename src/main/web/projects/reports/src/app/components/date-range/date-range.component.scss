@@ -1,0 +1,59 @@
+::ng-deep {
+  .theme-date-range {
+    .form-group.hidden {
+      width: 0;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .custom-day {
+      text-align: center;
+      padding: 0.185rem 0.25rem;
+      display: inline-block;
+      height: 2rem;
+      width: 2rem;
+    }
+    .custom-day.focused {
+      background-color: #e6e6e6;
+    }
+    .custom-day.range, .custom-day:hover {
+      background-color: #173b71;
+      color: white;
+    }
+    .custom-day.faded {
+      background-color: #173b71;
+      opacity: 0.5;
+    }
+    .ngb-dp-weekday {
+      color: #173b71;
+    }
+    .disabled {
+      .custom-day {
+        opacity: 0.2;
+      }
+    }
+    .calendar-icon-holder {
+      position: absolute;
+      right: 15px;
+      top: 0px;
+      width: 18px;
+      cursor: pointer;
+      height: 100%;
+      padding-top: 3px;
+    }
+  }
+  .date-range-wrapper {
+    max-width: 240px;
+    .date-range-field {
+      position: relative;
+      .input-overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        cursor: pointer;
+      }
+    }
+  }
+}

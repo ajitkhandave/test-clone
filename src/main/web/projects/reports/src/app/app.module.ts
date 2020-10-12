@@ -16,6 +16,8 @@ import { PopActiveProductsComponent } from './reports/pop-active-products/pop-ac
 import { AllSaversReportComponent } from './reports/all-savers-report/all-savers-report.component';
 import { TitleComponent } from './components/title/title.component';
 import { DatatablePdfComponent } from './components/datatable-pdf/datatable-pdf.component';
+import { OrderStatusReportComponent } from './reports/order-status-report/order-status-report.component';
+import { DateRangeComponent } from './components/date-range/date-range.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { DatatablePdfComponent } from './components/datatable-pdf/datatable-pdf.
     PopActiveProductsComponent,
     AllSaversReportComponent,
     TitleComponent,
-    DatatablePdfComponent
+    DatatablePdfComponent,
+    OrderStatusReportComponent,
+    DateRangeComponent
   ],
   imports: [
     BrowserModule,
