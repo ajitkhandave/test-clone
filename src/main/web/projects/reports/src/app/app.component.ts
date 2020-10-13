@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { ReportType } from './models/report-type';
 import { ReportService } from './services/report.service';
 
@@ -10,7 +12,8 @@ import { ReportService } from './services/report.service';
 export class AppComponent implements OnInit {
   title = 'reports';
   constructor(
-    private service: ReportService
+    private service: ReportService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -62,5 +65,14 @@ export class AppComponent implements OnInit {
       disabled: true
     }];
     this.service.setReportTypes(types);
+
+    this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd)
+    ).subscribe((resp: NavigationEnd) => {
+      const activeReport = types.find(report => resp.urlAfterRedirects.includes(report.id));
+      if (activeReport) {
+        this.service.activeReport = activeReport;
+      }
+    });
   }
 }
