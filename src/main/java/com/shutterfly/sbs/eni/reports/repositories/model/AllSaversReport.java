@@ -44,7 +44,7 @@ public class AllSaversReport implements Serializable {
   @Column(name = "customer_sku")
   private String sku;
 
-  @Column(name = "productName")
+  @Column(name = "product_name")
   private String productName;
 
   @Column(name = "kits_count")
