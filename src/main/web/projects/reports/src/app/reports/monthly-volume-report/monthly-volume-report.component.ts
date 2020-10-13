@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
 import { TableConfig } from '../../models/table-config';
 import { ReportService } from '../../services/report.service';
 
@@ -51,13 +52,7 @@ export class MonthlyVolumeReportComponent implements OnInit {
       productName: new FormControl(''),
       itemNumber: new FormControl(''),
       selectYear: new FormControl('')
-    }, { validators: this.filterSelectedValidator });
-  }
-
-  filterSelectedValidator(formGroup: FormGroup): ValidationErrors | null {
-    const { controls } = formGroup;
-    const isFormValid = Object.values(controls).some(control => !!control.value);
-    return isFormValid ? null : { filterNotSelected: true };
+    }, { validators: FilterSelectedValidator });
   }
 
   clearFilter() {

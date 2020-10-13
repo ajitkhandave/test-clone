@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
 import { TableConfig } from '../../models/table-config';
 import { ReportService } from '../../services/report.service';
 
@@ -41,7 +42,7 @@ export class PopActiveProductsComponent implements OnInit {
       itemNumber: new FormControl(''),
       productName: new FormControl(''),
       staticConfigurable: new FormControl('')
-    }, { validators: this.filterSelectedValidator });
+    }, { validators: FilterSelectedValidator });
   }
 
   onSearch() {
@@ -81,12 +82,6 @@ export class PopActiveProductsComponent implements OnInit {
     }
 
     return itemNumberFilter && productNameFilter && staticConfigurableFilter;
-  }
-
-  filterSelectedValidator(formGroup: FormGroup): ValidationErrors | null {
-    const { controls } = formGroup;
-    const isFormValid = Object.values(controls).some(control => !!control.value);
-    return isFormValid ? null : { filterNotSelected: true };
   }
 
 }

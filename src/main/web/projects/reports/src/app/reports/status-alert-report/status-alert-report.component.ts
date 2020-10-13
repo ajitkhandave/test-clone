@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
-import * as moment from 'moment';
 
 import { TableConfig } from '../../models/table-config';
 import { ReportService } from '../../services/report.service';
-import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
+import { CommonDatePipe } from '../../pipes/common-date.pipe';
 
 @Component({
   selector: 'app-status-alert-report',
@@ -22,6 +23,7 @@ export class StatusAlertReportComponent implements OnInit {
     query: (row) => this.applyQuery(row)
   };
   filterForm: FormGroup;
+  datePipe = new CommonDatePipe();
 
   constructor(
     private reportService: ReportService
@@ -47,7 +49,7 @@ export class StatusAlertReportComponent implements OnInit {
         sortable: false,
         draggable: false,
         resizeable: false,
-        pipe: { transform: this.datePipe }
+        pipe: this.datePipe
       },
       {
         prop: 'status',
@@ -61,19 +63,19 @@ export class StatusAlertReportComponent implements OnInit {
         prop: 'orderDate',
         name: 'Order Date',
         sortable: true,
-        comparator: this.dateSort.bind(this),
+        comparator: this.datePipe.sort.bind(this),
         draggable: false,
         resizeable: false,
-        pipe: { transform: this.datePipe }
+        pipe: this.datePipe
       },
       {
         prop: 'modifiedDate',
         name: 'Last Modified Date',
         sortable: true,
-        comparator: this.dateSort.bind(this),
+        comparator: this.datePipe.sort.bind(this),
         draggable: false,
         resizeable: false,
-        pipe: { transform: this.datePipe }
+        pipe: this.datePipe
       }
     ];
 
@@ -83,15 +85,7 @@ export class StatusAlertReportComponent implements OnInit {
       clientOrderId: new FormControl(''),
       customerProductId: new FormControl(''),
       status: new FormControl('')
-    }, { validators: this.filterSelectedValidator });
-  }
-
-  datePipe(value: any) {
-    return moment(value).format('MM/DD/YY');
-  }
-
-  dateSort(valueA, valueB) {
-    return moment(valueA).unix() > moment(valueB).unix() ? 1 : -1;
+    }, { validators: FilterSelectedValidator });
   }
 
   onSearch() {
@@ -105,12 +99,6 @@ export class StatusAlertReportComponent implements OnInit {
       status: ''
     });
     this.tableConfig.filters.next(false);
-  }
-
-  filterSelectedValidator(formGroup: FormGroup): ValidationErrors | null {
-    const { controls } = formGroup;
-    const isFormValid = Object.values(controls).some(control => !!control.value);
-    return isFormValid ? null : { filterNotSelected: true };
   }
 
   applyQuery(row) {

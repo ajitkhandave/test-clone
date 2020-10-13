@@ -20,6 +20,7 @@ import { OrderStatusReportComponent } from './reports/order-status-report/order-
 import { DateRangeComponent } from './components/date-range/date-range.component';
 import { MonthlyVolumeReportComponent } from './reports/monthly-volume-report/monthly-volume-report.component';
 import { StatusAlertReportComponent } from './reports/status-alert-report/status-alert-report.component';
+import { CommonDatePipe } from './pipes/common-date.pipe';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { StatusAlertReportComponent } from './reports/status-alert-report/status
     OrderStatusReportComponent,
     DateRangeComponent,
     MonthlyVolumeReportComponent,
-    StatusAlertReportComponent
+    StatusAlertReportComponent,
+    CommonDatePipe
   ],
   imports: [
     BrowserModule,

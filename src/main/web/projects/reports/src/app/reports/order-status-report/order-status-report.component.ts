@@ -3,8 +3,10 @@ import { Subject } from 'rxjs';
 import * as moment from 'moment';
 import { TableConfig } from '../../models/table-config';
 import { ReportService } from '../../services/report.service';
-import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { DateRange } from '../../models/date-range';
+import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
+import { CommonDatePipe } from '../../pipes/common-date.pipe';
 
 @Component({
   selector: 'app-order-status-report',
@@ -23,6 +25,7 @@ export class OrderStatusReportComponent implements OnInit {
   };
   filterForm: FormGroup;
   dateRange: Subject<DateRange> = new Subject();
+  datePipe = new CommonDatePipe();
 
   constructor(
     private reportService: ReportService
@@ -45,7 +48,7 @@ export class OrderStatusReportComponent implements OnInit {
         sortable: false,
         draggable: false,
         resizeable: false,
-        pipe: { transform: this.datePipe }
+        pipe: this.datePipe
       },
       {
         prop: 'status',
@@ -59,19 +62,19 @@ export class OrderStatusReportComponent implements OnInit {
         prop: 'orderDate',
         name: 'Order Date',
         sortable: true,
-        comparator: this.dateSort.bind(this),
+        comparator: this.datePipe.sort.bind(this),
         draggable: false,
         resizeable: false,
-        pipe: { transform: this.datePipe }
+        pipe: this.datePipe
       },
       {
         prop: 'modifiedDate',
         name: 'Last Modified Date',
         sortable: true,
-        comparator: this.dateSort.bind(this),
+        comparator: this.datePipe.sort.bind(this),
         draggable: false,
         resizeable: false,
-        pipe: { transform: this.datePipe }
+        pipe: this.datePipe
       },
       { prop: 'printVendor', name: 'Print Vendor', sortable: false, draggable: false, resizeable: false }
     ];
@@ -85,7 +88,7 @@ export class OrderStatusReportComponent implements OnInit {
       selectADate: new FormControl('orderDate'),
       startDate: new FormControl(''),
       endDate: new FormControl('')
-    }, { validators: this.filterSelectedValidator });
+    }, { validators: FilterSelectedValidator });
   }
 
   /**
@@ -120,10 +123,6 @@ export class OrderStatusReportComponent implements OnInit {
     return isClientOrderId && isPrintVendor && isStatus && isInRange;
   }
 
-  datePipe(value: any) {
-    return moment(value).format('MM/DD/YY');
-  }
-
   onSearch() {
     this.tableConfig.filters.next(true);
   }
@@ -144,12 +143,6 @@ export class OrderStatusReportComponent implements OnInit {
     this.tableConfig.filters.next(false);
   }
 
-  filterSelectedValidator(formGroup: FormGroup): ValidationErrors | null {
-    const { controls } = formGroup;
-    const isFormValid = Object.values(controls).some(control => !!control.value);
-    return isFormValid ? null : { filterNotSelected: true };
-  }
-
   startDateChange(date) {
     const control = this.filterForm.get('startDate');
     control.patchValue(date);
@@ -158,9 +151,5 @@ export class OrderStatusReportComponent implements OnInit {
   endDateChange(date) {
     const control = this.filterForm.get('endDate');
     control.patchValue(date);
-  }
-
-  dateSort(valueA, valueB) {
-    return moment(valueA).unix() > moment(valueB).unix() ? 1 : -1;
   }
 }
