@@ -18,6 +18,7 @@ import { TitleComponent } from './components/title/title.component';
 import { DatatablePdfComponent } from './components/datatable-pdf/datatable-pdf.component';
 import { OrderStatusReportComponent } from './reports/order-status-report/order-status-report.component';
 import { DateRangeComponent } from './components/date-range/date-range.component';
+import { MonthlyVolumeReportComponent } from './reports/monthly-volume-report/monthly-volume-report.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { DateRangeComponent } from './components/date-range/date-range.component
     TitleComponent,
     DatatablePdfComponent,
     OrderStatusReportComponent,
-    DateRangeComponent
+    DateRangeComponent,
+    MonthlyVolumeReportComponent
   ],
   imports: [
     BrowserModule,
