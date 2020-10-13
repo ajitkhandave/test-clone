@@ -69,11 +69,11 @@ export class PopActiveProductsComponent implements OnInit {
     let staticConfigurableFilter = true;
 
     if (itemNumber) {
-      itemNumberFilter = row.itemNumber.includes(itemNumber);
+      itemNumberFilter = (row.itemNumber || '').toLowerCase().includes(itemNumber.toLowerCase());
     }
 
     if (productName) {
-      productNameFilter = row.itemName.includes(productName);
+      productNameFilter = (row.itemName || '').toLowerCase().includes(productName.toLowerCase());
     }
 
     if (staticConfigurable) {

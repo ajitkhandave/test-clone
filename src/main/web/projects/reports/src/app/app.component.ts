@@ -25,8 +25,7 @@ export class AppComponent implements OnInit {
     }, {
       id: 'status-alert-report',
       name: 'Status Alert Report',
-      reportImg: '/reports/assets/images/report2.png',
-      disabled: true
+      reportImg: '/reports/assets/images/report2.png'
     }, {
       id: 'pop-active-products',
       name: 'POP Active Products Report',

@@ -19,6 +19,7 @@ import { DatatablePdfComponent } from './components/datatable-pdf/datatable-pdf.
 import { OrderStatusReportComponent } from './reports/order-status-report/order-status-report.component';
 import { DateRangeComponent } from './components/date-range/date-range.component';
 import { MonthlyVolumeReportComponent } from './reports/monthly-volume-report/monthly-volume-report.component';
+import { StatusAlertReportComponent } from './reports/status-alert-report/status-alert-report.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { MonthlyVolumeReportComponent } from './reports/monthly-volume-report/mo
     DatatablePdfComponent,
     OrderStatusReportComponent,
     DateRangeComponent,
-    MonthlyVolumeReportComponent
+    MonthlyVolumeReportComponent,
+    StatusAlertReportComponent
   ],
   imports: [
     BrowserModule,
