@@ -1,0 +1,15 @@
+::ng-deep {
+  app-data-table {
+    .datatable-container {
+      .ngx-datatable {
+        .datatable-header {
+          .datatable-header-cell {
+            .datatable-header-cell-wrapper {
+              line-height: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand secondary-nav">
   <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav mr-auto" *ngIf="errorUrl">
       <li class="nav-item home-nav-item">
         <a class="nav-link" routerLink="/reports" routerLinkActive="active"
           [routerLinkActiveOptions]="{exact: true}">Home</a>
@@ -9,7 +9,7 @@
         <a class="nav-link" [ngClass]="{'active': isReportTypeActive}" ngbDropdownToggle>Reports</a>
         <div ngbDropdownMenu *ngIf="reportTypes?.length">
           <a *ngFor="let type of reportTypes;" ngbDropdownItem [routerLink]="['/reports/type', type.id]"
-            class="user-logout">
+            class="user-logout" [disabled]="type.disabled">
             {{type.name}}
           </a>
         </div>

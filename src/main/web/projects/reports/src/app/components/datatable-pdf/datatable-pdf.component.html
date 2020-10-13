@@ -1,0 +1,14 @@
+<div style="" *ngIf="isExporting">
+  <table id="data-table-2">
+    <thead>
+      <tr>
+        <th *ngFor="let col of _columns" [attr.width]="col.width">{{col.name}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of rows;">
+        <td *ngFor="let col of _columns" [attr.width]="col.width">{{row[col.prop]}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

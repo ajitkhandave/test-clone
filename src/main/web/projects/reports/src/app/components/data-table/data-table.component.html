@@ -1,9 +1,11 @@
 <div class="datatable-container">
-  <ngx-datatable class="bootstrap" [rows]="masterOrders" [columns]="columns" columnMode="force"
-      [headerHeight]="50" [rowHeight]="'auto'" [draggable]="false" [offset]="pageOffset" (select)="onSelect($event)"
-      (activate)="onActivate($event)" [sorts]="sorts">
+  <ngx-datatable id="data-table" class="bootstrap" [rows]="rows" [columns]="_columns" columnMode="force"
+    [headerHeight]="tableConfig.headerHeight" [rowHeight]="'auto'" [draggable]="false" [offset]="pageOffset" (select)="onSelect($event)"
+    (activate)="onActivate($event)" [sorts]="sorts" [selectAllRowsOnPage]="false" [selected]="selected"
+    [selectionType]="selectionType">
   </ngx-datatable>
 
-  <app-pagination [table]="tableCmp" [setPage$]="setPage$" [rowCount]="totalCount"
-      (pageChange)="onPageChange($event)"></app-pagination>
+  <app-pagination [table]="tableCmp" [setPage$]="setPage$" [rowCount]="totalCount" (pageChange)="pageOffset = $event">
+  </app-pagination>
 </div>
+<app-datatable-pdf [columns]="_columns" [rows]="rows" [selected]="selected"></app-datatable-pdf>

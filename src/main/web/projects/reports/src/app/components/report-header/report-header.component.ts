@@ -23,11 +23,16 @@ export class ReportHeaderComponent implements OnInit {
       .pipe(
         filter(e => e instanceof NavigationEnd)
       ).subscribe((resp: NavigationEnd) => {
-        this.isReportTypeActive = resp.urlAfterRedirects.includes('/reports/type');
+        const RESERVED = ['/reports', '/contact', '/error'];
+        this.isReportTypeActive = !RESERVED.some(path => resp.urlAfterRedirects.endsWith(path));
       });
 
     this.reportService.getReportTypes()
       .pipe(take(1))
       .subscribe(resp => this.reportTypes = resp);
+  }
+
+  get errorUrl(): boolean {
+    return !this.router.url.includes('error');
   }
 }

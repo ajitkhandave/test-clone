@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, OnChanges } 
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Pagination } from '../../models/pagination';
 
 @Component({
   selector: 'app-pagination',
@@ -13,7 +12,7 @@ export class PaginationComponent implements OnInit, OnChanges, OnDestroy {
   @Input() table: DatatableComponent;
   @Input() rowCount: number;
   @Input() setPage$: EventEmitter<number> = new EventEmitter();
-  @Output() pageChange: EventEmitter<Pagination> = new EventEmitter();
+  @Output() pageChange: EventEmitter<number> = new EventEmitter();
   unsub$: Subject<void> = new Subject();
   /** Pagination Object */
   pagination = {
@@ -41,10 +40,7 @@ export class PaginationComponent implements OnInit, OnChanges, OnDestroy {
 
     this.table.sort
       .pipe(takeUntil(this.unsub$))
-      .subscribe(value => {
-        this.activeSort = value.sorts[0];
-        this.onActivePageChange(1);
-      });
+      .subscribe(sort => this.onActivePageChange(1));
   }
 
   ngOnChanges(changes) {
@@ -54,7 +50,7 @@ export class PaginationComponent implements OnInit, OnChanges, OnDestroy {
       changes.rowCount.previousValue !== changes.rowCount.currentValue
     ) {
       this.pagination.totalPages = changes.rowCount.currentValue;
-      this.countTotalPages();
+      setTimeout(() => this.onActivePageChange(1));
     }
   }
 
@@ -77,29 +73,14 @@ export class PaginationComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  countTotalPages() {
-    const { limit } = this.pagination;
-    this.pagination.totalPages = Math.ceil(this.rowCount / limit) || 1;
-  }
-
   applyPagination() {
     const { page, limit } = this.pagination;
     const offset = page - 1;
-    this.countTotalPages();
+    this.pagination.totalPages = Math.ceil(this.table.rows.length / limit) || 1;
     this.pagination.offset = offset;
     this.table.limit = limit;
     this.table.offset = offset;
-
-    const pageChangeObj: Pagination = {
-      pageNo: offset,
-      pageSize: limit
-    };
-    if (this.activeSort) {
-      const { dir, prop } = this.activeSort;
-      pageChangeObj.sortBy = prop;
-      pageChangeObj.sortOrder = dir;
-    }
-    this.pageChange.next(pageChangeObj);
+    this.pageChange.next(offset);
   }
 
   ngOnDestroy() {

@@ -1,0 +1,45 @@
+
+<form [formGroup]="filterForm" (submit)="onSearch()">
+  <div class="order__filter-container mt-2">
+    <div class="order__filter-container-input">
+      <div class="form-row pl-3">
+        <div class="col-2">
+          <label for="itemNumber" class="filter-name">Item Number</label>
+          <div class="position-relative">
+            <input class="form-control filters" id="itemNumber" type="text" name="itemNumber"
+              placeholder="Item Number#" formControlName="itemNumber" />
+          </div>
+        </div>
+        <div class="col-2">
+          <label for="productName" class="filter-name">Product Name</label>
+          <div class="position-relative">
+            <input class="form-control filters" id="productName" type="text" name="productName"
+              placeholder="Product Name" formControlName="productName" />
+          </div>
+        </div>
+        <div class="col-2">
+          <label for="staticConfigurable" class="filter-name">Static/Configurable</label>
+          <select class="form-select form-control filters" formControlName="staticConfigurable" id="staticConfigurable">
+            <option hidden value="" disabled selected>Select status</option>
+            <option value="configurable">
+              Configurable
+            </option>
+            <option value="static">
+              Static
+            </option>
+          </select>
+        </div>
+        <div class="col-auto align-self-end search">
+          <button class="btn btn-sm btn-link mr-1 clear-filter-btn" type="button" (click)="clearFilter()">Clear
+            Filters</button>
+          <button class="btn btn-secondary" type="submit" [disabled]="filterForm.invalid" id="search">
+            SEARCH </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<app-data-table [columns]="columns" [sorts]="sorts" [tableConfig]="tableConfig"></app-data-table>
+<ng-template let-row="row" #assetTpl>
+  <a [href]="row.assetUrl" target="_blank" *ngIf="row.assetUrl">View PDF</a>
+</ng-template>

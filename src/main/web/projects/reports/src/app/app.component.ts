@@ -15,35 +15,51 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     const types: ReportType[] = [{
-      id: '1',
-      name: 'All savers report'
+      id: 'all-savers-report',
+      name: 'All savers report',
+      reportImg: '/reports/assets/images/Resources_Accent@2x.png'
     }, {
-      id: '2',
-      name: 'Status Alert Report'
+      id: 'status-alert-report',
+      name: 'Status Alert Report',
+      reportImg: '/reports/assets/images/report2.png',
+      disabled: true
     }, {
-      id: '3',
-      name: 'POP Active Products Report'
+      id: 'pop-active-products',
+      name: 'POP Active Products Report',
+      reportImg: '/reports/assets/images/report1.png'
     }, {
-      id: '4',
-      name: 'Order Status Report'
+      id: 'order-status-report',
+      name: 'Order Status Report',
+      reportImg: '/reports/assets/images/report3.png'
     }, {
-      id: '5',
-      name: 'Order Details Report'
+      id: 'order-details',
+      name: 'Order Details Report',
+      reportImg: '/reports/assets/images/report1.png',
+      disabled: true
     }, {
-      id: '6',
-      name: 'Onboarding Dashboard'
+      id: 'onboarding-dashboard',
+      name: 'Onboarding Dashboard',
+      reportImg: '/reports/assets/images/report3.png',
+      disabled: true
     }, {
-      id: '7',
-      name: 'OE VP Data Report'
+      id: 'oe-vp-data',
+      name: 'OE VP Data Report',
+      reportImg: '/reports/assets/images/report2.png',
+      disabled: true
     }, {
-      id: '8',
-      name: 'ENI Monthly Volume Report'
+      id: 'monthly-volume-report',
+      name: 'ENI Monthly Volume Report',
+      reportImg: '/reports/assets/images/Resources_Accent@2x.png'
     }, {
-      id: '9',
-      name: 'Member Engagement Report'
+      id: 'member-engagement',
+      name: 'Member Engagement Report',
+      reportImg: '/reports/assets/images/Resources_Accent@2x.png',
+      disabled: true
     }, {
-      id: '10',
-      name: 'Invoicing Report'
+      id: 'invoicing-report',
+      name: 'Invoicing Report',
+      reportImg: '/reports/assets/images/report1.png',
+      disabled: true
     }];
     this.service.setReportTypes(types);
   }
