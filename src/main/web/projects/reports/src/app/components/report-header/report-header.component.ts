@@ -32,6 +32,12 @@ export class ReportHeaderComponent implements OnInit {
       .subscribe(resp => this.reportTypes = resp);
   }
 
+  isReportActive(id): boolean {
+    const report = this.reportService.activeReport;
+    if (!report) { return false; }
+    return report.id === id;
+  }
+
   get errorUrl(): boolean {
     return !this.router.url.includes('error');
   }

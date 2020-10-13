@@ -70,9 +70,7 @@ export class AppComponent implements OnInit {
       filter(e => e instanceof NavigationEnd)
     ).subscribe((resp: NavigationEnd) => {
       const activeReport = types.find(report => resp.urlAfterRedirects.includes(report.id));
-      if (activeReport) {
-        this.service.activeReport = activeReport;
-      }
+      this.service.activeReport = activeReport;
     });
   }
 }

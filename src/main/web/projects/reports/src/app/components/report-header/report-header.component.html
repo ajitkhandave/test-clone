@@ -9,7 +9,7 @@
         <a class="nav-link" [ngClass]="{'active': isReportTypeActive}" ngbDropdownToggle>Reports</a>
         <div ngbDropdownMenu *ngIf="reportTypes?.length">
           <a *ngFor="let type of reportTypes;" ngbDropdownItem [routerLink]="['/reports/type', type.id]"
-            class="user-logout" [disabled]="type.disabled">
+            class="user-logout" [disabled]="type.disabled" [ngClass]="{'active': isReportActive(type.id)}">
             {{type.name}}
           </a>
         </div>
