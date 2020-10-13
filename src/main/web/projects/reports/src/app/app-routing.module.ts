@@ -5,6 +5,7 @@ import { ErrorComponent } from './components/error/error.component';
 import { HomeComponent } from './components/home/home.component';
 import { TitleComponent } from './components/title/title.component';
 import { AllSaversReportComponent } from './reports/all-savers-report/all-savers-report.component';
+import { MonthlyVolumeReportComponent } from './reports/monthly-volume-report/monthly-volume-report.component';
 import { OrderStatusReportComponent } from './reports/order-status-report/order-status-report.component';
 import { PopActiveProductsComponent } from './reports/pop-active-products/pop-active-products.component';
 
@@ -33,6 +34,9 @@ const routes: Routes = [
         }, {
           path: 'order-status-report',
           component: OrderStatusReportComponent
+        }, {
+          path: 'monthly-volume-report',
+          component: MonthlyVolumeReportComponent
         }
         ]
       },

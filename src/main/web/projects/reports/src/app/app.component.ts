@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
       reportImg: '/reports/assets/images/report2.png',
       disabled: true
     }, {
-      id: 'eni-monthly-volume',
+      id: 'monthly-volume-report',
       name: 'ENI Monthly Volume Report',
       reportImg: '/reports/assets/images/Resources_Accent@2x.png'
     }, {

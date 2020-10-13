@@ -40,4 +40,9 @@ export class ReportService {
     const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/ORDER_STATUS_REPORT';
     return this.http.get<any>(url);
   }
+
+  fetchMonthlyVolume(): Observable<any> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/MONTHLY_VOLUME_REPORT';
+    return this.http.get(url);
+  }
 }

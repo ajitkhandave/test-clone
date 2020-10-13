@@ -23,7 +23,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
       resizable: false,
       checkboxable: true,
       headerCheckboxable: true,
-      width: 40
+      width: 35,
+      maxWidth: 35
     };
     cols.splice(0, -1, select);
     this._columns = cols;
