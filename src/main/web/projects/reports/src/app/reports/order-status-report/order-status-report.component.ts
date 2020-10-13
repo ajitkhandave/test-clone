@@ -16,7 +16,7 @@ export class OrderStatusReportComponent implements OnInit {
   columns: any[];
   sorts: any[];
   tableConfig: TableConfig = {
-    headerHeight: 80,
+    scrollbarH: true,
     filters: new Subject<boolean>(),
     api: () => this.reportService.fetchOrderStatusReports(),
     query: (row) => this.applyQuery(row)
@@ -30,9 +30,9 @@ export class OrderStatusReportComponent implements OnInit {
 
   ngOnInit() {
     this.columns = [
-      { prop: 'sbsOrderId', name: 'SBS Order ID', sortable: false, draggable: false, resizeable: false, width: 150, minWidth: 80 },
-      { prop: 'clientOrderId', name: 'Client Order ID', sortable: false, draggable: false, resizeable: false, width: 95, minWidth: 95 },
-      { prop: 'destinationId', name: 'Destination ID', sortable: true, draggable: false, resizeable: false, width: 90, minWidth: 90 },
+      { prop: 'sbsOrderId', name: 'SBS Order ID', sortable: false, draggable: false, resizeable: false },
+      { prop: 'clientOrderId', name: 'Client Order ID', sortable: false, draggable: false, resizeable: false },
+      { prop: 'destinationId', name: 'Destination ID', sortable: true, draggable: false, resizeable: false },
       { prop: 'address1', name: 'Address 1', sortable: false, draggable: false, resizeable: false },
       { prop: 'address2', name: 'Address 2', sortable: false, draggable: false, resizeable: false },
       { prop: 'address3', name: 'Address 3', sortable: false, draggable: false, resizeable: false },
@@ -100,11 +100,11 @@ export class OrderStatusReportComponent implements OnInit {
     let isInRange = true;
     const { clientOrderId, printVendor, status, selectADate, startDate, endDate } = this.filterForm.value;
     if (clientOrderId) {
-      isClientOrderId = row.clientOrderId.includes(clientOrderId);
+      isClientOrderId = (row.clientOrderId || '').toLowerCase().includes(clientOrderId.toLowerCase());
     }
 
     if (printVendor) {
-      isPrintVendor = row.printVendor.includes(printVendor);
+      isPrintVendor = (row.printVendor || '').toLowerCase().includes(printVendor.toLowerCase());
     }
 
     if (status) {

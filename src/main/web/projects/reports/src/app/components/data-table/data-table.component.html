@@ -2,7 +2,7 @@
   <ngx-datatable id="data-table" class="bootstrap" [rows]="rows" [columns]="_columns" columnMode="force"
     [headerHeight]="tableConfig.headerHeight" [rowHeight]="'auto'" [draggable]="false" [offset]="pageOffset" (select)="onSelect($event)"
     (activate)="onActivate($event)" [sorts]="sorts" [selectAllRowsOnPage]="false" [selected]="selected"
-    [selectionType]="selectionType">
+    [selectionType]="selectionType" [scrollbarH]="tableConfig.scrollbarH">
   </ngx-datatable>
 
   <app-pagination [table]="tableCmp" [setPage$]="setPage$" [rowCount]="totalCount" (pageChange)="pageOffset = $event">

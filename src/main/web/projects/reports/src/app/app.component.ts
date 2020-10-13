@@ -20,7 +20,8 @@ export class AppComponent implements OnInit {
     const types: ReportType[] = [{
       id: 'all-savers-report',
       name: 'All savers report',
-      reportImg: '/reports/assets/images/Resources_Accent@2x.png'
+      reportImg: '/reports/assets/images/Resources_Accent@2x.png',
+      disabled: true
     }, {
       id: 'status-alert-report',
       name: 'Status Alert Report',
