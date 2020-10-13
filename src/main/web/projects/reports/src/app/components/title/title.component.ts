@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ReportService } from '../../services/report.service';
 
 @Component({
@@ -6,13 +7,9 @@ import { ReportService } from '../../services/report.service';
   template: `
     <div class="report">
       <div class="report-header pb-1 pl-2">
-        <span>Reports</span>
-        <span class="header-button ml-auto" ngbDropdown>
-          <button class="btn btn-sm btn-primary" ngbDropdownToggle> Export </button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button ngbDropdownItem (click)="exportPdf()">PDF</button>
-            <button ngbDropdownItem (click)="exportSheet()">Excel</button>
-          </div>
+        <span>Reports - {{service?.activeReport?.name}}</span>
+        <span class="header-button ml-auto">
+          <button class="btn btn-sm btn-primary" (click)="exportSheet()"> Export </button>
         </span>
       </div>
     </div>
@@ -22,14 +19,10 @@ import { ReportService } from '../../services/report.service';
 export class TitleComponent implements OnInit {
 
   constructor(
-    private service: ReportService
+    public service: ReportService
   ) { }
 
   ngOnInit() {
-  }
-
-  exportPdf() {
-    this.service.exportAsPdf$.next(true);
   }
 
   exportSheet() {

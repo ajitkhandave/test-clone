@@ -7,6 +7,12 @@ export interface TableConfig {
    * ByDefault: 30
    */
   headerHeight?: number;
+
+  /**
+   * Use horizontal scrollbar.
+   * Default value: false
+   */
+  scrollbarH?: boolean;
   /**
    * For intimating the table that filter is applied or removed.
    * <true> Passing true will filter the data and apply queries.

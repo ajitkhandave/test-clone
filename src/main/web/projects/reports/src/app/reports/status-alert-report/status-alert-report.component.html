@@ -1,0 +1,45 @@
+<form [formGroup]="filterForm" (submit)="onSearch()">
+  <div class="order__filter-container mt-2">
+    <div class="order__filter-container-input">
+      <div class="form-row pl-3">
+        <div class="col-2">
+          <label for="clientOrderId" class="filter-name">Client Order Id</label>
+          <div class="position-relative">
+            <input class="form-control filters" id="clientOrderId" type="text" name="clientOrderId"
+              placeholder="Client Order Id" formControlName="clientOrderId" />
+          </div>
+        </div>
+        <div class="col-2">
+          <label for="customerProductId" class="filter-name">Customer Product Id</label>
+          <div class="position-relative">
+            <input class="form-control filters" id="customerProductId" type="text" name="customerProductId"
+              placeholder="Customer Product Id" formControlName="customerProductId" />
+          </div>
+        </div>
+        <div class="col-2">
+          <label for="status" class="filter-name">Status</label>
+          <select class="form-select form-control filters" formControlName="status" id="status">
+            <option hidden value="" disabled selected>Select status</option>
+            <option value="CANCELLED">CANCELLED</option>
+            <option value="COMPLETE">COMPLETE</option>
+            <option value="ERROR">ERROR</option>
+            <option value="IN_PROGRESS">IN PROGRESS</option>
+            <option value="MANUALLY_SHIPPED">MANUALLY SHIPPED</option>
+            <option value="PARTIAL_SHIPPED">PARTIAL SHIPPED</option>
+            <option value="PARTIALLY_PROCESSED">PARTIALLY PROCESSED</option>
+            <option value="SENT_TO_PRINTER">SENT TO PRINTER</option>
+            <option value="SHIPPED">SHIPPED</option>
+          </select>
+        </div>
+        <div class="col-auto align-self-end search">
+          <button class="btn btn-sm btn-link mr-1 clear-filter-btn" type="button" (click)="clearFilter()">Clear
+            Filters</button>
+          <button class="btn btn-secondary" type="submit" [disabled]="filterForm.invalid" id="search">
+            SEARCH </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<app-data-table [columns]="columns" [sorts]="sorts" [tableConfig]="tableConfig"></app-data-table>

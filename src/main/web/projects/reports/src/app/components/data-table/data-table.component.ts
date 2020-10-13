@@ -109,7 +109,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
         /* save to file */
-        XLSX.writeFile(wb, 'myfile.xlsx');
+        const fileName = `${this.service.activeReport.name}_${Date.now()}.xlsx`;
+        XLSX.writeFile(wb, fileName);
       });
   }
 
