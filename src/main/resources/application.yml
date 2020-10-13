@@ -85,3 +85,4 @@ app:
     auth:
       gateway-endpoint: https://tsbsapp109-lv.internal.shutterfly.com:8443
       cookie-domain: internal.shutterfly.com
+      issuer: http://tsbsapp124-lv.internal.shutterfly.com:7000
