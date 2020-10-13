@@ -18,7 +18,7 @@ export class OrderStatusReportComponent implements OnInit {
   tableConfig: TableConfig = {
     headerHeight: 80,
     filters: new Subject<boolean>(),
-    api: () => this.reportService.fetchOrderStatus(),
+    api: () => this.reportService.fetchOrderStatusReports(),
     query: (row) => this.applyQuery(row)
   };
   filterForm: FormGroup;
@@ -30,7 +30,7 @@ export class OrderStatusReportComponent implements OnInit {
 
   ngOnInit() {
     this.columns = [
-      { prop: 'sbsOrderId', name: 'SBS Order ID', sortable: false, draggable: false, resizeable: false, width: 80, minWidth: 80 },
+      { prop: 'sbsOrderId', name: 'SBS Order ID', sortable: false, draggable: false, resizeable: false, width: 150, minWidth: 80 },
       { prop: 'clientOrderId', name: 'Client Order ID', sortable: false, draggable: false, resizeable: false, width: 95, minWidth: 95 },
       { prop: 'destinationId', name: 'Destination ID', sortable: true, draggable: false, resizeable: false, width: 90, minWidth: 90 },
       { prop: 'address1', name: 'Address 1', sortable: false, draggable: false, resizeable: false },

@@ -31,12 +31,12 @@ export class ReportService {
     this.reportTypes = types;
   }
 
-  fetchOrders(): Observable<any> {
+  fetchPopActiveReports(): Observable<any> {
     const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/POP_ACTIVE_PRODUCTS';
     return this.http.get<any>(url);
   }
 
-  fetchOrderStatus(): Observable<any> {
+  fetchOrderStatusReports(): Observable<any> {
     const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/ORDER_STATUS_REPORT';
     return this.http.get<any>(url);
   }

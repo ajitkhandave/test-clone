@@ -72,3 +72,16 @@ app:
     auth:
       gateway-endpoint: http://dsbsapp84-lv.internal.shutterfly.com:8080
       cookie-domain: internal.shutterfly.com
+---
+spring:
+  profiles: qa
+  datasource:
+    url: jdbc:mysql://tsbssql01-lv.internal.shutterfly.com:3306/EnI?serverTimezone=UTC
+    username: sbs_eni_svc
+    password: sbs_eni_svc
+app:
+  base-url: http://tsbsapp136-lv.internal.shutterfly.com:8081
+  security:
+    auth:
+      gateway-endpoint: https://tsbsapp109-lv.internal.shutterfly.com:8443
+      cookie-domain: internal.shutterfly.com

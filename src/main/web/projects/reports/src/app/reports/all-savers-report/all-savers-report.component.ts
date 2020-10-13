@@ -16,7 +16,7 @@ export class AllSaversReportComponent implements OnInit {
   data: any;
 
   tableConfig: TableConfig = {
-    api: () => this.reportService.fetchOrders(),
+    api: () => this.reportService.fetchPopActiveReports(),
   };
 
   constructor(

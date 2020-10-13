@@ -1,12 +1,11 @@
 package com.shutterfly.sbs.eni.reports.repositories.model;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,11 +33,32 @@ public class PlatformOrder implements Serializable {
   @Column(name="Need_By_Date")
   private String needByDate;
 
+  @Column(name="Order_Date")
+  private String orderDate;
+
+  @Column(name="order_status")
+  private String status;
+
+  @Column(name="last_modified_date")
+  private String modifiedDate;
+
+  @Column(name="Customer_Name")
+  @Transient
+  private String customerName;
+
   @Column(name="Print_Vendor")
   private String printVendor;
 
+  @Column(name="Customer_Product_ID")
+  @Transient
+  private String customerProductId;
+
   @Column(name="Destination_ID")
   private String destinationId;
+
+  @Column(name="Ship_To_Company_Name")
+  @Transient
+  private String shipToCompanyName;
 
   @Column(name = "Address_Id")
   private String addressId;
