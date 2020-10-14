@@ -10,6 +10,7 @@ import { AppConfig } from '../../../../../src/app/common/service/app.config';
 export class ReportService {
 
   reportTypes: ReportType[];
+  _activeReport: ReportType;
 
   public exportAsPdf$: Subject<boolean> = new Subject();
   public exportAsExcel$: Subject<void> = new Subject();
@@ -18,6 +19,15 @@ export class ReportService {
     private http: HttpClient,
     private constant: AppConfig
   ) { }
+
+
+  get activeReport(): ReportType {
+    return this._activeReport;
+  }
+
+  set activeReport(report: ReportType) {
+    this._activeReport = report;
+  }
 
   getReportTypes(): Observable<ReportType[]> {
     return of(this.reportTypes);
@@ -43,6 +53,11 @@ export class ReportService {
 
   fetchMonthlyVolume(): Observable<any> {
     const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/MONTHLY_VOLUME_REPORT';
+    return this.http.get(url);
+  }
+
+  fetchStatusAlertReport(): Observable<any> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/STATUS_ALERT_REPORT';
     return this.http.get(url);
   }
 }

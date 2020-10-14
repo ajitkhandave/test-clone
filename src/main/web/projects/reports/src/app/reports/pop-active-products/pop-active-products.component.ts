@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
 import { TableConfig } from '../../models/table-config';
 import { ReportService } from '../../services/report.service';
 
@@ -32,7 +33,7 @@ export class PopActiveProductsComponent implements OnInit {
       { prop: 'itemName', name: 'Product Name', sortable: true, draggable: false, width: 360 },
       { prop: 'assetUrl', name: 'View PDF', sortable: false, draggable: false, cellTemplate: this.assetTpl, width: 110 },
       { prop: 'documentType', name: 'Document Type', sortable: true, draggable: false },
-      { prop: 'staticConfigurable', name: 'Static/Configurable', sortable: true, draggable: false }
+      { prop: 'staticConfigurable', name: 'Static/Configurable', sortable: true, draggable: false, cellClass: 'text-capitalized' }
     ];
 
     this.sorts = [{ prop: 'itemNumber', dir: 'desc' }];
@@ -41,7 +42,7 @@ export class PopActiveProductsComponent implements OnInit {
       itemNumber: new FormControl(''),
       productName: new FormControl(''),
       staticConfigurable: new FormControl('')
-    }, { validators: this.filterSelectedValidator });
+    }, { validators: FilterSelectedValidator });
   }
 
   onSearch() {
@@ -69,11 +70,11 @@ export class PopActiveProductsComponent implements OnInit {
     let staticConfigurableFilter = true;
 
     if (itemNumber) {
-      itemNumberFilter = row.itemNumber.includes(itemNumber);
+      itemNumberFilter = (row.itemNumber || '').toLowerCase().includes(itemNumber.toLowerCase());
     }
 
     if (productName) {
-      productNameFilter = row.itemName.includes(productName);
+      productNameFilter = (row.itemName || '').toLowerCase().includes(productName.toLowerCase());
     }
 
     if (staticConfigurable) {
@@ -81,12 +82,6 @@ export class PopActiveProductsComponent implements OnInit {
     }
 
     return itemNumberFilter && productNameFilter && staticConfigurableFilter;
-  }
-
-  filterSelectedValidator(formGroup: FormGroup): ValidationErrors | null {
-    const { controls } = formGroup;
-    const isFormValid = Object.values(controls).some(control => !!control.value);
-    return isFormValid ? null : { filterNotSelected: true };
   }
 
 }
