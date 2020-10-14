@@ -39,11 +39,11 @@ export class AppComponent implements OnInit {
       reportImg: '/reports/assets/images/report1.png',
       submenu: [{
         id: 'line-item-level',
-        name: 'Order Details Report - Line Item Level',
+        name: 'Line Item Level',
         reportImg: '/reports/assets/images/report3.png'
       }, {
         id: 'order-level',
-        name: 'Order Details Report - Order Level',
+        name: 'Order Level',
         reportImg: '/reports/assets/images/report2.png'
       }],
       disabled: true
