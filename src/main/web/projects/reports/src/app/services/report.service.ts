@@ -60,4 +60,9 @@ export class ReportService {
     const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/STATUS_ALERT_REPORT';
     return this.http.get(url);
   }
+
+  fetchAllSaversReport(): Observable<any> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/ALL_SAVERS_REPORT';
+    return this.http.get(url);
+  }
 }

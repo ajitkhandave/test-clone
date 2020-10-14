@@ -11,7 +11,7 @@
   <div class="form-group hidden">
     <div class="input-group">
       <input type="hidden" name="datepicker" class="form-control" ngbDatepicker #datepicker="ngbDatepicker"
-        [autoClose]="'outside'" [maxDate]="maxDate" (dateSelect)="onDateSelection($event, datepicker)"
+        [autoClose]="'outside'" [maxDate]="_maxDate" (dateSelect)="onDateSelection($event, datepicker)"
         [displayMonths]="2" [dayTemplate]="t" [startDate]="fromDate">
       <ng-template #t let-date let-focused="focused">
         <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
