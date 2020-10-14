@@ -10,12 +10,17 @@ import { DateRange } from '../../models/date-range';
   styleUrls: ['./date-range.component.scss']
 })
 export class DateRangeComponent implements OnInit {
-
-
+  _maxDate: NgbDate;
   fromDate: NgbDate;
   toDate: NgbDate;
   hoveredDate: NgbDate;
-  maxDate: NgbDate;
+  @Input() set maxDate(date: string) {
+    let max: NgbDate = this.calendar.getToday();
+    if (date) {
+      max = NgbDate.from(this.formatter.parse(date));
+    }
+    this._maxDate = max;
+  }
   @Input() setRange: Subject<DateRange>;
   @Output() startDateChange: EventEmitter<string> = new EventEmitter<string>();
   @Output() endDateChange: EventEmitter<string> = new EventEmitter<string>();
@@ -33,7 +38,7 @@ export class DateRangeComponent implements OnInit {
         this.toDate = convert(endDate);
       });
     }
-    this.maxDate = this.calendar.getToday();
+    if (!this._maxDate) { this.maxDate = null; }
   }
 
   /**
@@ -102,7 +107,7 @@ export class DateRangeComponent implements OnInit {
    * @param date Date Object.
    */
   isHovered(date: NgbDate) {
-    return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate) && date.before(this.maxDate);
+    return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate) && date.before(this._maxDate);
   }
   isInside(date: NgbDate) {
     return date.after(this.fromDate) && date.before(this.toDate);

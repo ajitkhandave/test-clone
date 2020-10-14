@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import { ReportType } from '../models/report-type';
 import { AppConfig } from '../../../../../src/app/common/service/app.config';
+import { ToastrService } from 'ngx-toastr';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +19,8 @@ export class ReportService {
 
   constructor(
     private http: HttpClient,
-    private constant: AppConfig
+    private constant: AppConfig,
+    private toastrService: ToastrService,
   ) { }
 
 
@@ -43,21 +46,35 @@ export class ReportService {
 
   fetchPopActiveReports(): Observable<any> {
     const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/POP_ACTIVE_PRODUCTS';
-    return this.http.get<any>(url);
+    return this.http.get<any>(url).pipe(catchError(this.handleError.bind(this)));;
   }
 
   fetchOrderStatusReports(): Observable<any> {
     const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/ORDER_STATUS_REPORT';
-    return this.http.get<any>(url);
+    return this.http.get<any>(url).pipe(catchError(this.handleError.bind(this)));;
   }
 
   fetchMonthlyVolume(): Observable<any> {
     const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/MONTHLY_VOLUME_REPORT';
-    return this.http.get(url);
+    return this.http.get(url).pipe(catchError(this.handleError.bind(this)));;
   }
 
   fetchStatusAlertReport(): Observable<any> {
     const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/STATUS_ALERT_REPORT';
-    return this.http.get(url);
+    return this.http.get(url).pipe(catchError(this.handleError.bind(this)));;
+  }
+
+  fetchAllSaversReport(): Observable<any> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/ALL_SAVERS_REPORT';
+    return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
+  }
+
+  handleError(err?): Observable<any> {
+    let msg = 'Something went wrong. Please try again.';
+    if (err && err.message) {
+      msg = err.message;
+    }
+    this.toastrService.error(msg);
+    return of([]);
   }
 }

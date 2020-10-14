@@ -20,8 +20,7 @@ export class AppComponent implements OnInit {
     const types: ReportType[] = [{
       id: 'all-savers-report',
       name: 'All savers report',
-      reportImg: '/reports/assets/images/Resources_Accent@2x.png',
-      disabled: true
+      reportImg: '/reports/assets/images/Resources_Accent@2x.png'
     }, {
       id: 'status-alert-report',
       name: 'Status Alert Report',
@@ -38,6 +37,15 @@ export class AppComponent implements OnInit {
       id: 'order-details',
       name: 'Order Details Report',
       reportImg: '/reports/assets/images/report1.png',
+      submenu: [{
+        id: 'line-item-level',
+        name: 'Line Item Level',
+        reportImg: '/reports/assets/images/report3.png'
+      }, {
+        id: 'order-level',
+        name: 'Order Level',
+        reportImg: '/reports/assets/images/report2.png'
+      }],
       disabled: true
     }, {
       id: 'onboarding-dashboard',
