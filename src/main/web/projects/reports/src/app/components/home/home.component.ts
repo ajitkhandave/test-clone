@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.service.verifyConnection().subscribe();
     this.fetchReportTypes();
     this.route.queryParams.subscribe((params) => {
       if (params.menu) {
