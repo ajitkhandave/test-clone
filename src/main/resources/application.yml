@@ -42,6 +42,7 @@ app:
       customer-base-endpoint: ${app.security.auth.gateway-endpoint}
       customer-web-endpoint: ${app.base-url}
       log-ui-error: ${app.base-url}/api/log
+      login-url: ${app.login-url}
 ---
 spring:
   profiles: local
@@ -68,6 +69,7 @@ spring:
     password: sbs_eni_svc
 app:
   base-url: http://dsbsapp107-lv.internal.shutterfly.com:8081
+  login-url: http://dsbsapp107-lv.internal.shutterfly.com:8080/auth
   security:
     auth:
       gateway-endpoint: http://dsbsapp84-lv.internal.shutterfly.com:8080
@@ -80,7 +82,8 @@ spring:
     username: sbs_eni_svc
     password: sbs_eni_svc
 app:
-  base-url: http://tsbsapp136-lv.internal.shutterfly.com:8081
+  base-url: http://eni-reports-qa.internal.shutterfly.com
+  login-url: http://eni-pop-qa.internal.shutterfly.com/auth
   security:
     auth:
       gateway-endpoint: https://tsbsapp109-lv.internal.shutterfly.com:8443
