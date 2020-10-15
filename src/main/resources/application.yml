@@ -47,9 +47,9 @@ app:
 spring:
   profiles: local
   datasource:
-    url: jdbc:mysql://localhost:3306/eni
-    username: root
-    password: root
+    url: jdbc:mysql://tsbssql01-lv.internal.shutterfly.com:3306/EnI?serverTimezone=UTC
+    username: sbs_eni_svc
+    password: sbs_eni_svc
 app:
   base-url: http://localhost:8081
   security:
@@ -64,7 +64,7 @@ logging:
 spring:
   profiles: dev
   datasource:
-    url: jdbc:mysql://dsbssql01-lv.internal.shutterfly.com:3306/EnI?serverTimezone=UTC
+    url: jdbc:mysql://tsbssql01-lv.internal.shutterfly.com:3306/EnI?serverTimezone=UTC
     username: sbs_eni_svc
     password: sbs_eni_svc
 app:
