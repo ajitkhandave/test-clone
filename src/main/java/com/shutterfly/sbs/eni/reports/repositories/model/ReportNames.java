@@ -5,7 +5,9 @@ public enum ReportNames {
   STATUS_ALERT_REPORT("STATUS ALERT REPORT", "platformOrderRepo"),
   MONTHLY_VOLUME_REPORT("MONTHLY VOLUME REPORT", "monthlyVolumeRepo"),
   ORDER_STATUS_REPORT("ORDER STATUS REPORT", "platformOrderRepo"),
-  ALL_SAVERS_REPORT("ALL SAVERS REPORT","allSaversRepo");
+  ALL_SAVERS_REPORT("ALL SAVERS REPORT","allSaversRepo"),
+  ORDER_DETAILS_REPORT("ORDER DETAILS REPORT","orderDetailsRepo"),
+  MEMBER_ENGAGEMENT_REPORT("MEMBER ENGAGEMENT REPORT","allSaversRepo");
 
   String name;
   String repository;
