@@ -21,6 +21,7 @@ import { DateRangeComponent } from './components/date-range/date-range.component
 import { MonthlyVolumeReportComponent } from './reports/monthly-volume-report/monthly-volume-report.component';
 import { StatusAlertReportComponent } from './reports/status-alert-report/status-alert-report.component';
 import { CommonDatePipe } from './pipes/common-date.pipe';
+import { MemberEngagementDashboardComponent } from './reports/member-engagement-dashboard/member-engagement-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { CommonDatePipe } from './pipes/common-date.pipe';
     DateRangeComponent,
     MonthlyVolumeReportComponent,
     StatusAlertReportComponent,
-    CommonDatePipe
+    CommonDatePipe,
+    MemberEngagementDashboardComponent
   ],
   imports: [
     BrowserModule,

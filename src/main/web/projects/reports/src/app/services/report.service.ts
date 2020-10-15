@@ -73,6 +73,11 @@ export class ReportService {
     return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
   }
 
+  fetchMemberEngagementReport(): Observable<any> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/MEMBER_ENGAGEMENT_REPORT';
+    return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
+  }
+
   handleError(err?): Observable<any> {
     let msg = 'Something went wrong. Please try again.';
     if (err && err.message) {
