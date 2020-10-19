@@ -6,7 +6,9 @@ import com.shutterfly.sbs.eni.reports.repositories.model.ReportNames;
 import com.shutterfly.sbs.eni.reports.services.ReportService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,6 +40,31 @@ public class ReportController {
     } catch(Exception ex) {
       throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
     }
+  }
+
+  @ApiOperation(value = "ENI Online Dashbaord Reports Data", authorizations = { @Authorization(value="Authorization") })
+  @GetMapping(path = "/fetchReport/standardBrochures", produces = "application/json")
+  public Map<String, List<Object>> fetchStandardBrochuresReport() {
+    Map<String, List<Object>> standardBrochuresReport = new HashMap<String, List<Object>>();
+    try {
+      List<String> queries = reportService.getQueriesForReport(ReportNames.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_MONTH_REPORT.getName());
+      List<Object> reportResult = reportService.getAllActiveProducts(queries, ReportNames.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_MONTH_REPORT.getRepository());
+      standardBrochuresReport.put("BY_MONTH", reportResult);
+
+      queries = reportService.getQueriesForReport(ReportNames.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_SEGMENT_REPORT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ReportNames.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_SEGMENT_REPORT.getRepository());
+      standardBrochuresReport.put("BY_SEGMENT", reportResult);
+
+      queries = reportService.getQueriesForReport(ReportNames.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_PRODUCT_REPORT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ReportNames.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_PRODUCT_REPORT.getRepository());
+      standardBrochuresReport.put("BY_PRODUCT", reportResult);
+
+    } catch(RecordsNotFoundException ex) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+    } catch(Exception ex) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+    }
+    return standardBrochuresReport;
   }
 
 }
