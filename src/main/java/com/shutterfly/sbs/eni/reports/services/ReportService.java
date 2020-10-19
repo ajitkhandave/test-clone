@@ -6,7 +6,9 @@ import com.shutterfly.sbs.eni.reports.exception.RecordsNotFoundException;
 import com.shutterfly.sbs.eni.reports.repositories.ExtendedRepository;
 import com.shutterfly.sbs.eni.reports.repositories.ReportQueryDetailsRepo;
 import com.shutterfly.sbs.eni.reports.repositories.model.ReportsDetails;
+
 import java.util.List;
+
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -49,7 +51,8 @@ public class ReportService {
   public List<Object> getAllActiveProducts(List<String> queries, String sourceRepository) throws RecordsNotFoundException {
     if (!CollectionUtils.isEmpty(queries) && queries.size() == 1) {
       ExtendedRepository extendedRepository = repositoryFactory.getRepository(sourceRepository);
-      List<Object> reportResult = extendedRepository.findWithQuery(queries.get(0), null);
+      List<Object> reportResult = null;
+      reportResult = extendedRepository.findWithQuery(queries.get(0), null);
       if(!CollectionUtils.isEmpty(reportResult)) {
         return reportResult;
       } else {
