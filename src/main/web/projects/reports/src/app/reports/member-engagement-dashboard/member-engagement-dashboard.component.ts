@@ -8,18 +8,18 @@ import { ReportService } from '../../services/report.service';
 import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
 
 @Component({
-  selector: 'app-all-savers-report',
-  templateUrl: './all-savers-report.component.html',
-  styleUrls: ['./all-savers-report.component.scss']
+  selector: 'app-member-engagement-dashboard',
+  templateUrl: './member-engagement-dashboard.component.html',
+  styleUrls: ['./member-engagement-dashboard.component.scss']
 })
-export class AllSaversReportComponent implements OnInit, AfterViewInit {
+export class MemberEngagementDashboardComponent implements OnInit, AfterViewInit {
 
   columns: any[];
   sorts: any[];
 
   tableConfig: TableConfig = {
     filters: new Subject<boolean>(),
-    api: () => this.reportService.fetchAllSaversReport(),
+    api: () => this.reportService.fetchMemberEngagementReport(),
     query: (row) => this.applyQuery(row)
   };
 
@@ -99,5 +99,4 @@ export class AllSaversReportComponent implements OnInit, AfterViewInit {
     }
     return isInRange && isSku;
   }
-
 }

@@ -8,10 +8,30 @@
       <li class="nav-item" ngbDropdown>
         <a class="nav-link" [ngClass]="{'active': isReportTypeActive}" ngbDropdownToggle>Reports</a>
         <div ngbDropdownMenu *ngIf="reportTypes?.length">
-          <a *ngFor="let type of reportTypes;" ngbDropdownItem [routerLink]="['/reports/type', type.id]"
-            class="user-logout" [disabled]="type.disabled" [ngClass]="{'active': isReportActive(type.id)}">
-            {{type.name}}
-          </a>
+          <span *ngFor="let type of reportTypes">
+            <a *ngIf="!type?.submenu?.length" ngbDropdownItem [routerLink]="['/reports/type', type.id]"
+              class="user-logout" [disabled]="type.disabled"
+              [ngClass]="{'active': isReportActive(type.id)}"
+            >
+              {{type.name}}
+            </a>
+            <span *ngIf="type?.submenu?.length">
+              <a class="user-logout"
+                ngbDropdownItem
+                [disabled]="type.disabled"
+                [ngClass]="{'active': isReportActive(type.id) || activePopover === type?.id}"
+                [ngbPopover]="popMenu"
+                [autoClose]="'outside'"
+                placement="right"
+                popoverClass="submenu-nav"
+                #p="ngbPopover"
+                [closeDelay]="1000"
+                (mouseenter)="popoverOpened(p, type)"
+              >
+                {{type.name}}
+              </a>
+            </span>
+          </span>
         </div>
       </li>
       <li class="nav-item">
@@ -21,3 +41,16 @@
   </div>
 </nav>
 <div class="storefront-header-blue-bar"></div>
+
+<ng-template #popMenu let-submenu="submenu">
+  <a
+    *ngFor="let menu of submenu"
+    class="user-logout"
+    ngbDropdownItem
+    [routerLink]="['/reports/type', menu.id]"
+    [disabled]="menu.disabled"
+    [ngClass]="{'active': isReportActive(menu.id)}"
+  >
+    {{menu.name}}
+  </a>
+</ng-template>

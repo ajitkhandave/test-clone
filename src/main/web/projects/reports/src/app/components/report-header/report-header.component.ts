@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, take } from 'rxjs/operators';
+import { ReportType } from '../../models/report-type';
 import { ReportService } from '../../services/report.service';
 
 @Component({
@@ -12,6 +13,9 @@ export class ReportHeaderComponent implements OnInit {
 
   reportTypes = [];
   isReportTypeActive: boolean = false;
+
+  activePopoverInstance;
+  activePopover: string;
 
   constructor(
     private router: Router,
@@ -41,4 +45,15 @@ export class ReportHeaderComponent implements OnInit {
   get errorUrl(): boolean {
     return !this.router.url.includes('error');
   }
+
+  popoverOpened(p, type: ReportType) {
+    this.activePopover = type.id;
+    if (this.activePopoverInstance) {
+      this.activePopoverInstance.close();
+      this.activePopoverInstance = null;
+    }
+    this.activePopoverInstance = p;
+    p.open({ submenu: type.submenu });
+  }
+
 }

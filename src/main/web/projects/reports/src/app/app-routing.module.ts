@@ -5,6 +5,7 @@ import { ErrorComponent } from './components/error/error.component';
 import { HomeComponent } from './components/home/home.component';
 import { TitleComponent } from './components/title/title.component';
 import { AllSaversReportComponent } from './reports/all-savers-report/all-savers-report.component';
+import { MemberEngagementDashboardComponent } from './reports/member-engagement-dashboard/member-engagement-dashboard.component';
 import { MonthlyVolumeReportComponent } from './reports/monthly-volume-report/monthly-volume-report.component';
 import { OrderStatusReportComponent } from './reports/order-status-report/order-status-report.component';
 import { PopActiveProductsComponent } from './reports/pop-active-products/pop-active-products.component';
@@ -41,6 +42,9 @@ const routes: Routes = [
         }, {
           path: 'status-alert-report',
           component: StatusAlertReportComponent
+        }, {
+          path: 'member-engagement-dashboard',
+          component: MemberEngagementDashboardComponent
         }
         ]
       },
