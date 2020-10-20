@@ -26,7 +26,9 @@ export class DataTableComponent implements OnInit, OnDestroy {
       width: 35,
       maxWidth: 35
     };
-    cols.splice(0, -1, select);
+    if (!cols.find(col => col.prop === select.prop)) {
+      cols.splice(0, -1, select);
+    }
     this._columns = cols;
   }
   @Input() tableConfig: TableConfig;

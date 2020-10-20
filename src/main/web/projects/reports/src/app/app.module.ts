@@ -22,6 +22,7 @@ import { MonthlyVolumeReportComponent } from './reports/monthly-volume-report/mo
 import { StatusAlertReportComponent } from './reports/status-alert-report/status-alert-report.component';
 import { CommonDatePipe } from './pipes/common-date.pipe';
 import { MemberEngagementDashboardComponent } from './reports/member-engagement-dashboard/member-engagement-dashboard.component';
+import { StandardBrochuresComponent } from './reports/standard-brochures/standard-brochures.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { MemberEngagementDashboardComponent } from './reports/member-engagement-
     MonthlyVolumeReportComponent,
     StatusAlertReportComponent,
     CommonDatePipe,
-    MemberEngagementDashboardComponent
+    MemberEngagementDashboardComponent,
+    StandardBrochuresComponent
   ],
   imports: [
     BrowserModule,

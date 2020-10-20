@@ -51,7 +51,16 @@ export class AppComponent implements OnInit {
       id: 'onboarding-dashboard',
       name: 'Onboarding Dashboard',
       reportImg: '/reports/assets/images/report3.png',
-      disabled: true
+      submenu: [{
+        id: 'wcbs',
+        name: 'WCBs',
+        reportImg: '/reports/assets/images/report1.png',
+        disabled: true
+      }, {
+        id: 'standard-brochures',
+        name: 'Standard Brochures',
+        reportImg: '/reports/assets/images/report2.png'
+      }]
     }, {
       id: 'oe-vp-data',
       name: 'OE VP Data Report',
@@ -76,7 +85,22 @@ export class AppComponent implements OnInit {
     this.router.events.pipe(
       filter(e => e instanceof NavigationEnd)
     ).subscribe((resp: NavigationEnd) => {
-      const activeReport = types.find(report => resp.urlAfterRedirects.includes(report.id));
+      let activeReport = null;
+      types.some(report => {
+        let reportFound = false;
+        if (resp.urlAfterRedirects.includes(report.id)) {
+          activeReport = report;
+          reportFound = true;
+        }
+        if (!reportFound && report.submenu && report.submenu.length) {
+          const innerReport = report.submenu.find(subReport => resp.urlAfterRedirects.includes(subReport.id));
+          if (innerReport) {
+            activeReport = innerReport;
+            reportFound = true;
+          }
+        }
+        return reportFound;
+      });
       this.service.activeReport = activeReport;
     });
   }
