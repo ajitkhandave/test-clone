@@ -38,18 +38,18 @@ export class MonthlyVolumeReportComponent implements OnInit, AfterViewInit {
       { prop: 'itemNumber', name: 'Item Number', sortable: true, draggable: false, resizeable: false },
       { prop: 'productName', name: 'Product Name', sortable: true, draggable: false, resizeable: false, minWidth: 250, width: 250 },
       { prop: 'itemRevisionNumber', name: 'Item Revision Number', sortable: true, draggable: false, resizeable: false },
-      { prop: 'jan', name: 'Jan', sortable: true, draggable: false, resizeable: false },
-      { prop: 'feb', name: 'Feb', sortable: true, draggable: false, resizeable: false },
+      { prop: 'jan', name: 'January', sortable: true, draggable: false, resizeable: false },
+      { prop: 'feb', name: 'February', sortable: true, draggable: false, resizeable: false },
       { prop: 'march', name: 'March', sortable: true, draggable: false, resizeable: false },
       { prop: 'april', name: 'April', sortable: true, draggable: false, resizeable: false },
       { prop: 'may', name: 'May', sortable: true, draggable: false, resizeable: false },
       { prop: 'jun', name: 'June', sortable: true, draggable: false, resizeable: false },
       { prop: 'july', name: 'July', sortable: true, draggable: false, resizeable: false },
-      { prop: 'aug', name: 'Aug', sortable: true, draggable: false, resizeable: false },
-      { prop: 'sept', name: 'Sept', sortable: true, draggable: false, resizeable: false },
-      { prop: 'oct', name: 'Oct', sortable: true, draggable: false, resizeable: false },
-      { prop: 'nov', name: 'Nov', sortable: true, draggable: false, resizeable: false },
-      { prop: 'dec', name: 'Dec', sortable: true, draggable: false, resizeable: false }
+      { prop: 'aug', name: 'August', sortable: true, draggable: false, resizeable: false },
+      { prop: 'sept', name: 'September', sortable: true, draggable: false, resizeable: false },
+      { prop: 'oct', name: 'October', sortable: true, draggable: false, resizeable: false },
+      { prop: 'nov', name: 'November', sortable: true, draggable: false, resizeable: false },
+      { prop: 'dec', name: 'December', sortable: true, draggable: false, resizeable: false }
     ];
 
     const currentYear = moment().year();
