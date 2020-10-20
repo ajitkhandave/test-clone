@@ -50,6 +50,15 @@ public class OrderDetails implements Serializable {
   @Column(name = "p3_order_id")
   private String p3OrderId;
 
+  @Column(name = "segment")
+  private String segment;
+
+  @Column(name = "Plans_And_Products")
+  private String plansAndProducts;
+
+  @Column(name = "number_of_employees")
+  private String numberOfEmployees;
+
   @Column(name = "mpt_approver")
   private String mptApprover;
 

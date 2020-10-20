@@ -48,11 +48,11 @@ public class ReportService {
    * @param sourceRepository, @param queries
    * @return List<Object> queries
    */
-  public List<Object> getAllActiveProducts(List<String> queries, String sourceRepository) throws RecordsNotFoundException {
+  public List<Object> getAllActiveProducts(List<String> queries, String sourceRepository, String startDate, String endDate) throws RecordsNotFoundException {
     if (!CollectionUtils.isEmpty(queries) && queries.size() == 1) {
       ExtendedRepository extendedRepository = repositoryFactory.getRepository(sourceRepository);
       List<Object> reportResult = null;
-      reportResult = extendedRepository.findWithQuery(queries.get(0), null);
+      reportResult = extendedRepository.findWithQuery(queries.get(0), startDate, endDate);
       if(!CollectionUtils.isEmpty(reportResult)) {
         return reportResult;
       } else {

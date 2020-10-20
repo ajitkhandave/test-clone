@@ -3,10 +3,7 @@ package com.shutterfly.sbs.eni.reports.repositories;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
@@ -25,11 +22,17 @@ public class ExtendedRepositoryImpl <T, ID extends Serializable>
   }
 
   @Transactional
-  public List<T> findWithQuery(String query, Object positionalParams[]) {
-
-    return entityManager.createNativeQuery(
-        query , getDomainClass())
-        .getResultList();
+  public List<T> findWithQuery(String query, String startDate, String endDate) {
+    if(StringUtils.isNotEmpty(startDate) && StringUtils.isNotEmpty(endDate)) {
+      return entityManager.createNativeQuery(
+          query, getDomainClass()).setParameter("startDate", startDate)
+          .setParameter("endDate", endDate)
+          .getResultList();
+    } else {
+      return entityManager.createNativeQuery(
+          query, getDomainClass())
+          .getResultList();
+    }
 
   }
 
