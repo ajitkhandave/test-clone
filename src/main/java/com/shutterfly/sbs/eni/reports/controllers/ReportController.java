@@ -3,6 +3,7 @@ package com.shutterfly.sbs.eni.reports.controllers;
 
 import com.shutterfly.sbs.eni.reports.exception.RecordsNotFoundException;
 import com.shutterfly.sbs.eni.reports.repositories.model.ReportNames;
+import com.shutterfly.sbs.eni.reports.repositories.model.StandardBrochuresEnum;
 import com.shutterfly.sbs.eni.reports.services.ReportService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
@@ -44,21 +45,21 @@ public class ReportController {
     }
   }
 
-  @ApiOperation(value = "ENI Online Dashbaord Reports Data", authorizations = { @Authorization(value="Authorization") })
+  @ApiOperation(value = "ENI Onboarding Dashbaord Reports Data", authorizations = { @Authorization(value="Authorization") })
   @GetMapping(path = "/fetchReport/standardBrochures", produces = "application/json")
   public Map<String, List<Object>> fetchStandardBrochuresReport() {
     Map<String, List<Object>> standardBrochuresReport = new HashMap<String, List<Object>>();
     try {
-      List<String> queries = reportService.getQueriesForReport(ReportNames.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_MONTH_REPORT.getName());
-      List<Object> reportResult = reportService.getAllActiveProducts(queries, ReportNames.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_MONTH_REPORT.getRepository());
+      List<String> queries = reportService.getQueriesForReport(StandardBrochuresEnum.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_MONTH_REPORT.getName());
+      List<Object> reportResult = reportService.getAllActiveProducts(queries, StandardBrochuresEnum.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_MONTH_REPORT.getRepository());
       standardBrochuresReport.put("BY_MONTH", reportResult);
 
-      queries = reportService.getQueriesForReport(ReportNames.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_SEGMENT_REPORT.getName());
-      reportResult = reportService.getAllActiveProducts(queries, ReportNames.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_SEGMENT_REPORT.getRepository());
+      queries = reportService.getQueriesForReport(StandardBrochuresEnum.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_SEGMENT_REPORT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, StandardBrochuresEnum.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_SEGMENT_REPORT.getRepository());
       standardBrochuresReport.put("BY_SEGMENT", reportResult);
 
-      queries = reportService.getQueriesForReport(ReportNames.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_PRODUCT_REPORT.getName());
-      reportResult = reportService.getAllActiveProducts(queries, ReportNames.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_PRODUCT_REPORT.getRepository());
+      queries = reportService.getQueriesForReport(StandardBrochuresEnum.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_PRODUCT_REPORT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, StandardBrochuresEnum.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_PRODUCT_REPORT.getRepository());
       standardBrochuresReport.put("BY_PRODUCT", reportResult);
 
     } catch(RecordsNotFoundException ex) {
