@@ -9,6 +9,7 @@ import { MemberEngagementDashboardComponent } from './reports/member-engagement-
 import { MonthlyVolumeReportComponent } from './reports/monthly-volume-report/monthly-volume-report.component';
 import { OrderStatusReportComponent } from './reports/order-status-report/order-status-report.component';
 import { PopActiveProductsComponent } from './reports/pop-active-products/pop-active-products.component';
+import { StandardBrochuresComponent } from './reports/standard-brochures/standard-brochures.component';
 import { StatusAlertReportComponent } from './reports/status-alert-report/status-alert-report.component';
 
 const routes: Routes = [
@@ -45,6 +46,9 @@ const routes: Routes = [
         }, {
           path: 'member-engagement-dashboard',
           component: MemberEngagementDashboardComponent
+        }, {
+          path: 'standard-brochures',
+          component: StandardBrochuresComponent
         }
         ]
       },

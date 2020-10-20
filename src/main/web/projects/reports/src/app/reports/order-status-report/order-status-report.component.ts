@@ -45,10 +45,11 @@ export class OrderStatusReportComponent implements OnInit {
       {
         prop: 'needByDate',
         name: 'Need By Date',
-        sortable: false,
+        sortable: true,
         draggable: false,
         resizeable: false,
-        pipe: this.datePipe
+        pipe: this.datePipe,
+        comparator: this.datePipe.sort.bind(this)
       },
       {
         prop: 'status',
