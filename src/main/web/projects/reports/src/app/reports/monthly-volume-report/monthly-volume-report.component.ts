@@ -36,7 +36,7 @@ export class MonthlyVolumeReportComponent implements OnInit, AfterViewInit {
     this.sorts = [];
     this.columns = [
       { prop: 'itemNumber', name: 'Item Number', sortable: true, draggable: false, resizeable: false },
-      { prop: 'productName', name: 'Product Name', sortable: true, draggable: false, resizeable: false },
+      { prop: 'productName', name: 'Product Name', sortable: true, draggable: false, resizeable: false, minWidth: 250, width: 250 },
       { prop: 'itemRevisionNumber', name: 'Item Revision Number', sortable: true, draggable: false, resizeable: false },
       { prop: 'jan', name: 'Jan', sortable: true, draggable: false, resizeable: false },
       { prop: 'feb', name: 'Feb', sortable: true, draggable: false, resizeable: false },
@@ -59,7 +59,7 @@ export class MonthlyVolumeReportComponent implements OnInit, AfterViewInit {
       selectYear: new FormControl(currentYear)
     }, { validators: FilterSelectedValidator });
 
-    this.years = new Array(4).fill(0).map((val, index) => String(currentYear - index));
+    this.years = new Array(5).fill(0).map((val, index) => String(currentYear - index));
   }
 
   ngAfterViewInit() {
@@ -131,7 +131,7 @@ export class MonthlyVolumeReportComponent implements OnInit, AfterViewInit {
     const { productName, itemRevisionNumber, monthlyVolumeIdentity } = order;
     const getQtyForMonth = (month) => {
       const data = dataForYear.find(item => item.orderMonth == month);
-      if (data) { return data.orderedQty; }
+      if (data) { return Number(data.orderedQty); }
       return 0;
     };
     return {

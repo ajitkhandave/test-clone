@@ -49,9 +49,12 @@
       }
       .datatable-header-cell,
       .datatable-body-cell {
-        padding: 0 10px 0px;
-        overflow: hidden;
-        word-break: break-word;
+        .datatable-body-cell-label {
+          padding: 0 10px 0px;
+          overflow: hidden;
+          word-break: break-all;
+          word-break: break-word;
+        }
       }
       .datatable-row-center {
         padding-left: 10px;
