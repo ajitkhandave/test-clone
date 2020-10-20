@@ -9,5 +9,5 @@ import org.springframework.data.repository.NoRepositoryBean;
 public interface ExtendedRepository<T, ID extends Serializable>
     extends JpaRepository<T, ID> {
 
-  public List<T> findWithQuery(String query, Object positionalParams[]);
+  public List<T> findWithQuery(String query, String startDate, String endDate);
 }

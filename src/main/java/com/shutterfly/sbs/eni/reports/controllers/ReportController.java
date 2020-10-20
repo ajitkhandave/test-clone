@@ -10,10 +10,9 @@ import io.swagger.annotations.Authorization;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.lang.Nullable;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,10 +33,23 @@ public class ReportController {
 
   @ApiOperation(value = "ENI Reports Data", authorizations = { @Authorization(value="Authorization") })
   @GetMapping(path = "/fetchReport/{reportName}", produces = "application/json")
-  public List<Object> fetchReports(@PathVariable ReportNames reportName, @Nullable @RequestParam(value = "startDate", required = false) Optional<String> startDate, @Nullable @RequestParam(value = "endDate", required = false) Optional<String>  endDate ) {
+  public List<Object> fetchReports(@PathVariable ReportNames reportName) {
     try {
         List<String> queries = reportService.getQueriesForReport(reportName.getName());
-        return reportService.getAllActiveProducts(queries, reportName.getRepository());
+        return reportService.getAllActiveProducts(queries, reportName.getRepository(), null, null);
+    } catch(RecordsNotFoundException ex) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+    } catch(Exception ex) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+    }
+  }
+
+  @ApiOperation(value = "ENI Order Details Reports Data", authorizations = { @Authorization(value="Authorization") })
+  @GetMapping(path = "/fetchReport/orderDetails", produces = "application/json")
+  public List<Object> fetchReports(@RequestParam(value = "startDate", required = false) String startDate, @RequestParam(value = "endDate", required = false) String  endDate ) {
+    try {
+      List<String> queries = reportService.getQueriesForReport(StandardBrochuresEnum.ORDER_DETAILS_REPORT.getName());
+      return reportService.getAllActiveProducts(queries, StandardBrochuresEnum.ORDER_DETAILS_REPORT.getRepository(), startDate, endDate);
     } catch(RecordsNotFoundException ex) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
     } catch(Exception ex) {
@@ -51,15 +63,15 @@ public class ReportController {
     Map<String, List<Object>> standardBrochuresReport = new HashMap<String, List<Object>>();
     try {
       List<String> queries = reportService.getQueriesForReport(StandardBrochuresEnum.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_MONTH_REPORT.getName());
-      List<Object> reportResult = reportService.getAllActiveProducts(queries, StandardBrochuresEnum.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_MONTH_REPORT.getRepository());
+      List<Object> reportResult = reportService.getAllActiveProducts(queries, StandardBrochuresEnum.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_MONTH_REPORT.getRepository(), null, null);
       standardBrochuresReport.put("BY_MONTH", reportResult);
 
       queries = reportService.getQueriesForReport(StandardBrochuresEnum.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_SEGMENT_REPORT.getName());
-      reportResult = reportService.getAllActiveProducts(queries, StandardBrochuresEnum.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_SEGMENT_REPORT.getRepository());
+      reportResult = reportService.getAllActiveProducts(queries, StandardBrochuresEnum.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_SEGMENT_REPORT.getRepository(), null, null);
       standardBrochuresReport.put("BY_SEGMENT", reportResult);
 
       queries = reportService.getQueriesForReport(StandardBrochuresEnum.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_PRODUCT_REPORT.getName());
-      reportResult = reportService.getAllActiveProducts(queries, StandardBrochuresEnum.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_PRODUCT_REPORT.getRepository());
+      reportResult = reportService.getAllActiveProducts(queries, StandardBrochuresEnum.ONLINE_DASHBOARD_STANDARD_BROCHURES_BY_PRODUCT_REPORT.getRepository(), null, null);
       standardBrochuresReport.put("BY_PRODUCT", reportResult);
 
     } catch(RecordsNotFoundException ex) {
