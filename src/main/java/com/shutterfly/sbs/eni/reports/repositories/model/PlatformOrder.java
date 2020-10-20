@@ -42,7 +42,8 @@ public class PlatformOrder implements Serializable {
   @Column(name="last_modified_date")
   private String modifiedDate;
 
-  @Column(name="Customer_Name")
+  @Column(name="customer_name")
+  @Transient
   private String customerName;
 
   @Column(name="Print_Vendor")
