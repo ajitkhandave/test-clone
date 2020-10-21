@@ -24,9 +24,13 @@ import lombok.NoArgsConstructor;
 public class StandardBrochuresProduct implements Serializable  {
 
   @Column(name = "orders_count")
-  private String ordersPerSku;
+  private String totalOrders;
 
   @EmbeddedId
   private StandardBrochuresIdentity standardBrochuresIdentity;
+
+  @Column(name = "total_quantity")
+  private String total_quantity;
+
 
 }

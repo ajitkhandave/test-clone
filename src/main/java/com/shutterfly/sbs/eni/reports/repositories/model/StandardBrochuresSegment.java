@@ -2,6 +2,7 @@ package com.shutterfly.sbs.eni.reports.repositories.model;
 
 import java.io.Serializable;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -23,10 +24,13 @@ import lombok.NoArgsConstructor;
 public class StandardBrochuresSegment implements Serializable  {
 
   @Column(name = "orders_count")
-  private String ordersPerSku;
+  private String totalOrders;
 
-  @Id
-  @Column(name = "p3Segment")
-  private String p3Segment;
+  @EmbeddedId
+  private StandardBrochuresSegmentIdentity segmentIdentity;
+
+  @Column(name = "total_quantity")
+  private String total_quantity;
+
 
 }
