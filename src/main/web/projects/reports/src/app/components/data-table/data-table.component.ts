@@ -99,8 +99,12 @@ export class DataTableComponent implements OnInit, OnDestroy {
         const filterdCols = this._columns.filter(col => col.prop !== 'selected');
         const cols = filterdCols.map(col => col.name);
         sheet1.push(cols);
-        this.rows.forEach(row => {
-          const data = filterdCols.map(col => row[col.prop]);
+        let rows = this.rows;
+        if (this.selected && this.selected.length) {
+          rows = this.selected;
+        }
+        rows.forEach(row => {
+          const data = filterdCols.map(col => col.$$valueGetter(row, col.prop));
           sheet1.push(data);
         });
         /* generate worksheet */

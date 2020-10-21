@@ -5,13 +5,13 @@
         <a class="nav-link" routerLink="/reports" routerLinkActive="active"
           [routerLinkActiveOptions]="{exact: true}">Home</a>
       </li>
-      <li class="nav-item" ngbDropdown>
+      <li class="nav-item" ngbDropdown #NavDropdown>
         <a class="nav-link" [ngClass]="{'active': isReportTypeActive}" ngbDropdownToggle>Reports</a>
         <div ngbDropdownMenu *ngIf="reportTypes?.length">
           <span *ngFor="let type of reportTypes">
             <a *ngIf="!type?.submenu?.length" ngbDropdownItem [routerLink]="['/reports/type', type.id]"
               class="user-logout" [disabled]="type.disabled"
-              [ngClass]="{'active': isReportActive(type.id)}"
+              [ngClass]="{'active': isReportActive(type)}"
             >
               {{type.name}}
             </a>
@@ -19,7 +19,7 @@
               <a class="user-logout"
                 ngbDropdownItem
                 [disabled]="type.disabled"
-                [ngClass]="{'active': isReportActive(type.id) || activePopover === type?.id}"
+                [ngClass]="{'active': isReportActive(type) || activePopover === type?.id}"
                 [ngbPopover]="popMenu"
                 [autoClose]="'outside'"
                 placement="right"
@@ -49,7 +49,7 @@
     ngbDropdownItem
     [routerLink]="['/reports/type', menu.id]"
     [disabled]="menu.disabled"
-    [ngClass]="{'active': isReportActive(menu.id)}"
+    [ngClass]="{'active': isReportActive(menu)}"
   >
     {{menu.name}}
   </a>
