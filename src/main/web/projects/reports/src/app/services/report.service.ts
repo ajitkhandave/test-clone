@@ -36,8 +36,10 @@ export class ReportService {
     return of(this.reportTypes);
   }
 
-  verifyConnection():Observable<any>{
-    return this.http.get<any>(this.constant.get('customer-web-endpoint') + '/eni/validConnection')
+  verifyConnection(): Observable<any> {
+    return this.http.get(this.constant.get('customer-web-endpoint') + '/eni/validConnection', {
+      responseType: 'text'
+    });
   }
 
   getReport(reportId: string): ReportType {

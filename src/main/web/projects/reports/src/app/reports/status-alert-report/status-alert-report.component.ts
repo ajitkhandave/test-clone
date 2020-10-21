@@ -31,7 +31,7 @@ export class StatusAlertReportComponent implements OnInit {
 
   ngOnInit() {
     this.columns = [
-      { prop: 'sbsOrderId', name: 'SBS Order ID', sortable: false, draggable: false, resizeable: false },
+      { prop: 'sbsOrderId', name: 'SBS Order ID', sortable: false, draggable: false, resizeable: false, width: 230, minWidth: 230 },
       { prop: 'clientOrderId', name: 'Client Order ID', sortable: false, draggable: false, resizeable: false },
       { prop: 'customerProductId', name: 'Customer Product ID', sortable: false, draggable: false, resizeable: false },
       { prop: 'customerName', name: 'Customer Name', sortable: false, draggable: false, resizeable: false },
@@ -108,7 +108,7 @@ export class StatusAlertReportComponent implements OnInit {
     const { status, clientOrderId, customerProductId } = this.filterForm.value;
 
     if (status) {
-      isStatus = row.status.includes(status);
+      isStatus = row.status === status;
     }
 
     if (clientOrderId) {
