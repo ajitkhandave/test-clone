@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 public class StandardBrochuresMonth implements Serializable {
 
   @Column(name = "orders_count")
-  private String ordersPerSku;
+  private String totalOrders;
 
   @Id
   @Column(name = "yearmonth")
@@ -37,5 +37,7 @@ public class StandardBrochuresMonth implements Serializable {
   @Column(name = "order_year")
   private String order_year;
 
+  @Column(name = "total_quantity")
+  private String total_quantity;
 
 }
