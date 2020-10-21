@@ -10,6 +10,7 @@
         .datatable-header-cell .datatable-header-cell-wrapper {
           font-size: 12px;
           line-height: 40px;
+          font-weight: bold;
         }
         .datatable-icon-up:before{
           content: '';
@@ -49,6 +50,7 @@
       }
       .datatable-header-cell,
       .datatable-body-cell {
+        padding-right: 10px;
         .datatable-body-cell-label {
           overflow: hidden;
           word-break: break-all;

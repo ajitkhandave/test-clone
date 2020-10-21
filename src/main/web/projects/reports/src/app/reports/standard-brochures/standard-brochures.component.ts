@@ -25,8 +25,8 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
     query: (row) => this.applyQuery(row)
   };
 
-  readonly PrintedColumn = { prop: 'quantity', name: 'No of Printed', sortable: true, draggable: false, resizeable: false, width: 340, minWidth: 340 };
-  readonly OrderColumn = { prop: 'ordersPerSku', name: 'No of Orders', sortable: true, draggable: false, resizeable: false, width: 340, minWidth: 340 };
+  readonly PrintedColumn = { prop: 'total_quantity', name: 'No of Printed', sortable: true, draggable: false, resizeable: false, width: 340, minWidth: 340 };
+  readonly OrderColumn = { prop: 'totalOrders', name: 'No of Orders', sortable: true, draggable: false, resizeable: false, width: 340, minWidth: 340 };
   filterForm: FormGroup;
 
   years: string[] = [];
@@ -38,8 +38,8 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.columns = [
-      { prop: 'product', name: 'Product Name', sortable: true, draggable: false, resizeable: false },
-      { prop: 'orderYear', name: 'Year of order Date', sortable: true, draggable: false, resizeable: false },
+      { prop: 'standardBrochuresIdentity.product', name: 'Product Name', sortable: true, draggable: false, resizeable: false },
+      { prop: 'standardBrochuresIdentity.order_year', name: 'Year of order Date', sortable: true, draggable: false, resizeable: false },
       { ...this.OrderColumn }
     ];
 
@@ -105,21 +105,17 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
     let isYear = true;
     const { product, selectYear } = this.filterForm.value;
     if (product) {
-      isProduct = row.product.toLowerCase().includes(product.toLowerCase());
+      isProduct = row.standardBrochuresIdentity.product.toLowerCase().includes(product.toLowerCase());
     }
 
     if (selectYear) {
-      isYear = row.orderYear == selectYear;
+      isYear = row.standardBrochuresIdentity.order_year == selectYear;
     }
     return isProduct && isYear;
   }
 
   generateData(resp) {
-    const rows = resp.BY_PRODUCT.map(row => {
-      row.orderYear = moment(row.orderDate).format('yyyy');
-      return row;
-    });
-    return rows;
+    return resp.BY_PRODUCT;
   }
 
 }
