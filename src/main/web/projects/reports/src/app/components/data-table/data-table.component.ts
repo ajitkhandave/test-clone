@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DatatableComponent, SelectionType, TableColumn } from '@swimlane/ngx-datatable';
 import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Sort } from '../../models/sort';
 import { TableConfig } from '../../models/table-config';
 import { ReportService } from '../../services/report.service';
@@ -62,7 +62,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
       if (this.tableConfig.api) {
         this.tableConfig.api().pipe(
-          take(1),
+          takeUntil(this.unsub$)
         ).subscribe(resp => {
           this.masterOrders = resp;
           this.applyFilters();
@@ -89,6 +89,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
    */
   resetHeaderPosition(): void {
     const headerComponent = this.tableCmp.headerComponent;
+    if (!headerComponent) { return; }
+
     const actualWidth = headerComponent._columnGroupWidths.center;
     const innerWidth = headerComponent.innerWidth;
 

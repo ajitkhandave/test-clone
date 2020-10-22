@@ -7,6 +7,8 @@ import { TitleComponent } from './components/title/title.component';
 import { AllSaversReportComponent } from './reports/all-savers-report/all-savers-report.component';
 import { MemberEngagementDashboardComponent } from './reports/member-engagement-dashboard/member-engagement-dashboard.component';
 import { MonthlyVolumeReportComponent } from './reports/monthly-volume-report/monthly-volume-report.component';
+import { OrderDetailsLineItemLevelComponent } from './reports/order-details-line-item-level/order-details-line-item-level.component';
+import { OrderDetailsOrderLevelComponent } from './reports/order-details-order-level/order-details-order-level.component';
 import { OrderStatusReportComponent } from './reports/order-status-report/order-status-report.component';
 import { PopActiveProductsComponent } from './reports/pop-active-products/pop-active-products.component';
 import { StandardBrochuresComponent } from './reports/standard-brochures/standard-brochures.component';
@@ -49,6 +51,12 @@ const routes: Routes = [
         }, {
           path: 'standard-brochures',
           component: StandardBrochuresComponent
+        }, {
+          path: 'line-item-level-report',
+          component: OrderDetailsLineItemLevelComponent
+        }, {
+          path: 'order-level-report',
+          component: OrderDetailsOrderLevelComponent
         }
         ]
       },

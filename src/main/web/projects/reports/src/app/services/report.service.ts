@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import { ReportType } from '../models/report-type';
@@ -83,6 +83,14 @@ export class ReportService {
   fetchStandardBrochure(): Observable<any> {
     const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/standardBrochures';
     return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
+  }
+
+  fetchOrderDetails(startDate: string, endDate: string): Observable<any> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/orderDetails';
+    const params = new HttpParams().set('startDate', startDate).set('endDate', endDate);
+    return this.http.get(url, {
+      params
+    }).pipe(catchError(this.handleError.bind(this)));
   }
 
   handleError(err?): Observable<any> {
