@@ -3,7 +3,7 @@ package com.shutterfly.sbs.eni.reports.controllers;
 
 import com.shutterfly.sbs.eni.reports.exception.RecordsNotFoundException;
 import com.shutterfly.sbs.eni.reports.repositories.model.ReportNames;
-import com.shutterfly.sbs.eni.reports.repositories.model.ENIReportsCategory1Enum;
+import com.shutterfly.sbs.eni.reports.repositories.model.ENIReportsCategoryEnum;
 import com.shutterfly.sbs.eni.reports.repositories.model.ShipmentOrders;
 import com.shutterfly.sbs.eni.reports.services.ReportService;
 import io.swagger.annotations.ApiOperation;
@@ -50,11 +50,11 @@ public class ReportController {
   public List<ShipmentOrders> fetchShipmentOrdersReports() {
     List<ShipmentOrders> shipmentOrdersReportList = null;
     try {
-      List<String> queries = reportService.getQueriesForReport(ENIReportsCategory1Enum.SHIPMENT_ORDERS_REPORT.getName());
-      List<Object> shipmentOrders = reportService.getAllActiveProducts(queries, ENIReportsCategory1Enum.SHIPMENT_ORDERS_REPORT.getRepository(), null, null);
+      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.SHIPMENT_ORDERS_REPORT.getName());
+      List<Object> shipmentOrders = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.SHIPMENT_ORDERS_REPORT.getRepository(), null, null);
 
-      List<String> addressQuery = reportService.getQueriesForReport(ENIReportsCategory1Enum.SHIPMENT_ADDRESS_REPORT.getName());
-      List<Object> shipmentAddresses = reportService.getAllActiveProducts(addressQuery, ENIReportsCategory1Enum.SHIPMENT_ADDRESS_REPORT.getRepository(), null, null);
+      List<String> addressQuery = reportService.getQueriesForReport(ENIReportsCategoryEnum.SHIPMENT_ADDRESS_REPORT.getName());
+      List<Object> shipmentAddresses = reportService.getAllActiveProducts(addressQuery, ENIReportsCategoryEnum.SHIPMENT_ADDRESS_REPORT.getRepository(), null, null);
 
       shipmentOrdersReportList = reportService.mergeAddressesIntoShipmentOrders(shipmentOrders, shipmentAddresses);
 
@@ -70,8 +70,8 @@ public class ReportController {
   @GetMapping(path = "/fetchReport/orderDetails", produces = "application/json")
   public List<Object> fetchReports(@RequestParam(value = "startDate", required = false) String startDate, @RequestParam(value = "endDate", required = false) String  endDate ) {
     try {
-      List<String> queries = reportService.getQueriesForReport(ENIReportsCategory1Enum.ORDER_DETAILS_REPORT.getName());
-      return reportService.getAllActiveProducts(queries, ENIReportsCategory1Enum.ORDER_DETAILS_REPORT.getRepository(), startDate, endDate);
+      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.ORDER_DETAILS_REPORT.getName());
+      return reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.ORDER_DETAILS_REPORT.getRepository(), startDate, endDate);
     } catch(RecordsNotFoundException ex) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
     } catch(Exception ex) {
@@ -84,16 +84,16 @@ public class ReportController {
   public Map<String, List<Object>> fetchStandardBrochuresReport() {
     Map<String, List<Object>> standardBrochuresReport = new HashMap<String, List<Object>>();
     try {
-      List<String> queries = reportService.getQueriesForReport(ENIReportsCategory1Enum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_MONTH_REPORT.getName());
-      List<Object> reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategory1Enum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_MONTH_REPORT.getRepository(), null, null);
+      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_MONTH_REPORT.getName());
+      List<Object> reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_MONTH_REPORT.getRepository(), null, null);
       standardBrochuresReport.put("BY_MONTH", reportResult);
 
-      queries = reportService.getQueriesForReport(ENIReportsCategory1Enum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_SEGMENT_REPORT.getName());
-      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategory1Enum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_SEGMENT_REPORT.getRepository(), null, null);
+      queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_SEGMENT_REPORT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_SEGMENT_REPORT.getRepository(), null, null);
       standardBrochuresReport.put("BY_SEGMENT", reportResult);
 
-      queries = reportService.getQueriesForReport(ENIReportsCategory1Enum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_PRODUCT_REPORT.getName());
-      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategory1Enum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_PRODUCT_REPORT.getRepository(), null, null);
+      queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_PRODUCT_REPORT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_PRODUCT_REPORT.getRepository(), null, null);
       standardBrochuresReport.put("BY_PRODUCT", reportResult);
 
     } catch(RecordsNotFoundException ex) {
@@ -109,16 +109,16 @@ public class ReportController {
   public Map<String, List<Object>> fetchAllSaversReport() {
     Map<String, List<Object>> standardBrochuresReport = new HashMap<String, List<Object>>();
     try {
-      List<String> queries = reportService.getQueriesForReport(ENIReportsCategory1Enum.ALL_SAVERS_REPORTS_BY_MONTH.getName());
-      List<Object> reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategory1Enum.ALL_SAVERS_REPORTS_BY_MONTH.getRepository(), null, null);
+      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.ALL_SAVERS_REPORTS_BY_MONTH.getName());
+      List<Object> reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.ALL_SAVERS_REPORTS_BY_MONTH.getRepository(), null, null);
       standardBrochuresReport.put("BY_MONTH", reportResult);
 
-      queries = reportService.getQueriesForReport(ENIReportsCategory1Enum.ALL_SAVERS_REPORTS_BY_SEGMENT.getName());
-      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategory1Enum.ALL_SAVERS_REPORTS_BY_SEGMENT.getRepository(), null, null);
+      queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.ALL_SAVERS_REPORTS_BY_SEGMENT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.ALL_SAVERS_REPORTS_BY_SEGMENT.getRepository(), null, null);
       standardBrochuresReport.put("BY_SEGMENT", reportResult);
 
-      queries = reportService.getQueriesForReport(ENIReportsCategory1Enum.ALL_SAVERS_REPORTS_BY_SKU.getName());
-      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategory1Enum.ALL_SAVERS_REPORTS_BY_SKU.getRepository(), null, null);
+      queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.ALL_SAVERS_REPORTS_BY_SKU.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.ALL_SAVERS_REPORTS_BY_SKU.getRepository(), null, null);
       standardBrochuresReport.put("BY_SKU", reportResult);
 
     } catch(RecordsNotFoundException ex) {
