@@ -8,7 +8,9 @@ public enum ENIReportsCategory1Enum {
   ORDER_DETAILS_REPORT("ORDER DETAILS REPORT","orderDetailsRepo"),
   ALL_SAVERS_REPORTS_BY_MONTH("ALL SAVERS REPORT BY MONTH","standardBrochuresByMonthRepo"),
   ALL_SAVERS_REPORTS_BY_SEGMENT("ALL SAVERS REPORT BY SEGMENT","standardBrochuresBySegmentRepo"),
-  ALL_SAVERS_REPORTS_BY_SKU("ALL SAVERS REPORT","allSaversRepo");
+  ALL_SAVERS_REPORTS_BY_SKU("ALL SAVERS REPORT","allSaversRepo"),
+  SHIPMENT_ORDERS_REPORT("SHIPMENT BY ORDERS REPORT","shipmentOrdersRepo"),
+  SHIPMENT_ADDRESS_REPORT("SHIPMENT BY ORDERS ADDRESS REPORT","shipmentAddressRepo");
 
   String name;
   String repository;

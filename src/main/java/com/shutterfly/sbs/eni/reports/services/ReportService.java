@@ -7,6 +7,9 @@ import com.shutterfly.sbs.eni.reports.repositories.ExtendedRepository;
 import com.shutterfly.sbs.eni.reports.repositories.ReportQueryDetailsRepo;
 import com.shutterfly.sbs.eni.reports.repositories.model.ReportsDetails;
 
+import com.shutterfly.sbs.eni.reports.repositories.model.ShipmentOrderAddresses;
+import com.shutterfly.sbs.eni.reports.repositories.model.ShipmentOrders;
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Optional;
@@ -63,4 +66,28 @@ public class ReportService {
     }
   }
 
+  /**
+   * This method is used to merge addresses in shipment orders list
+   * @param shipmentAddresses, shipmentOrders
+   * @return List<Object> mergedList
+   */
+  public List<ShipmentOrders> mergeAddressesIntoShipmentOrders(List<Object> shipmentOrders, List<Object> shipmentAddresses) {
+    List<ShipmentOrders> shipmentOrdersList = shipmentOrders.stream()
+        .map(shipmentOrder -> (ShipmentOrders) shipmentOrder).collect(Collectors.toList());
+    List<ShipmentOrderAddresses> shipmentAddressesList = shipmentAddresses.stream()
+        .map(shipmentAddress -> (ShipmentOrderAddresses) shipmentAddress)
+        .collect(Collectors.toList());
+   // List<ShipmentOrderAddresses> ordersAddressList = new ArrayList<ShipmentOrderAddresses>();
+    shipmentOrdersList.forEach(shipmentOrder -> {
+      List<ShipmentOrderAddresses> ordersAddressList = new ArrayList<ShipmentOrderAddresses> ();
+      shipmentAddressesList.forEach((shipmentAddress) -> {
+        if (shipmentAddress.getIdentity().getClientOrderId()
+            .equalsIgnoreCase(shipmentOrder.getClientOrderId())) {
+          ordersAddressList.add(shipmentAddress);
+          shipmentOrder.setAddresses(ordersAddressList);
+        }
+      });
+    });
+    return shipmentOrdersList;
+  }
 }
