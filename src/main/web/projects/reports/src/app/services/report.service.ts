@@ -71,7 +71,7 @@ export class ReportService {
   }
 
   fetchAllSaversReport(): Observable<any> {
-    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/ALL_SAVERS_REPORT';
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/allSaversReports';
     return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
   }
 
