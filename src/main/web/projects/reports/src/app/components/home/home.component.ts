@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit {
         this.reportTypes$.next(report.submenu);
         return;
       }
+      this.title = null;
       this.fetchReportTypes();
     });
   }

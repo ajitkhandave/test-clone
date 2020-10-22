@@ -26,7 +26,9 @@ export class DataTableComponent implements OnInit, OnDestroy {
       width: 35,
       maxWidth: 35
     };
-    cols.splice(0, -1, select);
+    if (!cols.find(col => col.prop === select.prop)) {
+      cols.splice(0, -1, select);
+    }
     this._columns = cols;
   }
   @Input() tableConfig: TableConfig;
@@ -97,8 +99,12 @@ export class DataTableComponent implements OnInit, OnDestroy {
         const filterdCols = this._columns.filter(col => col.prop !== 'selected');
         const cols = filterdCols.map(col => col.name);
         sheet1.push(cols);
-        this.rows.forEach(row => {
-          const data = filterdCols.map(col => row[col.prop]);
+        let rows = this.rows;
+        if (this.selected && this.selected.length) {
+          rows = this.selected;
+        }
+        rows.forEach(row => {
+          const data = filterdCols.map(col => col.$$valueGetter(row, col.prop));
           sheet1.push(data);
         });
         /* generate worksheet */

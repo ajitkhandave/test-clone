@@ -33,7 +33,7 @@ export class OrderStatusReportComponent implements OnInit {
 
   ngOnInit() {
     this.columns = [
-      { prop: 'sbsOrderId', name: 'SBS Order ID', sortable: false, draggable: false, resizeable: false },
+      { prop: 'sbsOrderId', name: 'SBS Order ID', sortable: false, draggable: false, resizeable: false, width: 230, minWidth: 230 },
       { prop: 'clientOrderId', name: 'Client Order ID', sortable: false, draggable: false, resizeable: false },
       { prop: 'destinationId', name: 'Destination ID', sortable: true, draggable: false, resizeable: false },
       { prop: 'address1', name: 'Address 1', sortable: false, draggable: false, resizeable: false },
@@ -45,10 +45,11 @@ export class OrderStatusReportComponent implements OnInit {
       {
         prop: 'needByDate',
         name: 'Need By Date',
-        sortable: false,
+        sortable: true,
         draggable: false,
         resizeable: false,
-        pipe: this.datePipe
+        pipe: this.datePipe,
+        comparator: this.datePipe.sort.bind(this)
       },
       {
         prop: 'status',
@@ -111,7 +112,7 @@ export class OrderStatusReportComponent implements OnInit {
     }
 
     if (status) {
-      isStatus = row.status.includes(status);
+      isStatus = row.status == status;
     }
 
     if (selectADate && startDate && endDate) {

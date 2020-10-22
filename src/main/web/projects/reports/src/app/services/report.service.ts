@@ -36,8 +36,10 @@ export class ReportService {
     return of(this.reportTypes);
   }
 
-  verifyConnection():Observable<any>{
-    return this.http.get<any>(this.constant.get('customer-web-endpoint') + '/eni/validConnection')
+  verifyConnection(): Observable<any> {
+    return this.http.get(this.constant.get('customer-web-endpoint') + '/eni/validConnection', {
+      responseType: 'text'
+    });
   }
 
   getReport(reportId: string): ReportType {
@@ -75,6 +77,11 @@ export class ReportService {
 
   fetchMemberEngagementReport(): Observable<any> {
     const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/MEMBER_ENGAGEMENT_REPORT';
+    return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
+  }
+
+  fetchStandardBrochure(): Observable<any> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/standardBrochures';
     return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
   }
 

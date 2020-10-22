@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter, take } from 'rxjs/operators';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
+import { Subject } from 'rxjs';
+import { filter, take, takeUntil } from 'rxjs/operators';
 import { ReportType } from '../../models/report-type';
 import { ReportService } from '../../services/report.service';
 
@@ -9,13 +11,16 @@ import { ReportService } from '../../services/report.service';
   templateUrl: './report-header.component.html',
   styleUrls: ['./report-header.component.scss']
 })
-export class ReportHeaderComponent implements OnInit {
+export class ReportHeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   reportTypes = [];
   isReportTypeActive: boolean = false;
 
   activePopoverInstance;
   activePopover: string;
+
+  @ViewChild(NgbDropdown) navDropdown: NgbDropdown;
+  unsub$: Subject<void> = new Subject();
 
   constructor(
     private router: Router,
@@ -36,10 +41,30 @@ export class ReportHeaderComponent implements OnInit {
       .subscribe(resp => this.reportTypes = resp);
   }
 
-  isReportActive(id): boolean {
+  ngAfterViewInit() {
+    this.navDropdown.openChange
+      .pipe(takeUntil(this.unsub$))
+      .subscribe((status) => {
+        if (!status && this.activePopoverInstance) {
+          this.activePopoverInstance.close();
+          this.activePopoverInstance = null;
+          if (this.reportService.activeReport.id !== this.activePopover) {
+            this.activePopover = null;
+          }
+        }
+      });
+  }
+
+  isReportActive(currentReport): boolean {
     const report = this.reportService.activeReport;
     if (!report) { return false; }
-    return report.id === id;
+    if (report.id !== currentReport.id && currentReport.submenu && currentReport.submenu.length) {
+      const isReportExist = currentReport.submenu.some(r => r.id === report.id);
+      if (isReportExist) {
+        return true;
+      }
+    }
+    return report.id === currentReport.id;
   }
 
   get errorUrl(): boolean {
@@ -56,4 +81,8 @@ export class ReportHeaderComponent implements OnInit {
     p.open({ submenu: type.submenu });
   }
 
+  ngOnDestroy() {
+    this.unsub$.next();
+    this.unsub$.complete();
+  }
 }
