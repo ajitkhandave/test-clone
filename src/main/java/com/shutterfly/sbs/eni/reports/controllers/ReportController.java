@@ -4,6 +4,7 @@ package com.shutterfly.sbs.eni.reports.controllers;
 import com.shutterfly.sbs.eni.reports.exception.RecordsNotFoundException;
 import com.shutterfly.sbs.eni.reports.repositories.model.ReportNames;
 import com.shutterfly.sbs.eni.reports.repositories.model.ENIReportsCategory1Enum;
+import com.shutterfly.sbs.eni.reports.repositories.model.ShipmentOrders;
 import com.shutterfly.sbs.eni.reports.services.ReportService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
@@ -42,6 +43,27 @@ public class ReportController {
     } catch(Exception ex) {
       throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
     }
+  }
+
+  @ApiOperation(value = "ENI Shipment Orders Reports Data", authorizations = { @Authorization(value="Authorization") })
+  @GetMapping(path = "/fetchReport/shipmentOrders", produces = "application/json")
+  public List<ShipmentOrders> fetchShipmentOrdersReports() {
+    List<ShipmentOrders> shipmentOrdersReportList = null;
+    try {
+      List<String> queries = reportService.getQueriesForReport(ENIReportsCategory1Enum.SHIPMENT_ORDERS_REPORT.getName());
+      List<Object> shipmentOrders = reportService.getAllActiveProducts(queries, ENIReportsCategory1Enum.SHIPMENT_ORDERS_REPORT.getRepository(), null, null);
+
+      List<String> addressQuery = reportService.getQueriesForReport(ENIReportsCategory1Enum.SHIPMENT_ADDRESS_REPORT.getName());
+      List<Object> shipmentAddresses = reportService.getAllActiveProducts(addressQuery, ENIReportsCategory1Enum.SHIPMENT_ADDRESS_REPORT.getRepository(), null, null);
+
+      shipmentOrdersReportList = reportService.mergeAddressesIntoShipmentOrders(shipmentOrders, shipmentAddresses);
+
+    } catch(RecordsNotFoundException ex) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+    } catch(Exception ex) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+    }
+    return shipmentOrdersReportList;
   }
 
   @ApiOperation(value = "ENI Order Details Reports Data", authorizations = { @Authorization(value="Authorization") })
