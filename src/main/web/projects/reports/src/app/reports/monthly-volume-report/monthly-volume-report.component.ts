@@ -37,7 +37,7 @@ export class MonthlyVolumeReportComponent implements OnInit, AfterViewInit {
     this.columns = [
       { prop: 'itemNumber', name: 'Item Number', sortable: true, draggable: false, resizeable: false },
       { prop: 'productName', name: 'Product Name', sortable: true, draggable: false, resizeable: false, minWidth: 250, width: 250 },
-      { prop: 'itemRevisionNumber', name: 'Item Revision Number', sortable: true, draggable: false, resizeable: false },
+      { prop: 'itemRevisionNumber', name: 'Item Revision Number', sortable: false, draggable: false, resizeable: false },
       { prop: 'jan', name: 'January', sortable: true, draggable: false, resizeable: false, cellClass: 'text-right', headerClass: 'text-right' },
       { prop: 'feb', name: 'February', sortable: true, draggable: false, resizeable: false, cellClass: 'text-right', headerClass: 'text-right' },
       { prop: 'march', name: 'March', sortable: true, draggable: false, resizeable: false, cellClass: 'text-right', headerClass: 'text-right' },
