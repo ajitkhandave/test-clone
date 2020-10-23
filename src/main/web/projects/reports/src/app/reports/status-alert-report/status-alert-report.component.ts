@@ -76,7 +76,8 @@ export class StatusAlertReportComponent implements OnInit {
         draggable: false,
         resizeable: false,
         pipe: this.datePipe
-      }
+      },
+      { prop: 'printVendor', name: 'Print Vendor', sortable: false, draggable: false, resizeable: false }
     ];
 
     this.sorts = [];

@@ -45,7 +45,7 @@ export class OrderStatusReportComponent implements OnInit {
       {
         prop: 'needByDate',
         name: 'Need By Date',
-        sortable: true,
+        sortable: false,
         draggable: false,
         resizeable: false,
         pipe: this.datePipe,
