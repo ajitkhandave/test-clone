@@ -19,11 +19,11 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     const types: ReportType[] = [{
       id: 'all-savers-report',
-      name: 'All savers report',
+      name: 'All Savers Report',
       reportImg: '/reports/assets/images/Resources_Accent@2x.png'
     }, {
       id: 'status-alert-report',
-      name: 'Status Alert Report',
+      name: 'Status Alerts Report',
       reportImg: '/reports/assets/images/report2.png'
     }, {
       id: 'pop-active-products',
@@ -38,15 +38,15 @@ export class AppComponent implements OnInit {
       name: 'Order Details Report',
       reportImg: '/reports/assets/images/report1.png',
       submenu: [{
-        id: 'line-item-level',
+        id: 'line-item-level-report',
         name: 'Line Item Level',
-        reportImg: '/reports/assets/images/report3.png'
+        reportImg: '/reports/assets/images/report3.png',
+        disabled: true
       }, {
-        id: 'order-level',
+        id: 'order-level-report',
         name: 'Order Level',
         reportImg: '/reports/assets/images/report2.png'
-      }],
-      disabled: true
+      }]
     }, {
       id: 'onboarding-dashboard',
       name: 'Onboarding Dashboard',
@@ -63,16 +63,16 @@ export class AppComponent implements OnInit {
       }]
     }, {
       id: 'oe-vp-data',
-      name: 'OE VP Data Report',
+      name: 'Open Enrollment VP Data Report',
       reportImg: '/reports/assets/images/report2.png',
       disabled: true
     }, {
       id: 'monthly-volume-report',
-      name: 'ENI Monthly Volume Report',
+      name: 'Monthly Volume Report',
       reportImg: '/reports/assets/images/Resources_Accent@2x.png'
     }, {
       id: 'member-engagement-dashboard',
-      name: 'Member Engagement Report',
+      name: 'Member Engagement Dashboard',
       reportImg: '/reports/assets/images/Resources_Accent@2x.png'
     }, {
       id: 'invoicing-report',

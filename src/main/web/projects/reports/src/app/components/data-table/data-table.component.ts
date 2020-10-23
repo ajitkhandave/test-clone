@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DatatableComponent, SelectionType, TableColumn } from '@swimlane/ngx-datatable';
 import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Sort } from '../../models/sort';
 import { TableConfig } from '../../models/table-config';
 import { ReportService } from '../../services/report.service';
@@ -62,7 +62,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
       if (this.tableConfig.api) {
         this.tableConfig.api().pipe(
-          take(1),
+          takeUntil(this.unsub$)
         ).subscribe(resp => {
           this.masterOrders = resp;
           this.applyFilters();
@@ -79,7 +79,27 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
     this.totalCount = rows.length;
     this.rows = rows;
+    this.resetHeaderPosition();
     this.setPage$.next(1);
+  }
+
+  /**
+   * Method that will reset the header position to normal if horizontal scrollbar is applied.
+   * To handle the glitch of mismatch of data with column on empty rowset.
+   */
+  resetHeaderPosition(): void {
+    const headerComponent = this.tableCmp.headerComponent;
+    if (!headerComponent) { return; }
+
+    const actualWidth = headerComponent._columnGroupWidths.center;
+    const innerWidth = headerComponent.innerWidth;
+
+    // To fix the glitch reset the column to 0 offset.
+    if (innerWidth < actualWidth && !this.rows.length) {
+      // Bring up the scrollbar to original position.
+      const event = { offsetX: 0 };
+      this.tableCmp.bodyComponent.scroll.next(event);
+    }
   }
 
   onActivate(event) {

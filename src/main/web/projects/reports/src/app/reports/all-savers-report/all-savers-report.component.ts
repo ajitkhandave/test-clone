@@ -6,6 +6,7 @@ import { DateRange } from '../../models/date-range';
 import { TableConfig } from '../../models/table-config';
 import { ReportService } from '../../services/report.service';
 import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-all-savers-report',
@@ -19,7 +20,9 @@ export class AllSaversReportComponent implements OnInit, AfterViewInit {
 
   tableConfig: TableConfig = {
     filters: new Subject<boolean>(),
-    api: () => this.reportService.fetchAllSaversReport(),
+    api: () => this.reportService.fetchAllSaversReport().pipe(
+      map(this.filterMasterRows.bind(this))
+    ),
     query: (row) => this.applyQuery(row)
   };
 
@@ -98,6 +101,10 @@ export class AllSaversReportComponent implements OnInit, AfterViewInit {
       isSku = (row.sku || '').includes(sku.toLowerCase());
     }
     return isInRange && isSku;
+  }
+
+  filterMasterRows(resp) {
+    return resp.BY_SKU;
   }
 
 }

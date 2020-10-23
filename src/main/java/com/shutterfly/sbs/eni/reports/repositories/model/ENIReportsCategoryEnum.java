@@ -1,6 +1,6 @@
 package com.shutterfly.sbs.eni.reports.repositories.model;
 
-public enum ENIReportsCategory1Enum {
+public enum ENIReportsCategoryEnum {
 
   ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_MONTH_REPORT("ONBOARDING DASHBOARD STD BROCHURES BY MONTH REPORT","standardBrochuresByMonthRepo"),
   ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_SEGMENT_REPORT("ONBOARDING DASHBOARD STD BROCHURES BY SEGMENT REPORT","standardBrochuresBySegmentRepo"),
@@ -15,7 +15,7 @@ public enum ENIReportsCategory1Enum {
   String name;
   String repository;
 
-  ENIReportsCategory1Enum(String name, String repository) {
+  ENIReportsCategoryEnum(String name, String repository) {
     this.name=  name;
     this.repository = repository;
 

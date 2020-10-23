@@ -23,6 +23,8 @@ import { StatusAlertReportComponent } from './reports/status-alert-report/status
 import { CommonDatePipe } from './pipes/common-date.pipe';
 import { MemberEngagementDashboardComponent } from './reports/member-engagement-dashboard/member-engagement-dashboard.component';
 import { StandardBrochuresComponent } from './reports/standard-brochures/standard-brochures.component';
+import { OrderDetailsLineItemLevelComponent } from './reports/order-details-line-item-level/order-details-line-item-level.component';
+import { OrderDetailsOrderLevelComponent } from './reports/order-details-order-level/order-details-order-level.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,9 @@ import { StandardBrochuresComponent } from './reports/standard-brochures/standar
     StatusAlertReportComponent,
     CommonDatePipe,
     MemberEngagementDashboardComponent,
-    StandardBrochuresComponent
+    StandardBrochuresComponent,
+    OrderDetailsLineItemLevelComponent,
+    OrderDetailsOrderLevelComponent
   ],
   imports: [
     BrowserModule,
