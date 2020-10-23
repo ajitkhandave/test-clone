@@ -40,8 +40,7 @@ export class AppComponent implements OnInit {
       submenu: [{
         id: 'line-item-level-report',
         name: 'Line Item Level',
-        reportImg: '/reports/assets/images/report3.png',
-        disabled: true
+        reportImg: '/reports/assets/images/report3.png'
       }, {
         id: 'order-level-report',
         name: 'Order Level',
