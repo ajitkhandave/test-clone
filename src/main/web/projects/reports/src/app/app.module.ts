@@ -26,6 +26,7 @@ import { StandardBrochuresComponent } from './reports/standard-brochures/standar
 import { OrderDetailsLineItemLevelComponent } from './reports/order-details-line-item-level/order-details-line-item-level.component';
 import { OrderDetailsOrderLevelComponent } from './reports/order-details-order-level/order-details-order-level.component';
 import { QtyPipe } from './pipes/qty.pipe';
+import { ShipmentOdersComponent } from './reports/shipment-oders/shipment-oders.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { QtyPipe } from './pipes/qty.pipe';
     MemberEngagementDashboardComponent,
     StandardBrochuresComponent,
     OrderDetailsLineItemLevelComponent,
-    OrderDetailsOrderLevelComponent
+    OrderDetailsOrderLevelComponent,
+    ShipmentOdersComponent
   ],
   imports: [
     BrowserModule,
