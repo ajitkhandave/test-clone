@@ -39,9 +39,9 @@ export class AllSaversReportComponent implements OnInit, AfterViewInit {
     this.columns = [
       { prop: 'sku', name: 'SKU', sortable: true, draggable: false },
       { prop: 'productName', name: 'Product Name', sortable: true, draggable: false, width: 360, minWidth: 360, maxWidth: 360 },
-      { prop: 'quantity', name: 'Printed', sortable: true, draggable: false },
-      { prop: 'ordersPerSku', name: 'Orders', sortable: true, draggable: false },
-      { prop: 'kitsCount', name: 'Kits', sortable: true, draggable: false },
+      { prop: 'quantity', name: 'Printed', sortable: true, draggable: false, cellClass: 'text-right', headerClass: 'text-right' },
+      { prop: 'ordersPerSku', name: 'Orders', sortable: true, draggable: false, cellClass: 'text-right', headerClass: 'text-right' },
+      { prop: 'kitsCount', name: 'Kits', sortable: true, draggable: false, cellClass: 'text-right', headerClass: 'text-right' },
     ];
 
     this.sorts = [];
