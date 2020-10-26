@@ -7,6 +7,7 @@ import { TableConfig } from '../../models/table-config';
 import { ReportService } from '../../services/report.service';
 import { map } from 'rxjs/operators';
 import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
+import { QtyPipe } from '../../pipes/qty.pipe';
 
 @Component({
   selector: 'app-standard-brochures',
@@ -25,8 +26,9 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
     query: (row) => this.applyQuery(row)
   };
 
-  readonly PrintedColumn = { prop: 'total_quantity', name: 'No of Printed', sortable: true, draggable: false, resizeable: false, width: 340, minWidth: 340 };
-  readonly OrderColumn = { prop: 'totalOrders', name: 'No of Orders', sortable: true, draggable: false, resizeable: false, width: 340, minWidth: 340 };
+  qtyPipe: QtyPipe = new QtyPipe();
+  readonly PrintedColumn = { prop: 'total_quantity', name: 'No of Printed', sortable: true, draggable: false, resizeable: false, width: 340, minWidth: 340, pipe: this.qtyPipe };
+  readonly OrderColumn = { prop: 'totalOrders', name: 'No of Orders', sortable: true, draggable: false, resizeable: false, width: 340, minWidth: 340, pipe: this.qtyPipe };
   filterForm: FormGroup;
 
   years: string[] = [];
