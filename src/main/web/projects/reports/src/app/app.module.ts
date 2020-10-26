@@ -25,6 +25,7 @@ import { MemberEngagementDashboardComponent } from './reports/member-engagement-
 import { StandardBrochuresComponent } from './reports/standard-brochures/standard-brochures.component';
 import { OrderDetailsLineItemLevelComponent } from './reports/order-details-line-item-level/order-details-line-item-level.component';
 import { OrderDetailsOrderLevelComponent } from './reports/order-details-order-level/order-details-order-level.component';
+import { QtyPipe } from './pipes/qty.pipe';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { OrderDetailsOrderLevelComponent } from './reports/order-details-order-l
     MonthlyVolumeReportComponent,
     StatusAlertReportComponent,
     CommonDatePipe,
+    QtyPipe,
     MemberEngagementDashboardComponent,
     StandardBrochuresComponent,
     OrderDetailsLineItemLevelComponent,
