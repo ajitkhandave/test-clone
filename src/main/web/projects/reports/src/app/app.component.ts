@@ -78,6 +78,10 @@ export class AppComponent implements OnInit {
       name: 'Invoicing Report',
       reportImg: '/reports/assets/images/report1.png',
       disabled: true
+    }, {
+      id: 'shipments-order',
+      name: 'Shipments by Order',
+      reportImg: '/reports/assets/images/report3.png'
     }];
     this.service.setReportTypes(types);
 

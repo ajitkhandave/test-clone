@@ -11,6 +11,7 @@ import { OrderDetailsLineItemLevelComponent } from './reports/order-details-line
 import { OrderDetailsOrderLevelComponent } from './reports/order-details-order-level/order-details-order-level.component';
 import { OrderStatusReportComponent } from './reports/order-status-report/order-status-report.component';
 import { PopActiveProductsComponent } from './reports/pop-active-products/pop-active-products.component';
+import { ShipmentOdersComponent } from './reports/shipment-oders/shipment-oders.component';
 import { StandardBrochuresComponent } from './reports/standard-brochures/standard-brochures.component';
 import { StatusAlertReportComponent } from './reports/status-alert-report/status-alert-report.component';
 
@@ -57,6 +58,9 @@ const routes: Routes = [
         }, {
           path: 'order-level-report',
           component: OrderDetailsOrderLevelComponent
+        }, {
+          path: 'shipments-order',
+          component: ShipmentOdersComponent
         }
         ]
       },
