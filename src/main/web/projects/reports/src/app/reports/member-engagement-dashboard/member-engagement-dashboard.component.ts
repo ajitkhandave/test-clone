@@ -95,7 +95,7 @@ export class MemberEngagementDashboardComponent implements OnInit, AfterViewInit
     }
 
     if (sku) {
-      isSku = (row.sku || '').includes(sku.toLowerCase());
+      isSku = (row.sku || '').toLowerCase().includes(sku.toLowerCase());
     }
     return isInRange && isSku;
   }
