@@ -9,11 +9,11 @@ import { ReportService } from '../../services/report.service';
 import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
 
 @Component({
-  selector: 'app-shipment-oders',
-  templateUrl: './shipment-oders.component.html',
-  styleUrls: ['./shipment-oders.component.scss']
+  selector: 'app-shipment-orders',
+  templateUrl: './shipment-orders.component.html',
+  styleUrls: ['./shipment-orders.component.scss']
 })
-export class ShipmentOdersComponent implements OnInit, AfterViewInit {
+export class ShipmentOrdersComponent implements OnInit, AfterViewInit {
 
   columns: any[];
   sorts: any[];
