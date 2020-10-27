@@ -88,7 +88,7 @@ export class OrderDetailsOrderLevelComponent implements OnInit, AfterViewInit {
       // { prop: '', name: 'Purchaser', sortable: true, draggable: false, resizeable: false }, // Todo: Query to ask Platform team.
       { prop: 'userEmail', name: 'Purchaser Email', sortable: true, draggable: false, resizeable: false },
       { prop: 'customerName', name: 'Customer Name', sortable: false, draggable: false, resizeable: false },
-      { prop: 'shipToCompanyName', name: 'Ship To Company Name', sortable: true, draggable: false, resizeable: false },
+      { prop: 'shipToCompanyName', name: 'Ship To Company Name', sortable: true, draggable: false, resizeable: false, minWidth: 170 },
       { prop: 'firstName', name: 'Ship To First Name', sortable: false, draggable: false, resizeable: false },
       { prop: 'lastName', name: 'Ship To Last Name', sortable: false, draggable: false, resizeable: false },
       { prop: 'address1', name: 'Address 1', sortable: false, draggable: false, resizeable: false, cellClass: 'text-capitalized' },
@@ -97,7 +97,7 @@ export class OrderDetailsOrderLevelComponent implements OnInit, AfterViewInit {
       { prop: 'state', name: 'State', sortable: false, draggable: false, resizeable: false, cellClass: 'text-uppercase' },
       { prop: 'zipCode', name: 'Zip Code', sortable: false, draggable: false, resizeable: false },
       { prop: 'shipMethod', name: 'Ship Method', sortable: true, draggable: false, resizeable: false },
-      { prop: 'printProcurementTeam', name: 'Print Procurement Team', sortable: true, draggable: false, resizeable: false },
+      { prop: 'printProcurementTeam', name: 'Print Procurement Team', sortable: true, draggable: false, resizeable: false, minWidth: 170 },
       { prop: 'printVendor', name: 'Print Vendor', sortable: true, draggable: false, resizeable: false },
       { prop: 'orderStatus', name: 'Order Status', sortable: true, draggable: false, resizeable: false },
       { prop: 'glCode', name: 'GL Code', sortable: true, draggable: false, resizeable: false },
