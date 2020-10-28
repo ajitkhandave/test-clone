@@ -75,7 +75,9 @@ export class StatusAlertReportComponent implements OnInit {
         comparator: this.datePipe.sort.bind(this),
         draggable: false,
         resizeable: false,
-        pipe: this.datePipe
+        pipe: {
+          transform: (val) => this.datePipe.transform(val, 'MM/DD/YY HH:mm A')
+        }
       },
       { prop: 'printVendor', name: 'Print Vendor', sortable: false, draggable: false, resizeable: false }
     ];

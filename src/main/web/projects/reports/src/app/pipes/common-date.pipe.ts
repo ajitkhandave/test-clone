@@ -14,7 +14,11 @@ export class CommonDatePipe implements PipeTransform {
   }
 
   sort(valueA, valueB) {
-    return moment(valueA).unix() > moment(valueB).unix() ? 1 : -1;
+    const a = moment(valueA).unix();
+    const b = moment(valueB).unix();
+    if (isNaN(b)) { return -1; }
+    if (isNaN(a)) { return 1; }
+    return a > b ? 1 : -1;
   }
 
 }
