@@ -38,7 +38,7 @@ export class MemberEngagementDashboardComponent implements OnInit, AfterViewInit
       { prop: 'productName', name: 'Product Name', sortable: true, draggable: false, width: 360, minWidth: 360, maxWidth: 360 },
       { prop: 'quantity', name: 'Printed', sortable: true, draggable: false, cellClass: 'text-right', headerClass: 'text-right' },
       { prop: 'ordersPerSku', name: 'Orders', sortable: true, draggable: false, cellClass: 'text-right', headerClass: 'text-right' },
-      { prop: 'kitsCount', name: 'Kits', sortable: true, draggable: false, cellClass: 'text-right', headerClass: 'text-right' },
+      { prop: 'kitsCount', name: 'Kits', sortable: true, draggable: false, cellClass: 'text-right', headerClass: 'text-right', minWidth: 200 },
     ];
 
     this.sorts = [];
