@@ -27,8 +27,8 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
   };
 
   qtyPipe: QtyPipe = new QtyPipe();
-  readonly PrintedColumn = { prop: 'total_quantity', name: 'No of Printed', sortable: true, draggable: false, resizeable: false, width: 340, minWidth: 340, pipe: this.qtyPipe };
-  readonly OrderColumn = { prop: 'totalOrders', name: 'No of Orders', sortable: true, draggable: false, resizeable: false, width: 340, minWidth: 340, pipe: this.qtyPipe };
+  readonly PrintedColumn = { prop: 'total_quantity', name: 'No Of Printed', sortable: true, draggable: false, resizeable: false, width: 340, minWidth: 340, pipe: this.qtyPipe };
+  readonly OrderColumn = { prop: 'totalOrders', name: 'No Of Orders', sortable: true, draggable: false, resizeable: false, width: 340, minWidth: 340, pipe: this.qtyPipe };
   filterForm: FormGroup;
 
   years: string[] = [];
@@ -41,7 +41,7 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.columns = [
       { prop: 'standardBrochuresIdentity.product', name: 'Product Name', sortable: true, draggable: false, resizeable: false },
-      { prop: 'standardBrochuresIdentity.order_year', name: 'Year of order Date', sortable: true, draggable: false, resizeable: false },
+      { prop: 'standardBrochuresIdentity.order_year', name: 'Year Of Order Date', sortable: true, draggable: false, resizeable: false },
       { ...this.OrderColumn }
     ];
 
