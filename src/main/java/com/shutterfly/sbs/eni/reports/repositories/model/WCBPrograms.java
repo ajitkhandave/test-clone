@@ -20,15 +20,15 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table
 @Builder
-public class StandardBrochuresProduct implements Serializable  {
+public class WCBPrograms implements Serializable  {
 
   @Column(name = "orders_count")
   private String totalOrders;
 
   @EmbeddedId
-  private StandardBrochuresIdentity standardBrochuresIdentity;
+  private WCBProgramsIdentity identity;
 
-  @Column(name = "total_quantity")
+  @Column(name = "quantity")
   private String total_quantity;
 
 
