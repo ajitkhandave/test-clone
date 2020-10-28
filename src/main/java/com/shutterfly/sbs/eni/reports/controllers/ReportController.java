@@ -80,8 +80,8 @@ public class ReportController {
   }
 
   @ApiOperation(value = "ENI Onboarding Dashbaord Reports Data", authorizations = { @Authorization(value="Authorization") })
-  @GetMapping(path = "/fetchReport/standardBrochures", produces = "application/json")
-  public Map<String, List<Object>> fetchStandardBrochuresReport() {
+  @GetMapping(path = "/fetchReport/onboardingDashbaord", produces = "application/json")
+  public Map<String, List<Object>> fetchOnbaordingDashboardReport() {
     Map<String, List<Object>> standardBrochuresReport = new HashMap<String, List<Object>>();
     try {
       List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_MONTH_REPORT.getName());
@@ -95,6 +95,15 @@ public class ReportController {
       queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_PRODUCT_REPORT.getName());
       reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_PRODUCT_REPORT.getRepository(), null, null);
       standardBrochuresReport.put("BY_PRODUCT", reportResult);
+
+      queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_FUNDING_TYPE_REPORT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_FUNDING_TYPE_REPORT.getRepository(), null, null);
+      standardBrochuresReport.put("BY_FUNDING_TYPE", reportResult);
+
+      queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_PROGRAM_REPORT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_PROGRAM_REPORT.getRepository(), null, null);
+      standardBrochuresReport.put("BY_PROGRAM", reportResult);
+
 
     } catch(RecordsNotFoundException ex) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
