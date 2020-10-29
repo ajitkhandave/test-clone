@@ -80,17 +80,17 @@ public class ReportController {
   }
 
   @ApiOperation(value = "ENI Onboarding Dashbaord Reports Data", authorizations = { @Authorization(value="Authorization") })
-  @GetMapping(path = "/fetchReport/onboardingDashbaord", produces = "application/json")
+  @GetMapping(path = "/fetchReport/onboardingDashboard", produces = "application/json")
   public Map<String, List<Object>> fetchOnbaordingDashboardReport() {
     Map<String, List<Object>> standardBrochuresReport = new HashMap<String, List<Object>>();
     try {
       List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_MONTH_REPORT.getName());
       List<Object> reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_MONTH_REPORT.getRepository(), null, null);
-      standardBrochuresReport.put("BY_MONTH", reportResult);
+      standardBrochuresReport.put("STD_BY_MONTH", reportResult);
 
       queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_SEGMENT_REPORT.getName());
       reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_SEGMENT_REPORT.getRepository(), null, null);
-      standardBrochuresReport.put("BY_SEGMENT", reportResult);
+      standardBrochuresReport.put("STD_BY_SEGMENT", reportResult);
 
       queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_PRODUCT_REPORT.getName());
       reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_PRODUCT_REPORT.getRepository(), null, null);
@@ -103,6 +103,14 @@ public class ReportController {
       queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_PROGRAM_REPORT.getName());
       reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_STANDARD_BROCHURES_BY_PROGRAM_REPORT.getRepository(), null, null);
       standardBrochuresReport.put("BY_PROGRAM", reportResult);
+
+      queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_WCB_BY_MONTH_REPORT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_WCB_BY_MONTH_REPORT.getRepository(), null, null);
+      standardBrochuresReport.put("WCB_BY_MONTH", reportResult);
+
+      queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_WCB_BY_SEGMENT_REPORT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_WCB_BY_SEGMENT_REPORT.getRepository(), null, null);
+      standardBrochuresReport.put("WCB_BY_SEGMENT", reportResult);
 
 
     } catch(RecordsNotFoundException ex) {
