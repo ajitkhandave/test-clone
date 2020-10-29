@@ -8,6 +8,7 @@ import { ReportService } from '../../services/report.service';
 import { map } from 'rxjs/operators';
 import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
 import { QtyPipe } from '../../pipes/qty.pipe';
+import { CommonDatePipe } from '../../pipes/common-date.pipe';
 
 @Component({
   selector: 'app-standard-brochures',
@@ -26,6 +27,7 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
     query: (row) => this.applyQuery(row)
   };
 
+  datePipe: CommonDatePipe = new CommonDatePipe();
   qtyPipe: QtyPipe = new QtyPipe();
   readonly PrintedColumn = { prop: 'total_quantity', name: 'No Of Printed', sortable: true, draggable: false, resizeable: false, width: 340, minWidth: 340, pipe: this.qtyPipe };
   readonly OrderColumn = { prop: 'totalOrders', name: 'No Of Orders', sortable: true, draggable: false, resizeable: false, width: 340, minWidth: 340, pipe: this.qtyPipe };
@@ -41,7 +43,17 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.columns = [
       { prop: 'standardBrochuresIdentity.product', name: 'Product Name', sortable: true, draggable: false, resizeable: false },
-      { prop: 'standardBrochuresIdentity.order_year', name: 'Year Of Order Date', sortable: true, draggable: false, resizeable: false },
+      {
+        prop: 'standardBrochuresIdentity.order_date',
+        name: 'Year Of Order Date',
+        sortable: true,
+        draggable: false,
+        resizeable: false,
+        comparator: this.datePipe.sort.bind(this),
+        pipe: {
+          transform: (val) => moment(val).format('YYYY')
+        }
+      },
       { ...this.OrderColumn }
     ];
 
@@ -111,7 +123,8 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
     }
 
     if (selectYear) {
-      isYear = row.standardBrochuresIdentity.order_year == selectYear;
+      const year = moment(row.standardBrochuresIdentity.order_date).format('YYYY');
+      isYear = year == selectYear;
     }
     return isProduct && isYear;
   }
