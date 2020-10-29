@@ -14,6 +14,7 @@ import { PopActiveProductsComponent } from './reports/pop-active-products/pop-ac
 import { ShipmentOrdersComponent } from './reports/shipment-orders/shipment-orders.component';
 import { StandardBrochuresComponent } from './reports/standard-brochures/standard-brochures.component';
 import { StatusAlertReportComponent } from './reports/status-alert-report/status-alert-report.component';
+import { WcbsComponent } from './reports/wcbs/wcbs.component';
 
 const routes: Routes = [
   {
@@ -61,6 +62,9 @@ const routes: Routes = [
         }, {
           path: 'shipments-order',
           component: ShipmentOrdersComponent
+        }, {
+          path: 'wcbs',
+          component: WcbsComponent
         }
         ]
       },

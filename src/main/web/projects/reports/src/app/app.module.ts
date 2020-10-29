@@ -27,6 +27,7 @@ import { OrderDetailsLineItemLevelComponent } from './reports/order-details-line
 import { OrderDetailsOrderLevelComponent } from './reports/order-details-order-level/order-details-order-level.component';
 import { QtyPipe } from './pipes/qty.pipe';
 import { ShipmentOrdersComponent } from './reports/shipment-orders/shipment-orders.component';
+import { WcbsComponent } from './reports/wcbs/wcbs.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { ShipmentOrdersComponent } from './reports/shipment-orders/shipment-orde
     StandardBrochuresComponent,
     OrderDetailsLineItemLevelComponent,
     OrderDetailsOrderLevelComponent,
-    ShipmentOrdersComponent
+    ShipmentOrdersComponent,
+    WcbsComponent
   ],
   imports: [
     BrowserModule,
