@@ -20,7 +20,7 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
   sorts: any[];
   tableConfig: TableConfig = {
     filters: new Subject<boolean>(),
-    api: () => this.reportService.fetchStandardBrochure().pipe(
+    api: () => this.reportService.fetchOnboardingDashboard().pipe(
       map(this.generateData)
     ),
     query: (row) => this.applyQuery(row)
@@ -117,7 +117,12 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
   }
 
   generateData(resp) {
-    return resp.BY_PRODUCT;
+    return resp.BY_PRODUCT.filter(item => {
+      if (item && item.standardBrochuresIdentity && item.standardBrochuresIdentity.product) {
+        return item.standardBrochuresIdentity.product.includes('Standard');
+      }
+      return false;
+    });
   }
 
 }
