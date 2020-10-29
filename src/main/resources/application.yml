@@ -95,8 +95,8 @@ app:
 spring:
   profiles: stage
 app:
-  base-url: http://eni-reports-stage.sbs.shutterfly.com
-  login-url: http://eni-pop-stage.sbs.shutterfly.com/auth
+  base-url: https://eni-reports-stage.sbs.shutterfly.com
+  login-url: https://eni-pop-stage.sbs.shutterfly.com/auth
   security:
     auth:
       gateway-endpoint: https://web-api-uhg-stage.sbs.shutterfly.com
