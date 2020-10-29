@@ -53,8 +53,7 @@ export class AppComponent implements OnInit {
       submenu: [{
         id: 'wcbs',
         name: 'WCBs',
-        reportImg: '/reports/assets/images/report1.png',
-        disabled: true
+        reportImg: '/reports/assets/images/report1.png'
       }, {
         id: 'standard-brochures',
         name: 'Standard Brochures',

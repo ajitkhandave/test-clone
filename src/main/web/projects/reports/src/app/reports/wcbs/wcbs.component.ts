@@ -8,26 +8,24 @@ import { ReportService } from '../../services/report.service';
 import { map } from 'rxjs/operators';
 import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
 import { QtyPipe } from '../../pipes/qty.pipe';
-import { CommonDatePipe } from '../../pipes/common-date.pipe';
 
 @Component({
-  selector: 'app-standard-brochures',
-  templateUrl: './standard-brochures.component.html',
-  styleUrls: ['./standard-brochures.component.scss']
+  selector: 'app-wcbs',
+  templateUrl: './wcbs.component.html',
+  styleUrls: ['./wcbs.component.scss']
 })
-export class StandardBrochuresComponent implements OnInit, AfterViewInit {
+export class WcbsComponent implements OnInit, AfterViewInit {
 
   columns: any[];
   sorts: any[];
   tableConfig: TableConfig = {
     filters: new Subject<boolean>(),
     api: () => this.reportService.fetchOnboardingDashboard().pipe(
-      map(this.generateData)
+      map(this.generateData.bind(this))
     ),
     query: (row) => this.applyQuery(row)
   };
 
-  datePipe: CommonDatePipe = new CommonDatePipe();
   qtyPipe: QtyPipe = new QtyPipe();
   readonly PrintedColumn = { prop: 'total_quantity', name: 'No Of Printed', sortable: true, draggable: false, resizeable: false, width: 340, minWidth: 340, pipe: this.qtyPipe };
   readonly OrderColumn = { prop: 'totalOrders', name: 'No Of Orders', sortable: true, draggable: false, resizeable: false, width: 340, minWidth: 340, pipe: this.qtyPipe };
@@ -42,18 +40,8 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.columns = [
-      { prop: 'standardBrochuresIdentity.product', name: 'Product Name', sortable: true, draggable: false, resizeable: false },
-      {
-        prop: 'standardBrochuresIdentity.order_date',
-        name: 'Year Of Order Date',
-        sortable: true,
-        draggable: false,
-        resizeable: false,
-        comparator: this.datePipe.sort.bind(this),
-        pipe: {
-          transform: (val) => moment(val).format('YYYY')
-        }
-      },
+      { prop: 'programs', name: 'Programs', sortable: true, draggable: false, resizeable: false },
+      { prop: 'modules', name: 'Modules', sortable: true, draggable: false, resizeable: false },
       { ...this.OrderColumn }
     ];
 
@@ -61,7 +49,7 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
 
     const currentYear = moment().year();
     this.filterForm = new FormGroup({
-      product: new FormControl(''),
+      programs: new FormControl(''),
       dataBy: new FormControl(this.OrderColumn.prop),
       selectYear: new FormControl(currentYear)
     }, { validators: FilterSelectedValidator });
@@ -91,7 +79,7 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
   clearFilter() {
     const currentYear = moment().year();
     this.filterForm.patchValue({
-      product: '',
+      programs: '',
       dataBy: this.OrderColumn.prop,
       selectYear: currentYear
     });
@@ -115,27 +103,54 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
   }
 
   applyQuery(row) {
-    let isProduct = true;
+    let isProgram = true;
     let isYear = true;
-    const { product, selectYear } = this.filterForm.value;
-    if (product) {
-      isProduct = row.standardBrochuresIdentity.product.toLowerCase().includes(product.toLowerCase());
+    const { programs, selectYear } = this.filterForm.value;
+    if (programs) {
+      isProgram = row.programs.toLowerCase().includes(programs.toLowerCase());
     }
 
     if (selectYear) {
-      const year = moment(row.standardBrochuresIdentity.order_date).format('YYYY');
-      isYear = year == selectYear;
+      isYear = row.year == selectYear;
     }
-    return isProduct && isYear;
+    return isProgram && isYear;
   }
 
   generateData(resp) {
-    return resp.BY_PRODUCT.filter(item => {
-      if (item && item.standardBrochuresIdentity && item.standardBrochuresIdentity.product) {
-        return item.standardBrochuresIdentity.product.includes('Standard');
+    const skuQtyByYear = {};
+    const skuOrdersByYear = {};
+    resp.BY_PROGRAM.forEach(row => {
+      if (!row.identity || !row.identity.modules) { return; }
+      const year = moment(row.identity.order_date).format('YYYY');
+
+      if (!skuQtyByYear[year]) {
+        skuQtyByYear[year] = {};
+        skuOrdersByYear[year] = {};
       }
-      return false;
+
+      if (row.identity.modules && !skuQtyByYear[year][row.identity.modules]) {
+        skuQtyByYear[year][row.identity.modules] = 0;
+        skuOrdersByYear[year][row.identity.modules] = 0;
+      }
+
+      skuQtyByYear[year][row.identity.modules] += Number(row.total_quantity);
+      skuOrdersByYear[year][row.identity.modules] += Number(row.totalOrders);
     });
+    const rows = [];
+    this.years.forEach(year => {
+      if (!skuQtyByYear[year]) { return; }
+      Object.keys(skuQtyByYear[year]).forEach(modules => {
+        const program = resp.BY_PROGRAM.find(p => p.identity.modules === modules);
+        rows.push({
+          programs: program.identity.programs,
+          modules,
+          total_quantity: skuQtyByYear[year][modules],
+          totalOrders: skuOrdersByYear[year][modules],
+          year
+        });
+      });
+    });
+    return rows;
   }
 
 }
