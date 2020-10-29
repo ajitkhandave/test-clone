@@ -28,8 +28,8 @@ public class StandardBrochuresMonth implements Serializable {
   private String totalOrders;
 
   @Id
-  @Column(name = "yearmonth")
-  private String yearmonth;
+  @Column(name = "order_date")
+  private String order_date;
 
   @Column(name = "order_month")
   private String order_month;

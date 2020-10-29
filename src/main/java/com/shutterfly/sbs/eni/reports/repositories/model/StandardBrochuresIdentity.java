@@ -17,8 +17,8 @@ import lombok.NoArgsConstructor;
 public class StandardBrochuresIdentity implements Serializable  {
 
 
-  @Column(name = "order_year")
-  private String order_year;
+  @Column(name = "order_date")
+  private String order_date;
 
   @Column(name = "customer_product_id")
   private String product;
