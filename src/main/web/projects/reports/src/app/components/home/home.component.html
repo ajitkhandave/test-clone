@@ -1,6 +1,6 @@
 <div class="report">
   <div class="report-header pb-1 pl-2">
-    <span>{{title || 'Select Reports'}}</span>
+    <span>E & I Reports {{title}}</span>
   </div>
 </div>
 
@@ -9,7 +9,12 @@
     <div class="card mx-2 my-3" [ngClass]="{'card-disabled': report.disabled}" (click)="navigate(report)">
       <div class="card-body" [ngStyle]="{backgroundImage: 'url('+report.reportImg+')'}"> </div>
       <div class="card-footer">
-        {{report?.name}}
+        <span class="d-flex">
+          {{report?.name}}
+        </span>
+        <span class="d-flex mt-auto view-report-btn">
+          View Report <i class="fas fa-arrow-right"></i>
+        </span>
       </div>
       <div class="card-overlay"></div>
     </div>
