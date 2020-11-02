@@ -8,7 +8,6 @@ import { ReportService } from '../../services/report.service';
 import { map } from 'rxjs/operators';
 import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
 import { QtyPipe } from '../../pipes/qty.pipe';
-import { CommonDatePipe } from '../../pipes/common-date.pipe';
 
 @Component({
   selector: 'app-standard-brochures',
@@ -22,12 +21,11 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
   tableConfig: TableConfig = {
     filters: new Subject<boolean>(),
     api: () => this.reportService.fetchOnboardingDashboard().pipe(
-      map(this.generateData)
+      map(this.generateData.bind(this))
     ),
     query: (row) => this.applyQuery(row)
   };
 
-  datePipe: CommonDatePipe = new CommonDatePipe();
   qtyPipe: QtyPipe = new QtyPipe();
   readonly PrintedColumn = { prop: 'total_quantity', name: 'No Of Printed', sortable: true, draggable: false, resizeable: false, width: 340, minWidth: 340, pipe: this.qtyPipe };
   readonly OrderColumn = { prop: 'totalOrders', name: 'No Of Orders', sortable: true, draggable: false, resizeable: false, width: 340, minWidth: 340, pipe: this.qtyPipe };
@@ -42,17 +40,13 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.columns = [
-      { prop: 'standardBrochuresIdentity.product', name: 'Product Name', sortable: true, draggable: false, resizeable: false },
+      { prop: 'product', name: 'Product Name', sortable: true, draggable: false, resizeable: false },
       {
-        prop: 'standardBrochuresIdentity.order_date',
+        prop: 'year',
         name: 'Year Of Order Date',
         sortable: true,
         draggable: false,
-        resizeable: false,
-        comparator: this.datePipe.sort.bind(this),
-        pipe: {
-          transform: (val) => moment(val).format('YYYY')
-        }
+        resizeable: false
       },
       { ...this.OrderColumn }
     ];
@@ -119,23 +113,58 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
     let isYear = true;
     const { product, selectYear } = this.filterForm.value;
     if (product) {
-      isProduct = row.standardBrochuresIdentity.product.toLowerCase().includes(product.toLowerCase());
+      isProduct = row.product.toLowerCase().includes(product.toLowerCase());
     }
 
     if (selectYear) {
-      const year = moment(row.standardBrochuresIdentity.order_date).format('YYYY');
-      isYear = year == selectYear;
+      isYear = selectYear == row.year;
     }
     return isProduct && isYear;
   }
 
   generateData(resp) {
-    return resp.BY_PRODUCT.filter(item => {
+    const skuQtyByYear = {};
+    const skuOrdersByYear = {};
+    const products = resp.BY_PRODUCT.filter(item => {
       if (item && item.standardBrochuresIdentity && item.standardBrochuresIdentity.product) {
         return item.standardBrochuresIdentity.product.includes('Standard');
       }
       return false;
+    }).map(row => {
+      if (!row.standardBrochuresIdentity || !row.standardBrochuresIdentity.product) { return; }
+      const year = moment(row.standardBrochuresIdentity.order_date).format('YYYY');
+      row.year = year;
+      const product = row.standardBrochuresIdentity.product;
+
+      if (!skuQtyByYear[year]) {
+        skuQtyByYear[year] = {};
+        skuOrdersByYear[year] = {};
+      }
+
+      if (product && !skuQtyByYear[year][product]) {
+        skuQtyByYear[year][product] = 0;
+        skuOrdersByYear[year][product] = 0;
+      }
+
+      skuQtyByYear[year][product] += Number(row.total_quantity);
+      skuOrdersByYear[year][product] += Number(row.totalOrders);
+      return row;
     });
+
+    const rows = [];
+    this.years.map(year => {
+      if (!skuQtyByYear[year]) { return; }
+      Object.keys(skuQtyByYear[year]).forEach((productName) => {
+        const product = products.find(p => p.standardBrochuresIdentity.product === productName);
+        rows.push({
+          product: product.standardBrochuresIdentity.product,
+          total_quantity: skuQtyByYear[year][productName],
+          totalOrders: skuOrdersByYear[year][productName],
+          year
+        });
+      });
+    });
+    return rows;
   }
 
 }

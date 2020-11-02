@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       if (params.menu) {
         const report = this.service.getReport(params.menu);
-        this.title = `Reports - ${report.name}`;
+        this.title = `- ${report.name}`;
         this.reportTypes$.next(report.submenu);
         return;
       }
