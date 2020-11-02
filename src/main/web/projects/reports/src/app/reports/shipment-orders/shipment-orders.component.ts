@@ -1,12 +1,14 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import * as moment from 'moment';
 import { DateRange } from '../../models/date-range';
 import { TableConfig } from '../../models/table-config';
 import { CommonDatePipe } from '../../pipes/common-date.pipe';
 import { ReportService } from '../../services/report.service';
 import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
+import { RowClickEvent } from '../../models/row-click-event';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-shipment-orders',
@@ -20,12 +22,15 @@ export class ShipmentOrdersComponent implements OnInit, AfterViewInit {
 
   tableConfig: TableConfig = {
     filters: new Subject<boolean>(),
-    api: () => this.reportService.fetchShipmentOrders(),
+    api: () => this.dataSource$,
     query: (row) => this.applyQuery(row)
   };
+  dataSource$: BehaviorSubject<any[]> = new BehaviorSubject([]);
   datePipe = new CommonDatePipe();
   dateRange: Subject<DateRange> = new Subject();
   filterForm: FormGroup;
+  isAddressView: boolean = false;
+  shipmentData: any[] = [];
 
   constructor(
     private reportService: ReportService,
@@ -74,7 +79,7 @@ export class ShipmentOrdersComponent implements OnInit, AfterViewInit {
       },
       { prop: 'orderStatus', name: 'Order Status', sortable: true, draggable: false, resizeable: false, minWidth: 160, width: 160, maxWidth: 160 },
       { prop: 'printVendor', name: 'Print Vendor', sortable: true, draggable: false, resizeable: false },
-      { prop: 'shipments', name: 'Shipments', sortable: false, draggable: false, resizeable: false, width: 80, maxWidth: 80, minWidth: 80 }
+      { prop: 'shipments', name: 'Shipments', sortable: false, draggable: false, resizeable: false, width: 80, maxWidth: 80, minWidth: 80, cellClass: 'text-center' }
     ];
 
     this.filterForm = new FormGroup({
@@ -84,6 +89,27 @@ export class ShipmentOrdersComponent implements OnInit, AfterViewInit {
       endDate: new FormControl(''),
       filterBy: new FormControl('shipmentOrderDate')
     }, { validators: FilterSelectedValidator });
+
+    this.sorts = [{ prop: 'clientOrderId', dir: 'desc' }];
+    this.fetchShipmentOrders();
+  }
+
+  fetchShipmentOrders() {
+    const loadShipmentData = () => {
+      this.dataSource$.next([].concat(this.shipmentData));
+      this.isAddressView = false;
+      this.onSearch();
+    };
+    if (this.shipmentData.length) {
+      loadShipmentData();
+      return;
+    }
+    this.reportService.fetchShipmentOrders()
+      .pipe(take(1))
+      .subscribe(resp => {
+        this.shipmentData = [].concat(resp);
+        loadShipmentData();
+      });
   }
 
   ngAfterViewInit() {
@@ -146,6 +172,37 @@ export class ShipmentOrdersComponent implements OnInit, AfterViewInit {
       isOrderStatus = row.orderStatus === orderStatus;
     }
     return isInRange && isOrderStatus && isOrderId;
+  }
+
+  onRowClick(event: RowClickEvent) {
+    if (event.row.addresses && !this.isAddressView) {
+      const rows = event.row.addresses.map(item => {
+        item.p3OrderId = event.row.p3OrderId;
+        return item;
+      });
+      this.displayAddressReport(rows);
+    }
+  }
+
+  displayAddressReport(rows: any[]) {
+    this.isAddressView = true;
+    this.columns = [
+      { prop: 'p3OrderId', name: 'P3 Order ID', sortable: true, draggable: false, resizeable: false },
+      { prop: 'identity.clientOrderId', name: 'Order Number', sortable: true, draggable: false, resizeable: false, width: 220, minWidth: 220 },
+      { prop: 'address1', name: 'Address 1', sortable: true, draggable: false, resizeable: false },
+      { prop: 'address2', name: 'Address 2', sortable: true, draggable: false, resizeable: false },
+      { prop: 'address3', name: 'Address 3', sortable: true, draggable: false, resizeable: false },
+      { prop: 'city', name: 'City', sortable: true, draggable: false, resizeable: false },
+      { prop: 'state', name: 'State', sortable: true, draggable: false, resizeable: false, cellClass: 'text-uppercase' },
+      { prop: 'identity.zipCode', name: 'Zip Code', sortable: true, draggable: false, resizeable: false },
+    ];
+    this.sorts = [{ prop: 'identity.clientOrderId', dir: 'desc' }];
+    this.filterForm.get('filterBy').setValue('addressOrderDate');
+    this.dataSource$.next(rows);
+  }
+
+  goBack() {
+    this.ngOnInit();
   }
 
 }

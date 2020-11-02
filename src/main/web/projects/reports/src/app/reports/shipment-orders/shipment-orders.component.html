@@ -1,4 +1,4 @@
-<form [formGroup]="filterForm" (submit)="onSearch()">
+<form [formGroup]="filterForm" (submit)="onSearch()" *ngIf="!isAddressView">
   <div class="order__filter-container mt-2">
     <div class="order__filter-container-input">
       <div class="form-row pl-3">
@@ -30,8 +30,6 @@
           <select class="form-select form-control filters" formControlName="filterBy" id="filterBy">
             <option value="shipmentOrderDate">Shipment By Order Date</option>
             <option value="shipmentShipDate">Shipment By Ship Date</option>
-            <option value="addressOrderDate" disabled>Address By Order Date</option>
-            <option value="addressShipDate" disabled>Address By Ship Date</option>
           </select>
         </div>
         <div class="col-3">
@@ -50,4 +48,22 @@
   </div>
 </form>
 
-<app-data-table [columns]="columns" [sorts]="sorts" [tableConfig]="tableConfig"></app-data-table>
+<form *ngIf="isAddressView">
+  <div class="order__filter-container mt-2">
+    <div class="order__filter-container-input">
+      <div class="form-row pl-3">
+        <div class="col-auto align-self-end search">
+          <button class="btn btn-secondary" type="button" id="search" (click)="goBack()">
+            GO BACK </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<app-data-table
+  [columns]="columns"
+  [sorts]="sorts"
+  [tableConfig]="tableConfig"
+  (rowClick)="onRowClick($event)"
+></app-data-table>
