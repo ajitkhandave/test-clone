@@ -6,6 +6,7 @@ import { DateRange } from '../../models/date-range';
 import { TableConfig } from '../../models/table-config';
 import { ReportService } from '../../services/report.service';
 import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-member-engagement-dashboard',
@@ -19,7 +20,9 @@ export class MemberEngagementDashboardComponent implements OnInit, AfterViewInit
 
   tableConfig: TableConfig = {
     filters: new Subject<boolean>(),
-    api: () => this.reportService.fetchMemberEngagementReport(),
+    api: () => this.reportService.fetchMemberEngagementReport().pipe(
+      map((resp) => resp.BY_SKU)
+    ),
     query: (row) => this.applyQuery(row)
   };
 

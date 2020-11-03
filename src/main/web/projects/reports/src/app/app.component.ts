@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
         reportImg: '/reports/assets/images/Reporting_Accent2@2x.png'
       }]
     }, {
-      id: 'oe-vp-data',
+      id: 'oe-vp-report',
       name: 'Open Enrollment VP Data Report',
       reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
       disabled: true
