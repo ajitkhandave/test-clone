@@ -66,9 +66,12 @@ logging:
 spring:
   profiles: dev
   datasource:
-    url: jdbc:mysql://tsbssql01-lv.internal.shutterfly.com:3306/EnI?serverTimezone=UTC
+    url: jdbc:mysql://dsbssql01-lv.internal.shutterfly.com:3306/EnI?serverTimezone=UTC
     username: sbs_eni_svc
     password: sbs_eni_svc
+  flyway:
+    placeholders:
+      schema: EnI
 app:
   base-url: http://dsbsapp107-lv.internal.shutterfly.com:8081
   login-url: http://dsbsapp107-lv.internal.shutterfly.com:8080/auth
@@ -83,6 +86,9 @@ spring:
     url: jdbc:mysql://tsbssql01-lv.internal.shutterfly.com:3306/EnI?serverTimezone=UTC
     username: sbs_eni_svc
     password: sbs_eni_svc
+  flyway:
+    placeholders:
+      schema: EnI
 app:
   base-url: http://eni-reports-qa.internal.shutterfly.com
   login-url: http://eni-pop-qa.internal.shutterfly.com/auth
@@ -94,6 +100,13 @@ app:
 ---
 spring:
   profiles: stage
+  datasource:
+    url: jdbc:mysql://xuhgsql15-lv/eni?verifyServerCertificate=false&useSSL=true&requireSSL=false&rewriteBatchedStatements=true
+    username: sbs_stg_eni
+    password: KGFfc6VA
+  flyway:
+    placeholders:
+      schema: sbs_platform_order
 app:
   base-url: https://eni-reports-stage.sbs.shutterfly.com
   login-url: https://eni-pop-stage.sbs.shutterfly.com/auth
