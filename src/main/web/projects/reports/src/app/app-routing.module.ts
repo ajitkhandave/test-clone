@@ -7,6 +7,7 @@ import { TitleComponent } from './components/title/title.component';
 import { AllSaversReportComponent } from './reports/all-savers-report/all-savers-report.component';
 import { MemberEngagementDashboardComponent } from './reports/member-engagement-dashboard/member-engagement-dashboard.component';
 import { MonthlyVolumeReportComponent } from './reports/monthly-volume-report/monthly-volume-report.component';
+import { OeVpReportComponent } from './reports/oe-vp-report/oe-vp-report.component';
 import { OrderDetailsLineItemLevelComponent } from './reports/order-details-line-item-level/order-details-line-item-level.component';
 import { OrderDetailsOrderLevelComponent } from './reports/order-details-order-level/order-details-order-level.component';
 import { OrderStatusReportComponent } from './reports/order-status-report/order-status-report.component';
@@ -65,6 +66,9 @@ const routes: Routes = [
         }, {
           path: 'wcbs',
           component: WcbsComponent
+        }, {
+          path: 'oe-vp-report',
+          component: OeVpReportComponent
         }
         ]
       },
