@@ -8,7 +8,7 @@
             (endDateChange)="endDateChange($event)"></app-date-range>
         </div>
       </div>
-      <div class="form-row pl-3">
+      <div class="form-row pl-3 mt-2">
         <div class="col-2">
           <label for="p3OrderId" class="filter-name">P3 Order Id</label>
           <input class="form-control filters" id="p3OrderId" name="p3OrderId" placeholder="Enter P3 Order Id"
@@ -22,17 +22,13 @@
         <div class="col-2">
           <label for="status" class="filter-name">Order Status</label>
           <select class="form-select form-control filters" formControlName="orderStatus" id="status">
-            <option hidden value="" disabled selected>Select status</option>
-            <option value="CANCELLED">CANCELLED</option>
-            <option value="COMPLETE">COMPLETE</option>
+            <option hidden value="" disabled selected>Select Status</option>
+            <option value="CLOSED">CLOSED</option>
+            <option value="DENIED">DENIED</option>
             <option value="ERROR">ERROR</option>
             <option value="IN_PROCESS">IN PROCESS</option>
-            <option value="MANUALLY_SHIPPED">MANUALLY SHIPPED</option>
-            <option value="PARTIAL_SHIPPED">PARTIAL SHIPPED</option>
-            <option value="PARTIALLY_PROCESSED">PARTIALLY PROCESSED</option>
             <option value="SENT_TO_PRINTER">SENT TO PRINTER</option>
             <option value="SHIPPED">SHIPPED</option>
-            <option value="STARTED_MANUFACTURING_MAPPING">STARTED MANUFACTURING MAPPING</option>
           </select>
         </div>
 

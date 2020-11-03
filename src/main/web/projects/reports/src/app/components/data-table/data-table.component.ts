@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { DatatableComponent, SelectionType, TableColumn } from '@swimlane/ngx-datatable';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -6,6 +6,7 @@ import { Sort } from '../../models/sort';
 import { TableConfig } from '../../models/table-config';
 import { ReportService } from '../../services/report.service';
 import * as XLSX from 'xlsx';
+import { RowClickEvent } from '../../models/row-click-event';
 
 @Component({
   selector: 'app-data-table',
@@ -33,6 +34,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   }
   @Input() tableConfig: TableConfig;
   @ViewChild(DatatableComponent) tableCmp: DatatableComponent;
+  @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter();
   selectionType = SelectionType.checkbox;
   _columns: TableColumn[] = [];
   setPage$: EventEmitter<number> = new EventEmitter();
@@ -43,6 +45,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   masterOrders = [];
   rows: any[] = [];
   selected: any[] = [];
+  tableSelectionClick: boolean = false;
 
   constructor(
     private service: ReportService
@@ -103,11 +106,22 @@ export class DataTableComponent implements OnInit, OnDestroy {
   }
 
   onActivate(event) {
+    if (event.type === 'click' && !this.tableSelectionClick) {
+      const clickEvent: RowClickEvent = {
+        row: event.row,
+        column: event.column
+      };
+      this.rowClick.emit(clickEvent);
+    }
 
+    if (event.type === 'click' && this.tableSelectionClick) {
+      this.tableSelectionClick = false;
+    }
   }
 
   onSelect(event) {
     this.selected = event.selected;
+    this.tableSelectionClick = true; // Logic to identify selection click and row click.
   }
 
   excelExport() {

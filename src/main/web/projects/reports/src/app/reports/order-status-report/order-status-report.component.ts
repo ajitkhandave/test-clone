@@ -36,16 +36,16 @@ export class OrderStatusReportComponent implements OnInit {
       { prop: 'sbsOrderId', name: 'SBS Order ID', sortable: false, draggable: false, resizeable: false, width: 230, minWidth: 230 },
       { prop: 'clientOrderId', name: 'Client Order ID', sortable: false, draggable: false, resizeable: false },
       { prop: 'destinationId', name: 'Destination ID', sortable: true, draggable: false, resizeable: false },
-      { prop: 'address1', name: 'Address 1', sortable: false, draggable: false, resizeable: false },
-      { prop: 'address2', name: 'Address 2', sortable: false, draggable: false, resizeable: false },
-      { prop: 'address3', name: 'Address 3', sortable: false, draggable: false, resizeable: false },
-      { prop: 'city', name: 'City', sortable: false, draggable: false, resizeable: false },
-      { prop: 'state', name: 'State', sortable: false, draggable: false, resizeable: false },
+      { prop: 'address1', name: 'Address 1', sortable: false, draggable: false, resizeable: false, cellClass: 'text-capitalized' },
+      { prop: 'address2', name: 'Address 2', sortable: false, draggable: false, resizeable: false, cellClass: 'text-capitalized' },
+      { prop: 'address3', name: 'Address 3', sortable: false, draggable: false, resizeable: false, cellClass: 'text-capitalized' },
+      { prop: 'city', name: 'City', sortable: false, draggable: false, resizeable: false, cellClass: 'text-capitalized' },
+      { prop: 'state', name: 'State', sortable: false, draggable: false, resizeable: false, cellClass: 'text-uppercase' },
       { prop: 'zipCode', name: 'Zip Code', sortable: false, draggable: false, resizeable: false },
       {
         prop: 'needByDate',
         name: 'Need By Date',
-        sortable: true,
+        sortable: false,
         draggable: false,
         resizeable: false,
         pipe: this.datePipe,
@@ -75,7 +75,9 @@ export class OrderStatusReportComponent implements OnInit {
         comparator: this.datePipe.sort.bind(this),
         draggable: false,
         resizeable: false,
-        pipe: this.datePipe
+        pipe: {
+          transform: (val) => this.datePipe.transform(val, 'MM/DD/YY HH:mm A')
+        }
       },
       { prop: 'printVendor', name: 'Print Vendor', sortable: false, draggable: false, resizeable: false }
     ];

@@ -48,7 +48,7 @@ export class ReportHeaderComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!status && this.activePopoverInstance) {
           this.activePopoverInstance.close();
           this.activePopoverInstance = null;
-          if (this.reportService.activeReport.id !== this.activePopover) {
+          if (!this.reportService.activeReport || this.reportService.activeReport.id !== this.activePopover) {
             this.activePopover = null;
           }
         }

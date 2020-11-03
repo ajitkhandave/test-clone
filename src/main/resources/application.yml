@@ -69,7 +69,7 @@ logging:
 spring:
   profiles: dev
   datasource:
-    url: jdbc:mysql://dsbssql01-lv.internal.shutterfly.com:3306/EnI?serverTimezone=UTC
+    url: jdbc:mysql://tsbssql01-lv.internal.shutterfly.com:3306/EnI?serverTimezone=UTC
     username: sbs_eni_svc
     password: sbs_eni_svc
   flyway:
@@ -112,10 +112,15 @@ spring:
     placeholders:
       schema: sbs_platform_order
 app:
-  base-url: https://eni-reports-stage.internal.shutterfly.com
+  base-url: https://eni-reports-stage.sbs.shutterfly.com
   login-url: https://eni-pop-stage.sbs.shutterfly.com/auth
   security:
     auth:
       gateway-endpoint: https://web-api-uhg-stage.sbs.shutterfly.com
       cookie-domain: sbs.shutterfly.com
       issuer: https://auth-api-uhg-stage.internal.shutterfly.com
+server:
+  tomcat:
+    remote-ip-header: x-forwarded-for
+    protocol-header: x-forwarded-proto
+

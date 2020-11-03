@@ -10,11 +10,11 @@ import { FilterSelectedValidator } from '../../validators/filter-selected.valida
 import { QtyPipe } from '../../pipes/qty.pipe';
 
 @Component({
-  selector: 'app-standard-brochures',
-  templateUrl: './standard-brochures.component.html',
-  styleUrls: ['./standard-brochures.component.scss']
+  selector: 'app-wcbs',
+  templateUrl: './wcbs.component.html',
+  styleUrls: ['./wcbs.component.scss']
 })
-export class StandardBrochuresComponent implements OnInit, AfterViewInit {
+export class WcbsComponent implements OnInit, AfterViewInit {
 
   columns: any[];
   sorts: any[];
@@ -40,14 +40,8 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.columns = [
-      { prop: 'product', name: 'Product Name', sortable: true, draggable: false, resizeable: false },
-      {
-        prop: 'year',
-        name: 'Year Of Order Date',
-        sortable: true,
-        draggable: false,
-        resizeable: false
-      },
+      { prop: 'programs', name: 'Programs', sortable: true, draggable: false, resizeable: false },
+      { prop: 'modules', name: 'Modules', sortable: true, draggable: false, resizeable: false },
       { ...this.OrderColumn }
     ];
 
@@ -55,7 +49,7 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
 
     const currentYear = moment().year();
     this.filterForm = new FormGroup({
-      product: new FormControl(''),
+      programs: new FormControl(''),
       dataBy: new FormControl(this.OrderColumn.prop),
       selectYear: new FormControl(currentYear)
     }, { validators: FilterSelectedValidator });
@@ -85,7 +79,7 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
   clearFilter() {
     const currentYear = moment().year();
     this.filterForm.patchValue({
-      product: '',
+      programs: '',
       dataBy: this.OrderColumn.prop,
       selectYear: currentYear
     });
@@ -109,57 +103,49 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
   }
 
   applyQuery(row) {
-    let isProduct = true;
+    let isProgram = true;
     let isYear = true;
-    const { product, selectYear } = this.filterForm.value;
-    if (product) {
-      isProduct = row.product.toLowerCase().includes(product.toLowerCase());
+    const { programs, selectYear } = this.filterForm.value;
+    if (programs) {
+      isProgram = row.programs.toLowerCase().includes(programs.toLowerCase());
     }
 
     if (selectYear) {
-      isYear = selectYear == row.year;
+      isYear = row.year == selectYear;
     }
-    return isProduct && isYear;
+    return isProgram && isYear;
   }
 
   generateData(resp) {
     const skuQtyByYear = {};
     const skuOrdersByYear = {};
-    const products = resp.BY_PRODUCT.filter(item => {
-      if (item && item.standardBrochuresIdentity && item.standardBrochuresIdentity.product) {
-        return item.standardBrochuresIdentity.product.includes('Standard');
-      }
-      return false;
-    }).map(row => {
-      if (!row.standardBrochuresIdentity || !row.standardBrochuresIdentity.product) { return; }
-      const year = moment(row.standardBrochuresIdentity.order_date).format('YYYY');
-      row.year = year;
-      const product = row.standardBrochuresIdentity.product;
+    resp.BY_PROGRAM.forEach(row => {
+      if (!row.identity || !row.identity.modules) { return; }
+      const year = moment(row.identity.order_date).format('YYYY');
 
       if (!skuQtyByYear[year]) {
         skuQtyByYear[year] = {};
         skuOrdersByYear[year] = {};
       }
 
-      if (product && !skuQtyByYear[year][product]) {
-        skuQtyByYear[year][product] = 0;
-        skuOrdersByYear[year][product] = 0;
+      if (row.identity.modules && !skuQtyByYear[year][row.identity.modules]) {
+        skuQtyByYear[year][row.identity.modules] = 0;
+        skuOrdersByYear[year][row.identity.modules] = 0;
       }
 
-      skuQtyByYear[year][product] += Number(row.total_quantity);
-      skuOrdersByYear[year][product] += Number(row.totalOrders);
-      return row;
+      skuQtyByYear[year][row.identity.modules] += Number(row.total_quantity);
+      skuOrdersByYear[year][row.identity.modules] += Number(row.totalOrders);
     });
-
     const rows = [];
-    this.years.map(year => {
+    this.years.forEach(year => {
       if (!skuQtyByYear[year]) { return; }
-      Object.keys(skuQtyByYear[year]).forEach((productName) => {
-        const product = products.find(p => p.standardBrochuresIdentity.product === productName);
+      Object.keys(skuQtyByYear[year]).forEach(modules => {
+        const program = resp.BY_PROGRAM.find(p => p.identity.modules === modules);
         rows.push({
-          product: product.standardBrochuresIdentity.product,
-          total_quantity: skuQtyByYear[year][productName],
-          totalOrders: skuOrdersByYear[year][productName],
+          programs: program.identity.programs,
+          modules,
+          total_quantity: skuQtyByYear[year][modules],
+          totalOrders: skuOrdersByYear[year][modules],
           year
         });
       });

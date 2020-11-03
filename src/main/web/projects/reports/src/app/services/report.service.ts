@@ -80,8 +80,8 @@ export class ReportService {
     return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
   }
 
-  fetchStandardBrochure(): Observable<any> {
-    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/standardBrochures';
+  fetchOnboardingDashboard(): Observable<any> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/onboardingDashboard';
     return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
   }
 
@@ -91,6 +91,11 @@ export class ReportService {
     return this.http.get(url, {
       params
     }).pipe(catchError(this.handleError.bind(this)));
+  }
+
+  fetchShipmentOrders(): Observable<any> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/shipmentOrders';
+    return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
   }
 
   handleError(err?): Observable<any> {
