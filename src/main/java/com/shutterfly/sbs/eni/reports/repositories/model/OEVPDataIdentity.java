@@ -22,4 +22,7 @@ public class OEVPDataIdentity implements Serializable {
   @Column(name = "p3Segment")
   private String p3Segment;
 
+  @Column(name = "order_date")
+  private String order_date;
+
 }

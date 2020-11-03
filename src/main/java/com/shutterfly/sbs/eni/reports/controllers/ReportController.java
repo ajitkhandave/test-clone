@@ -146,6 +146,31 @@ public class ReportController {
     return standardBrochuresReport;
   }
 
+  @ApiOperation(value = "Member Engagement Reports Data", authorizations = { @Authorization(value="Authorization") })
+  @GetMapping(path = "/fetchReport/memberEngagementReports", produces = "application/json")
+  public Map<String, List<Object>> fetchMemberEngagementReport() {
+    Map<String, List<Object>> standardBrochuresReport = new HashMap<String, List<Object>>();
+    try {
+      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.MEMBER_ENGAGEMENT_REPORT_BY_MONTH.getName());
+      List<Object> reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.MEMBER_ENGAGEMENT_REPORT_BY_MONTH.getRepository(), null, null);
+      standardBrochuresReport.put("BY_MONTH", reportResult);
+
+      queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.MEMBER_ENGAGEMENT_REPORT_BY_SEGMENT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.MEMBER_ENGAGEMENT_REPORT_BY_SEGMENT.getRepository(), null, null);
+      standardBrochuresReport.put("BY_SEGMENT", reportResult);
+
+      queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.MEMBER_ENGAGEMENT_REPORT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.MEMBER_ENGAGEMENT_REPORT.getRepository(), null, null);
+      standardBrochuresReport.put("BY_SKU", reportResult);
+
+    } catch(RecordsNotFoundException ex) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+    } catch(Exception ex) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+    }
+    return standardBrochuresReport;
+  }
+
   @ApiOperation(value = "ENI Valid Connection", authorizations = { @Authorization(value="Authorization") })
   @GetMapping(value = {"/validConnection"})
   public String valid(HttpServletResponse response) {
