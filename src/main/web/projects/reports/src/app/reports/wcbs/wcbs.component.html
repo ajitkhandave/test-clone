@@ -9,18 +9,18 @@
           </select>
         </div>
         <div class="col-2">
-          <label for="itemNumber" class="filter-name">Item Number</label>
+          <label for="programs" class="filter-name">Program Name</label>
           <div class="position-relative">
-            <input class="form-control filters" id="itemNumber" type="text" name="itemNumber" placeholder="Item Number"
-              formControlName="itemNumber" />
+            <input class="form-control filters" id="programs" type="text" name="programs"
+              placeholder="Program Name" formControlName="programs" />
           </div>
         </div>
         <div class="col-2">
-          <label for="productName" class="filter-name">Product Name</label>
-          <div class="position-relative">
-            <input class="form-control filters" id="productName" type="text" name="productName"
-              placeholder="Product Name" formControlName="productName" />
-          </div>
+          <label for="dataBy" class="filter-name">View Data By</label>
+          <select class="form-select form-control filters" formControlName="dataBy">
+            <option [value]="OrderColumn.prop">Orders</option>
+            <option [value]="PrintedColumn.prop">Printed</option>
+          </select>
         </div>
         <div class="col-auto align-self-end search">
           <button class="btn btn-sm btn-link mr-1 clear-filter-btn" type="button" (click)="clearFilter()">Clear
@@ -32,5 +32,6 @@
     </div>
   </div>
 </form>
+
 
 <app-data-table [columns]="columns" [sorts]="sorts" [tableConfig]="tableConfig"></app-data-table>

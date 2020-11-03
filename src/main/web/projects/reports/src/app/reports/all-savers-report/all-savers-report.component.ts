@@ -41,7 +41,7 @@ export class AllSaversReportComponent implements OnInit, AfterViewInit {
       { prop: 'productName', name: 'Product Name', sortable: true, draggable: false, width: 360, minWidth: 360, maxWidth: 360 },
       { prop: 'quantity', name: 'Printed', sortable: true, draggable: false },
       { prop: 'ordersPerSku', name: 'Orders', sortable: true, draggable: false },
-      { prop: 'kitsCount', name: 'Kits', sortable: true, draggable: false },
+      { prop: 'kitsCount', name: 'Kits', sortable: true, draggable: false, minWidth: 200 },
     ];
 
     this.sorts = [];
@@ -98,7 +98,7 @@ export class AllSaversReportComponent implements OnInit, AfterViewInit {
     }
 
     if (sku) {
-      isSku = (row.sku || '').includes(sku.toLowerCase());
+      isSku = (row.sku || '').toLowerCase().includes(sku.toLowerCase());
     }
     return isInRange && isSku;
   }

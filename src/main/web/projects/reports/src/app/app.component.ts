@@ -20,65 +20,67 @@ export class AppComponent implements OnInit {
     const types: ReportType[] = [{
       id: 'all-savers-report',
       name: 'All Savers Report',
-      reportImg: '/reports/assets/images/Resources_Accent@2x.png'
+      reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
     }, {
       id: 'status-alert-report',
       name: 'Status Alerts Report',
-      reportImg: '/reports/assets/images/report2.png'
+      reportImg: '/reports/assets/images/Reporting_Accent2@2x.png'
     }, {
       id: 'pop-active-products',
       name: 'POP Active Products Report',
-      reportImg: '/reports/assets/images/report1.png'
+      reportImg: '/reports/assets/images/Reporting_Accent3@2x.png'
     }, {
       id: 'order-status-report',
       name: 'Order Status Report',
-      reportImg: '/reports/assets/images/report3.png'
+      reportImg: '/reports/assets/images/Reporting_Accent4@2x.png'
     }, {
       id: 'order-details',
       name: 'Order Details Report',
-      reportImg: '/reports/assets/images/report1.png',
+      reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
       submenu: [{
         id: 'line-item-level-report',
         name: 'Line Item Level',
-        reportImg: '/reports/assets/images/report3.png',
-        disabled: true
+        reportImg: '/reports/assets/images/Reporting_Accent3@2x.png'
       }, {
         id: 'order-level-report',
         name: 'Order Level',
-        reportImg: '/reports/assets/images/report2.png'
+        reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
       }]
     }, {
       id: 'onboarding-dashboard',
       name: 'Onboarding Dashboard',
-      reportImg: '/reports/assets/images/report3.png',
+      reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
       submenu: [{
         id: 'wcbs',
         name: 'WCBs',
-        reportImg: '/reports/assets/images/report1.png',
-        disabled: true
+        reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
       }, {
         id: 'standard-brochures',
         name: 'Standard Brochures',
-        reportImg: '/reports/assets/images/report2.png'
+        reportImg: '/reports/assets/images/Reporting_Accent2@2x.png'
       }]
     }, {
       id: 'oe-vp-data',
       name: 'Open Enrollment VP Data Report',
-      reportImg: '/reports/assets/images/report2.png',
+      reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
       disabled: true
     }, {
       id: 'monthly-volume-report',
       name: 'Monthly Volume Report',
-      reportImg: '/reports/assets/images/Resources_Accent@2x.png'
+      reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
     }, {
       id: 'member-engagement-dashboard',
       name: 'Member Engagement Dashboard',
-      reportImg: '/reports/assets/images/Resources_Accent@2x.png'
+      reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
     }, {
       id: 'invoicing-report',
       name: 'Invoicing Report',
-      reportImg: '/reports/assets/images/report1.png',
+      reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
       disabled: true
+    }, {
+      id: 'shipments-order',
+      name: 'Shipments by Order',
+      reportImg: '/reports/assets/images/Reporting_Accent3@2x.png'
     }];
     this.service.setReportTypes(types);
 

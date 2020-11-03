@@ -1,0 +1,69 @@
+<form [formGroup]="filterForm" (submit)="onSearch()" *ngIf="!isAddressView">
+  <div class="order__filter-container mt-2">
+    <div class="order__filter-container-input">
+      <div class="form-row pl-3">
+        <div class="col-2">
+          <label for="orderNumber" class="filter-name">Order Number</label>
+          <input class="form-control filters" id="orderNumber" name="orderNumber" placeholder="Order Number"
+            formControlName="clientOrderId" />
+        </div>
+        <div class="col-2">
+          <label for="status" class="filter-name">Order Status</label>
+          <select class="form-select form-control filters" formControlName="orderStatus" id="status">
+            <option hidden value="" disabled selected>Select Status</option>
+            <option value="CANCELLED">CANCELLED</option>
+            <option value="COMPLETE">COMPLETE</option>
+            <option value="CLOSED">CLOSED</option>
+            <option value="DENIED">DENIED</option>
+            <option value="ERROR">ERROR</option>
+            <option value="IN_PROCESS">IN PROCESS</option>
+            <option value="MANUALLY_SHIPPED">MANUALLY SHIPPED</option>
+            <option value="PARTIAL_SHIPPED">PARTIAL SHIPPED</option>
+            <option value="PARTIALLY_PROCESSED">PARTIALLY PROCESSED</option>
+            <option value="SENT_TO_PRINTER">SENT TO PRINTER</option>
+            <option value="SHIPPED">SHIPPED</option>
+            <option value="STARTED_MANUFACTURING_MAPPING">STARTED MANUFACTURING MAPPING</option>
+          </select>
+        </div>
+        <div class="col-2">
+          <label for="filterBy" class="filter-name">Filtered By</label>
+          <select class="form-select form-control filters" formControlName="filterBy" id="filterBy">
+            <option value="shipmentOrderDate">Shipment By Order Date</option>
+            <option value="shipmentShipDate">Shipment By Ship Date</option>
+          </select>
+        </div>
+        <div class="col-3">
+          <label for="dateRange" class="filter-name">Date Range</label>
+          <app-date-range [setRange]="dateRange" (startDateChange)="startDateChange($event)"
+            (endDateChange)="endDateChange($event)"></app-date-range>
+        </div>
+        <div class="col-auto align-self-end search">
+          <button class="btn btn-sm btn-link mr-1 clear-filter-btn" type="button" (click)="clearFilter()">Clear
+            Filters</button>
+          <button class="btn btn-secondary" type="submit" [disabled]="filterForm.invalid" id="search">
+            SEARCH </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<form *ngIf="isAddressView">
+  <div class="order__filter-container mt-2">
+    <div class="order__filter-container-input">
+      <div class="form-row pl-3">
+        <div class="col-auto align-self-end search">
+          <button class="btn btn-secondary" type="button" id="search" (click)="goBack()">
+            GO BACK </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<app-data-table
+  [columns]="columns"
+  [sorts]="sorts"
+  [tableConfig]="tableConfig"
+  (rowClick)="onRowClick($event)"
+></app-data-table>
