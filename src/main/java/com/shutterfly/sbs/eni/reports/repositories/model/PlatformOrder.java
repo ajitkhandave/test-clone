@@ -2,6 +2,7 @@ package com.shutterfly.sbs.eni.reports.repositories.model;
 
 import java.io.Serializable;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -23,9 +24,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PlatformOrder implements Serializable {
 
-  @Id
-  @Column(name = "Platform_Order_ID")
-  private Long platformOrderId;
+  @EmbeddedId
+  private PlatformOrderIdentity identity;
 
   @Column(name="Client_Order_ID")
   private String clientOrderId;
@@ -77,8 +77,5 @@ public class PlatformOrder implements Serializable {
 
   @Column(name = "Zip_Code")
   private String zipCode;
-
-  @Column(name= "SBS_Order_Id")
-  private String sbsOrderId;
 
 }
