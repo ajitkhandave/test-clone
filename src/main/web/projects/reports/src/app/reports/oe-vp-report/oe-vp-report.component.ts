@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, Subject } from 'rxjs';
 import * as moment from 'moment';
@@ -7,6 +7,7 @@ import { TableConfig } from '../../models/table-config';
 import { ReportService } from '../../services/report.service';
 import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
 import { take } from 'rxjs/operators';
+import { QtyPipe } from '../../pipes/qty.pipe';
 
 @Component({
   selector: 'app-oe-vp-report',
@@ -20,16 +21,17 @@ export class OeVpReportComponent implements OnInit, AfterViewInit {
 
   tableConfig: TableConfig = {
     filters: new Subject<boolean>(),
-    api: () => this.dataSource$,
-    query: (row) => this.applyQuery(row)
+    api: () => this.dataSource$
   };
   dateRange: Subject<DateRange> = new Subject();
   filterForm: FormGroup;
   dataSource$: BehaviorSubject<any[]> = new BehaviorSubject([]);
   masterData: any[];
+  qtyPipe: QtyPipe = new QtyPipe();
 
   constructor(
     private reportService: ReportService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -38,9 +40,9 @@ export class OeVpReportComponent implements OnInit, AfterViewInit {
       { prop: 'productSegment', name: 'Product Segment', sortable: true, draggable: false, resizable: false },
       { prop: 'p3Segment', name: 'P3 Segment', sortable: true, draggable: false, resizable: false },
       { prop: 'template', name: 'OECB Template', sortable: true, draggable: false, resizable: false },
-      { prop: 'quantity', name: 'Quantity', sortable: true, draggable: false, resizable: false },
-      { prop: 'orders', name: 'Orders', sortable: true, draggable: false, resizable: false },
-      { prop: 'people', name: 'People', sortable: true, draggable: false, resizable: false }
+      { prop: 'quantity', name: 'Quantity', cellClass: 'text-right', headerClass: 'text-right', sortable: true, draggable: false, resizable: false, pipe: this.qtyPipe },
+      { prop: 'orders', name: 'Orders', cellClass: 'text-right', headerClass: 'text-right', sortable: true, draggable: false, resizable: false, pipe: this.qtyPipe },
+      { prop: 'people', name: 'People', cellClass: 'text-center', headerClass: 'text-center', sortable: true, draggable: false, resizable: false, pipe: this.qtyPipe }
     ];
 
     this.filterForm = new FormGroup({
@@ -64,10 +66,11 @@ export class OeVpReportComponent implements OnInit, AfterViewInit {
     this.filterForm.patchValue(val);
     this.dateRange.next(val);
     this.onSearch();
-    // this.cdr.detectChanges();
+    this.cdr.detectChanges();
   }
 
   onSearch() {
+    this.generateRows([].concat(this.masterData));
     this.tableConfig.filters.next(true);
   }
 
@@ -89,57 +92,43 @@ export class OeVpReportComponent implements OnInit, AfterViewInit {
     const { startDate, endDate } = this.filterForm.value;
     const rows = [];
     const filteredRows = resp.filter((row) => {
-      return moment(row.identity.order_date).isBetween(startDate, endDate);
+      if (row && row.identity) {
+        return moment(row.identity.order_date).isBetween(startDate, endDate);
+      }
+      return false; // To ignore the null data.
     });
     const uniqueSegments = Array.from(new Set(filteredRows.map(row => row.identity.productSegment)));
     uniqueSegments.forEach((segment) => {
-      const row = {
-        productSegment: segment,
-        p3Segments: []
-      };
-      const uniqueSegments = Array.from(new Set(filteredRows.map(item => item.identity.p3Segment)));
-      uniqueSegments.forEach((p3SegmentName) => {
-        let p3Segment = row.p3Segments.find(i => i.p3Segment === p3SegmentName);
-        if (!p3Segment) {
-          p3Segment = {
-            p3Segment: p3SegmentName,
-            quantity: 0,
-            orders: 0,
-            people: 0
-          };
-          row.p3Segments.push(p3Segment);
-        }
+      const uniqueP3Segments = Array.from(new Set(filteredRows.map(item => item.identity.p3Segment)));
+      uniqueP3Segments.forEach((p3SegmentName) => {
         const p3SegmentList = filteredRows.filter((item) => {
           return item.identity.productSegment === segment && item.identity.p3Segment === p3SegmentName;
         });
+        const row: any = {
+          productSegment: segment,
+          p3Segment: p3SegmentName,
+          quantity: 0,
+          orders: 0,
+          people: 0
+        };
         p3SegmentList.forEach(item => {
-          p3Segment.template = item.template;
-          p3Segment.quantity += item.quantity;
-          p3Segment.orders += item.orders;
-          p3Segment.people += item.people;
+          row.template = item.template;
+          row.quantity += Number(item.quantity);
+          row.orders += Number(item.orders);
+          row.people += Number(item.people);
         });
+        rows.push(row);
       });
-      rows.push(row);
     });
-    console.log('rows', rows);
+    // const uniqueIndex = {};
+    // rows.forEach((row, index) => {
+    //   //  specifically looking for undefined value in the object.
+    //   if (uniqueIndex[row.productSegment] === undefined) {
+    //     uniqueIndex[row.productSegment] = index;
+    //     return;
+    //   }
+    //   row.productSegment = '';
+    // });
     this.dataSource$.next(rows);
   }
-
-  applyQuery(row) {
-    /**
-     [{
-        orderDate: '',
-        productSegment: '',
-        p3Segments: [{
-          p3Segment: '',
-          oecb_template: '',
-          quantity: '',
-          orders: '',
-          people: ''
-        }]
-    }]
-    */
-    return row;
-  }
-
 }

@@ -12,7 +12,7 @@ export class QtyPipe implements PipeTransform {
       }
       return value.toLocaleString('en-US');
     }
-    return null;
+    return value;
   }
 
 }
