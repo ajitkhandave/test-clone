@@ -14,7 +14,7 @@ create table if not exists `reports_query_details`
 (
     `id` bigint(20) NOT NULL AUTO_INCREMENT,
     `report_id` bigint(20) NOT NULL,
-    `query_detail` text DEFAULT '',
+    `query_detail` varchar(50000) DEFAULT '',
     `datasource` varchar(500) null,
     `created_by` varchar(255) DEFAULT 'admin',
     `created_date` datetime DEFAULT NULL,
