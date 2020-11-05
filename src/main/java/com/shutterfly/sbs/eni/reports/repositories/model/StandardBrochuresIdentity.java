@@ -23,6 +23,4 @@ public class StandardBrochuresIdentity implements Serializable  {
   @Column(name = "customer_product_id")
   private String product;
 
-
-
 }
