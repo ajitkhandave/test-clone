@@ -35,17 +35,11 @@ public class OrderDetails implements Serializable {
   @Column(name = "order_need_by_date")
   private String needByDate;
 
-  @Column(name = "li_id")
-  private String lineItemId;
-
   @Column(name = "ship_method")
   private String shipMethod;
 
   @Column(name = "customer_product_id")
   private String customerProductId;
-
-  @Column(name = "lic_id")
-  private String lineComponentId;
 
   @Column(name = "p3_order_id")
   private String p3OrderId;

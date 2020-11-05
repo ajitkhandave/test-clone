@@ -2,6 +2,7 @@ package com.shutterfly.sbs.eni.reports.repositories.model;
 
 import java.io.Serializable;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -25,8 +26,8 @@ public class AllSaversReport implements Serializable {
   @Column(name = "orders_count")
   private String ordersPerSku;
 
-  @Column(name = "order_date")
-  private String orderDate;
+  @EmbeddedId
+  private StandardBrochuresIdentity identity;
 
   @Column(name = "p3Segment")
   private String p3Segment;
@@ -39,10 +40,6 @@ public class AllSaversReport implements Serializable {
 
   @Column(name = "lic_id")
   private String lineComponentId;
-
-  @Id
-  @Column(name = "customer_sku")
-  private String sku;
 
   @Column(name = "product_name")
   private String productName;

@@ -20,6 +20,12 @@ public class OrderDetailsIdentity implements Serializable {
   @Column(name = "po_id")
   private String orderId;
 
+  @Column(name = "li_id")
+  private String lineItemId;
+
+  @Column(name = "lic_id")
+  private String lineComponentId;
+
   @Column(name = "d_id")
   private String destinationId;
 
