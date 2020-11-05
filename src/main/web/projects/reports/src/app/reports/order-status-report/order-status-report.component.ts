@@ -106,7 +106,7 @@ export class OrderStatusReportComponent implements OnInit {
     let isInRange = true;
     const { clientOrderId, printVendor, status, selectADate, startDate, endDate } = this.filterForm.value;
     if (clientOrderId) {
-      isClientOrderId = (row.identity.clientOrderId || '').toLowerCase().includes(clientOrderId.toLowerCase());
+      isClientOrderId = (row.clientOrderId || '').toLowerCase().includes(clientOrderId.toLowerCase());
     }
 
     if (printVendor) {
