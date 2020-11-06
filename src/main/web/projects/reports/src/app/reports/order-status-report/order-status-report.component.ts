@@ -33,7 +33,7 @@ export class OrderStatusReportComponent implements OnInit {
 
   ngOnInit() {
     this.columns = [
-      { prop: 'sbsOrderId', name: 'SBS Order ID', sortable: false, draggable: false, resizeable: false, width: 230, minWidth: 230 },
+      { prop: 'identity.sbsOrderId', name: 'SBS Order ID', sortable: false, draggable: false, resizeable: false, width: 230, minWidth: 230 },
       { prop: 'clientOrderId', name: 'Client Order ID', sortable: false, draggable: false, resizeable: false },
       { prop: 'destinationId', name: 'Destination ID', sortable: true, draggable: false, resizeable: false },
       { prop: 'address1', name: 'Address 1', sortable: false, draggable: false, resizeable: false, cellClass: 'text-capitalized' },

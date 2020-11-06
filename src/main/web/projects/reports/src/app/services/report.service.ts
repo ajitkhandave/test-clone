@@ -76,7 +76,7 @@ export class ReportService {
   }
 
   fetchMemberEngagementReport(): Observable<any> {
-    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/MEMBER_ENGAGEMENT_REPORT';
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/memberEngagementReports';
     return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
   }
 
@@ -95,6 +95,11 @@ export class ReportService {
 
   fetchShipmentOrders(): Observable<any> {
     const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/shipmentOrders';
+    return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
+  }
+
+  fetchOeVpReport(): Observable<any> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/OE_VP_DATA_REPORT';
     return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
   }
 
