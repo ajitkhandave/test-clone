@@ -22,4 +22,21 @@
   </div>
 </form>
 
+<div class="row mt-3">
+  <div class="col-6">
+    <h4 class="chart-title">Total Printing By Month</h4>
+    <app-column-chart *ngIf="chartByMonth" [showXAxisLabel]='false' [showYAxisLabel]='false' [single]="chartByMonth">
+    </app-column-chart>
+  </div>
+  <div class="col-4">
+    <h4 class="chart-title">Business Segment <small>(Printed)</small></h4>
+    <app-single-bar-chart
+      *ngIf="chartByBusiness"
+      [view]="[440, 400]"
+      [showXAxisLabel]='false'
+      [showYAxisLabel]='false'
+      [single]="chartByBusiness"
+    ></app-single-bar-chart>
+  </div>
+</div>
 <app-data-table [columns]="columns" [sorts]="sorts" [tableConfig]="tableConfig"></app-data-table>

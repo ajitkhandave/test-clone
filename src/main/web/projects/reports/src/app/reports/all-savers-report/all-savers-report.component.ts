@@ -29,6 +29,10 @@ export class AllSaversReportComponent implements OnInit, AfterViewInit {
   dataSource$: BehaviorSubject<any[]> = new BehaviorSubject([]);
   filterForm: FormGroup;
   bySkuMasterRecords: any[] = [];
+  byMonthMasterData: any[];
+  chartByMonth: any[];
+  byBusinessSegmentMasterData: any[];
+  chartByBusiness: any[];
 
   constructor(
     private reportService: ReportService,
@@ -68,6 +72,8 @@ export class AllSaversReportComponent implements OnInit, AfterViewInit {
 
   onSearch() {
     this.generateRows();
+    this.prepareByMonthChart();
+    this.prepareBusinessChart();
     this.tableConfig.filters.next(true);
   }
 
@@ -105,11 +111,14 @@ export class AllSaversReportComponent implements OnInit, AfterViewInit {
       take(1)
     ).subscribe(resp => {
       this.bySkuMasterRecords = [].concat(resp.BY_SKU);
+      this.byMonthMasterData = [].concat(resp.BY_MONTH);
+      this.byBusinessSegmentMasterData = [].concat(resp.BY_SEGMENT);
       this.onSearch();
     });
   }
 
   generateRows() {
+    if (!this.bySkuMasterRecords) { return; }
     const { startDate, endDate } = this.filterForm.value;
     const filteredRows = this.bySkuMasterRecords.filter(row => moment(row.identity.order_date).isBetween(startDate, endDate, 'day', '[]'));
     const rows = [];
@@ -134,5 +143,49 @@ export class AllSaversReportComponent implements OnInit, AfterViewInit {
       }
     });
     this.dataSource$.next(rows);
+  }
+
+  prepareByMonthChart() {
+    if (!this.byMonthMasterData) { return; }
+    const { startDate, endDate } = this.filterForm.value;
+    const rows = [].concat(this.byMonthMasterData) || [];
+    const data: any[] = [];
+    const momentStartDate = moment(startDate).startOf('M');
+    const momentEndDate = moment(endDate).endOf('M');
+    const interim = momentStartDate.clone();
+
+    while (momentEndDate > interim || interim.format('M') === momentEndDate.format('M')) {
+      const monthNo = interim.format('M');
+      const monthName = interim.format('MMMM');
+      const row = rows.find(r => r.order_month == monthNo);
+      let qty = 0;
+      if (row) { qty = Number(row.total_quantity); }
+      data.push({
+        name: monthName,
+        value: qty
+      });
+      interim.add(1, 'M');
+    }
+    this.chartByMonth = data;
+  }
+
+  prepareBusinessChart() {
+    if (!this.byBusinessSegmentMasterData) { return; }
+    const { startDate, endDate } = this.filterForm.value;
+    const rows = this.byBusinessSegmentMasterData.filter(row => moment(row.segmentIdentity.order_date).isBetween(startDate, endDate, 'day', '[]'));
+    const data: any[] = [];
+    rows.forEach(row => {
+      let existingRow = data.find(r => r.name === row.segmentIdentity.p3Segment);
+      if (!existingRow) {
+        existingRow = {
+          name: row.segmentIdentity.p3Segment,
+          value: Number(row.total_quantity)
+        };
+        data.push(existingRow);
+      } else {
+        existingRow.value += Number(row.total_quantity);
+      }
+    });
+    this.chartByBusiness = data;
   }
 }
