@@ -64,7 +64,7 @@ public class InvoicingReport implements Serializable {
   @Column(name = "p3_segment")
   private String p3Segment;
 
-  @Column(name = "productName")
+  @Column(name = "product_name")
   private String productName;
 
   @Column(name = "sku_description")
@@ -109,7 +109,7 @@ public class InvoicingReport implements Serializable {
   @Column(name = "finish")
   private String finish;
 
-  @Column(name = "pageCount")
+  @Column(name = "page_count")
   private String pageCount;
 
   @Column(name = "page_count_config_join")
@@ -129,9 +129,6 @@ public class InvoicingReport implements Serializable {
 
   @Column(name = "otp_price")
   private String otpPrice;
-
-
-
 
 
 }
