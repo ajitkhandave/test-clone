@@ -29,6 +29,10 @@ export class MemberEngagementDashboardComponent implements OnInit, AfterViewInit
   filterForm: FormGroup;
   dataSource$: BehaviorSubject<any[]> = new BehaviorSubject([]);
   bySkuMasterRecords: any[] = [];
+  byMonthMasterData: any[];
+  chartByMonth: any[];
+  byBusinessSegmentMasterData: any[];
+  chartByBusiness: any[];
 
   constructor(
     private reportService: ReportService,
@@ -68,6 +72,8 @@ export class MemberEngagementDashboardComponent implements OnInit, AfterViewInit
 
   onSearch() {
     this.generateRows();
+    this.prepareByMonthChart();
+    this.prepareBusinessChart();
     this.tableConfig.filters.next(true);
   }
 
@@ -105,6 +111,8 @@ export class MemberEngagementDashboardComponent implements OnInit, AfterViewInit
       take(1)
     ).subscribe(resp => {
       this.bySkuMasterRecords = [].concat(resp.BY_SKU);
+      this.byMonthMasterData = [].concat(resp.BY_MONTH);
+      this.byBusinessSegmentMasterData = [].concat(resp.BY_SEGMENT);
       this.onSearch();
     });
   }
@@ -134,5 +142,55 @@ export class MemberEngagementDashboardComponent implements OnInit, AfterViewInit
       }
     });
     this.dataSource$.next(rows);
+  }
+
+  prepareByMonthChart() {
+    if (!this.byMonthMasterData) { return; }
+    const { startDate, endDate } = this.filterForm.value;
+    const rows = [].concat(this.byMonthMasterData) || [];
+    const data: any[] = [];
+    const momentStartDate = moment(startDate).startOf('M');
+    const momentEndDate = moment(endDate).endOf('M');
+    const interim = momentStartDate.clone();
+    const endYear = Number(momentEndDate.format('YYYY'));
+    let startYear = Number(momentStartDate.format('YYYY'));
+    const allowedYears = [];
+    do {
+      allowedYears.push('' + startYear);
+      startYear = startYear + 1;
+    } while (startYear <= endYear);
+
+    while (momentEndDate > interim || interim.format('M') === momentEndDate.format('M')) {
+      const monthNo = interim.format('M');
+      const monthName = interim.format('MMMM');
+      const row = rows.filter(r => r.order_month == monthNo && allowedYears.includes(r.order_year));
+      const qty = row.reduce((prev, curr) => prev + Number(curr.total_quantity), 0);
+      data.push({
+        name: monthName,
+        value: qty
+      });
+      interim.add(1, 'M');
+    }
+    this.chartByMonth = data;
+  }
+
+  prepareBusinessChart() {
+    if (!this.byBusinessSegmentMasterData) { return; }
+    const { startDate, endDate } = this.filterForm.value;
+    const rows = this.byBusinessSegmentMasterData.filter(row => moment(row.segmentIdentity.order_date).isBetween(startDate, endDate, 'day', '[]'));
+    const data: any[] = [];
+    rows.forEach(row => {
+      let existingRow = data.find(r => r.name === row.segmentIdentity.p3Segment);
+      if (!existingRow) {
+        existingRow = {
+          name: row.segmentIdentity.p3Segment,
+          value: Number(row.total_quantity)
+        };
+        data.push(existingRow);
+      } else {
+        existingRow.value += Number(row.total_quantity);
+      }
+    });
+    this.chartByBusiness = data;
   }
 }

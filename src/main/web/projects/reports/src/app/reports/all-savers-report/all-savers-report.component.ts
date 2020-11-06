@@ -153,13 +153,19 @@ export class AllSaversReportComponent implements OnInit, AfterViewInit {
     const momentStartDate = moment(startDate).startOf('M');
     const momentEndDate = moment(endDate).endOf('M');
     const interim = momentStartDate.clone();
+    const endYear = Number(momentEndDate.format('YYYY'));
+    let startYear = Number(momentStartDate.format('YYYY'));
+    const allowedYears = [];
+    do {
+      allowedYears.push('' + startYear);
+      startYear = startYear + 1;
+    } while (startYear <= endYear);
 
     while (momentEndDate > interim || interim.format('M') === momentEndDate.format('M')) {
       const monthNo = interim.format('M');
       const monthName = interim.format('MMMM');
-      const row = rows.find(r => r.order_month == monthNo);
-      let qty = 0;
-      if (row) { qty = Number(row.total_quantity); }
+      const row = rows.filter(r => r.order_month == monthNo && allowedYears.includes(r.order_year));
+      const qty = row.reduce((prev, curr) => prev + Number(curr.total_quantity), 0);
       data.push({
         name: monthName,
         value: qty
