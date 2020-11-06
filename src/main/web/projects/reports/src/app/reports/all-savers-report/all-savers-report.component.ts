@@ -111,7 +111,7 @@ export class AllSaversReportComponent implements OnInit, AfterViewInit {
 
   generateRows() {
     const { startDate, endDate } = this.filterForm.value;
-    const filteredRows = this.bySkuMasterRecords.filter(row => moment(row.orderDate).isBetween(startDate, endDate, 'day', '[]'));
+    const filteredRows = this.bySkuMasterRecords.filter(row => moment(row.identity.order_date).isBetween(startDate, endDate, 'day', '[]'));
     const rows = [];
     filteredRows.forEach((row) => {
       let existingRow = rows.find(r => r.sku === row.identity.product);
