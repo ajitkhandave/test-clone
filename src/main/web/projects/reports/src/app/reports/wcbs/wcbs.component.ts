@@ -1,13 +1,15 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import * as moment from 'moment';
 
 import { TableConfig } from '../../models/table-config';
 import { ReportService } from '../../services/report.service';
-import { map } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
 import { QtyPipe } from '../../pipes/qty.pipe';
+import { DateRange } from '../../models/date-range';
+import { MonthChartConfig, UtilService } from '../../services/util.service';
 
 @Component({
   selector: 'app-wcbs',
@@ -15,26 +17,34 @@ import { QtyPipe } from '../../pipes/qty.pipe';
   styleUrls: ['./wcbs.component.scss']
 })
 export class WcbsComponent implements OnInit, AfterViewInit {
+  qtyPipe: QtyPipe = new QtyPipe();
+  readonly PrintedColumn = { prop: 'total_quantity', name: 'No Of Printed', sortable: true, draggable: false, resizeable: false, width: 120, minWidth: 120, pipe: this.qtyPipe };
+  readonly OrderColumn = { prop: 'totalOrders', name: 'No Of Orders', sortable: true, draggable: false, resizeable: false, width: 120, minWidth: 120, pipe: this.qtyPipe };
 
   columns: any[];
   sorts: any[];
   tableConfig: TableConfig = {
     filters: new Subject<boolean>(),
-    api: () => this.reportService.fetchOnboardingDashboard().pipe(
-      map(this.generateData.bind(this))
-    ),
+    api: () => this.dataSource$,
     query: (row) => this.applyQuery(row)
   };
-
-  qtyPipe: QtyPipe = new QtyPipe();
-  readonly PrintedColumn = { prop: 'total_quantity', name: 'No Of Printed', sortable: true, draggable: false, resizeable: false, width: 340, minWidth: 340, pipe: this.qtyPipe };
-  readonly OrderColumn = { prop: 'totalOrders', name: 'No Of Orders', sortable: true, draggable: false, resizeable: false, width: 340, minWidth: 340, pipe: this.qtyPipe };
+  dataSource$: BehaviorSubject<any[]> = new BehaviorSubject([]);
+  masterData: any[];
   filterForm: FormGroup;
+  activeCol: string = this.OrderColumn.prop;
+  maxDate: string;
+  dateRange: Subject<DateRange> = new Subject();
 
-  years: string[] = [];
+  programMasterData: any[];
+  monthlyOrderMasterData: any[];
+  fundingTypeMasterData: any[];
+
+  byMonthChart: any[];
+  fundingTypeChart: any[];
 
   constructor(
     private reportService: ReportService,
+    private util: UtilService,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -47,22 +57,43 @@ export class WcbsComponent implements OnInit, AfterViewInit {
 
     this.sorts = [];
 
-    const currentYear = moment().year();
     this.filterForm = new FormGroup({
       programs: new FormControl(''),
       dataBy: new FormControl(this.OrderColumn.prop),
-      selectYear: new FormControl(currentYear)
+      startDate: new FormControl(''),
+      endDate: new FormControl('')
     }, { validators: FilterSelectedValidator });
-    this.years = new Array(5).fill(0).map((val, index) => String(currentYear - index));
+    this.maxDate = moment().endOf('y').format('YYYY-MM-DD');
+    this.fetchData();
+  }
+
+  fetchData() {
+    this.reportService.fetchOnboardingDashboard()
+      .pipe(take(1))
+      .subscribe(resp => {
+        this.programMasterData = [].concat(resp.BY_PROGRAM);
+        this.monthlyOrderMasterData = [].concat(resp.WCB_BY_MONTH);
+        this.fundingTypeMasterData = [].concat(resp.BY_FUNDING_TYPE);
+        this.generateData();
+        this.generateByMonth();
+        this.generateFundingType();
+      });
   }
 
   ngAfterViewInit() {
-    this.tableConfig.filters.next(true);
+    const val = {
+      startDate: moment().add(-1, 'year').startOf('y').format('YYYY-MM-DD'),
+      endDate: moment().endOf('y').format('YYYY-MM-DD')
+    };
+    this.filterForm.patchValue(val);
+    this.dateRange.next(val);
+    this.onSearch();
     this.cdr.detectChanges();
   }
 
   onSearch() {
     const { dataBy } = this.filterForm.value;
+    this.activeCol = dataBy;
     const activeColumn = this.columns.find(col => col.prop === dataBy);
     if (!activeColumn) {
       if (dataBy === this.OrderColumn.prop) {
@@ -73,21 +104,32 @@ export class WcbsComponent implements OnInit, AfterViewInit {
         this.setPrintedColumn();
       }
     }
+    this.generateData();
+    this.generateByMonth();
+    this.generateFundingType();
     this.tableConfig.filters.next(true);
   }
 
   clearFilter() {
-    const currentYear = moment().year();
     this.filterForm.patchValue({
       programs: '',
-      dataBy: this.OrderColumn.prop,
-      selectYear: currentYear
+      dataBy: this.OrderColumn.prop
     });
     const isPrintedColumn = this.columns.find(col => col.prop === this.OrderColumn.prop);
     if (!isPrintedColumn) {
       this.setOrderColumn();
     }
-    this.tableConfig.filters.next(true);
+    this.ngAfterViewInit();
+  }
+
+  startDateChange(date) {
+    const control = this.filterForm.get('startDate');
+    control.patchValue(date);
+  }
+
+  endDateChange(date) {
+    const control = this.filterForm.get('endDate');
+    control.patchValue(date);
   }
 
   setOrderColumn() {
@@ -104,53 +146,89 @@ export class WcbsComponent implements OnInit, AfterViewInit {
 
   applyQuery(row) {
     let isProgram = true;
-    let isYear = true;
-    const { programs, selectYear } = this.filterForm.value;
+    const { programs } = this.filterForm.value;
     if (programs) {
       isProgram = row.programs.toLowerCase().includes(programs.toLowerCase());
     }
-
-    if (selectYear) {
-      isYear = row.year == selectYear;
-    }
-    return isProgram && isYear;
+    return isProgram;
   }
 
-  generateData(resp) {
-    const skuQtyByYear = {};
-    const skuOrdersByYear = {};
-    resp.BY_PROGRAM.forEach(row => {
-      if (!row.identity || !row.identity.modules) { return; }
-      const year = moment(row.identity.order_date).format('YYYY');
-
-      if (!skuQtyByYear[year]) {
-        skuQtyByYear[year] = {};
-        skuOrdersByYear[year] = {};
-      }
-
-      if (row.identity.modules && !skuQtyByYear[year][row.identity.modules]) {
-        skuQtyByYear[year][row.identity.modules] = 0;
-        skuOrdersByYear[year][row.identity.modules] = 0;
-      }
-
-      skuQtyByYear[year][row.identity.modules] += Number(row.total_quantity);
-      skuOrdersByYear[year][row.identity.modules] += Number(row.totalOrders);
-    });
+  generateData() {
+    if (!this.programMasterData) { return; }
+    const byProgram = [].concat(this.programMasterData);
+    const { startDate, endDate } = this.filterForm.value;
     const rows = [];
-    this.years.forEach(year => {
-      if (!skuQtyByYear[year]) { return; }
-      Object.keys(skuQtyByYear[year]).forEach(modules => {
-        const program = resp.BY_PROGRAM.find(p => p.identity.modules === modules);
-        rows.push({
-          programs: program.identity.programs,
-          modules,
-          total_quantity: skuQtyByYear[year][modules],
-          totalOrders: skuOrdersByYear[year][modules],
-          year
-        });
+    const filteredRows = byProgram.filter((row) => {
+      if (row && row.identity) {
+        return moment(row.identity.order_date).isBetween(startDate, endDate, 'day', '[]');
+      }
+      return false; // To ignore the null data.
+    });
+    filteredRows.forEach(row => {
+      const program = rows.find(p => row.identity.modules === p.modules);
+      if (program) {
+        program.total_quantity += Number(row.total_quantity);
+        program.totalOrders += Number(row.totalOrders);
+        return;
+      }
+
+      rows.push({
+        programs: row.identity.programs,
+        modules: row.identity.modules,
+        total_quantity: Number(row.total_quantity),
+        totalOrders: Number(row.totalOrders)
       });
     });
-    return rows;
+    this.dataSource$.next(rows);
+  }
+
+  generateByMonth() {
+    if (!this.monthlyOrderMasterData) { return; }
+    const byMonth = [].concat(this.monthlyOrderMasterData);
+    const { startDate, endDate } = this.filterForm.value;
+    const chartConfig: MonthChartConfig = {
+      startDate,
+      endDate,
+      monthKey: 'order_month',
+      yearKey: 'order_year',
+      qtyKey: this.activeCol
+    };
+    this.byMonthChart = this.util.generateMonthsChartData(chartConfig, byMonth);
+  }
+
+  generateFundingType() {
+    if (!this.fundingTypeMasterData) { return; }
+    const fundingType = [].concat(this.fundingTypeMasterData);
+    const { startDate, endDate } = this.filterForm.value;
+    const filteredRow = fundingType.filter(funding => {
+      if (funding && funding.identity) {
+        return moment(funding.identity.order_date).isBetween(startDate, endDate, 'day', '[]');
+      }
+      return false;
+    });
+
+    const uniqueFundingType = Array.from(new Set(filteredRow.map(i => i.identity.fundingType)));
+    const data = {};
+    uniqueFundingType.forEach((type) => {
+      if (!data[type]) {
+        data[type] = {
+          [this.OrderColumn.prop]: 0,
+          [this.PrintedColumn.prop]: 0
+        };
+      }
+      filteredRow
+        .filter(row => row.identity.fundingType === type)
+        .forEach(row => {
+          data[type][this.OrderColumn.prop] += Number(row[this.OrderColumn.prop]);
+          data[type][this.PrintedColumn.prop] += Number(row[this.PrintedColumn.prop]);
+        });
+    });
+    this.fundingTypeChart = Object.keys(data).map((key) => {
+      return {
+        name: key,
+        value: data[key][this.activeCol]
+      };
+    });
   }
 
 }

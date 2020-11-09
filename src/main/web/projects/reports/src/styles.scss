@@ -88,3 +88,10 @@
   line-height: 22px;
   color: #58595B;
 }
+
+app-column-chart,
+app-single-bar-chart {
+  display: flex;
+  // flex: 1;
+  min-height: 300px;
+}

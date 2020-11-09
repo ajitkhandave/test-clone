@@ -28,6 +28,7 @@ export class OeVpReportComponent implements OnInit, AfterViewInit {
   dataSource$: BehaviorSubject<any[]> = new BehaviorSubject([]);
   masterData: any[];
   qtyPipe: QtyPipe = new QtyPipe();
+  maxDate: string;
 
   constructor(
     private reportService: ReportService,
@@ -49,7 +50,7 @@ export class OeVpReportComponent implements OnInit, AfterViewInit {
       startDate: new FormControl(''),
       endDate: new FormControl('')
     }, { validators: FilterSelectedValidator });
-
+    this.maxDate = moment().endOf('y').format('YYYY-MM-DD');
     this.reportService.fetchOeVpReport()
       .pipe(take(1))
       .subscribe(resp => {
@@ -93,7 +94,7 @@ export class OeVpReportComponent implements OnInit, AfterViewInit {
     const rows = [];
     const filteredRows = resp.filter((row) => {
       if (row && row.identity) {
-        return moment(row.identity.order_date).isBetween(startDate, endDate);
+        return moment(row.identity.order_date).isBetween(startDate, endDate, 'day', '[]');
       }
       return false; // To ignore the null data.
     });
@@ -120,15 +121,6 @@ export class OeVpReportComponent implements OnInit, AfterViewInit {
         rows.push(row);
       });
     });
-    // const uniqueIndex = {};
-    // rows.forEach((row, index) => {
-    //   //  specifically looking for undefined value in the object.
-    //   if (uniqueIndex[row.productSegment] === undefined) {
-    //     uniqueIndex[row.productSegment] = index;
-    //     return;
-    //   }
-    //   row.productSegment = '';
-    // });
     this.dataSource$.next(rows);
   }
 }
