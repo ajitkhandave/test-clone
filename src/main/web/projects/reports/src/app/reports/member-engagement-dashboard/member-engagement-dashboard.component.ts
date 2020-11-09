@@ -7,6 +7,7 @@ import { DateRange } from '../../models/date-range';
 import { TableConfig } from '../../models/table-config';
 import { ReportService } from '../../services/report.service';
 import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
+import { MonthChartConfig, UtilService } from '../../services/util.service';
 
 @Component({
   selector: 'app-member-engagement-dashboard',
@@ -36,7 +37,8 @@ export class MemberEngagementDashboardComponent implements OnInit, AfterViewInit
 
   constructor(
     private reportService: ReportService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private util: UtilService
   ) { }
 
   ngOnInit() {
@@ -148,30 +150,14 @@ export class MemberEngagementDashboardComponent implements OnInit, AfterViewInit
     if (!this.byMonthMasterData) { return; }
     const { startDate, endDate } = this.filterForm.value;
     const rows = [].concat(this.byMonthMasterData) || [];
-    const data: any[] = [];
-    const momentStartDate = moment(startDate).startOf('M');
-    const momentEndDate = moment(endDate).endOf('M');
-    const interim = momentStartDate.clone();
-    const endYear = Number(momentEndDate.format('YYYY'));
-    let startYear = Number(momentStartDate.format('YYYY'));
-    const allowedYears = [];
-    do {
-      allowedYears.push('' + startYear);
-      startYear = startYear + 1;
-    } while (startYear <= endYear);
-
-    while (momentEndDate > interim || interim.format('M') === momentEndDate.format('M')) {
-      const monthNo = interim.format('M');
-      const monthName = interim.format('MMMM');
-      const row = rows.filter(r => r.order_month == monthNo && allowedYears.includes(r.order_year));
-      const qty = row.reduce((prev, curr) => prev + Number(curr.total_quantity), 0);
-      data.push({
-        name: monthName,
-        value: qty
-      });
-      interim.add(1, 'M');
-    }
-    this.chartByMonth = data;
+    const chartConfig: MonthChartConfig = {
+      startDate,
+      endDate,
+      monthKey: 'order_month',
+      yearKey: 'order_year',
+      qtyKey: 'total_quantity'
+    };
+    this.chartByMonth = this.util.generateMonthsChartData(chartConfig, rows);
   }
 
   prepareBusinessChart() {
