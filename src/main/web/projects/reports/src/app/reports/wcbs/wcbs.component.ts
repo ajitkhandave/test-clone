@@ -37,8 +37,10 @@ export class WcbsComponent implements OnInit, AfterViewInit {
 
   programMasterData: any[];
   monthlyOrderMasterData: any[];
+  fundingTypeMasterData: any[];
 
   byMonthChart: any[];
+  fundingTypeChart: any[];
 
   constructor(
     private reportService: ReportService,
@@ -71,8 +73,10 @@ export class WcbsComponent implements OnInit, AfterViewInit {
       .subscribe(resp => {
         this.programMasterData = [].concat(resp.BY_PROGRAM);
         this.monthlyOrderMasterData = [].concat(resp.WCB_BY_MONTH);
+        this.fundingTypeMasterData = [].concat(resp.BY_FUNDING_TYPE);
         this.generateData();
         this.generateByMonth();
+        this.generateFundingType();
       });
   }
 
@@ -189,6 +193,41 @@ export class WcbsComponent implements OnInit, AfterViewInit {
       qtyKey: this.activeCol
     };
     this.byMonthChart = this.util.generateMonthsChartData(chartConfig, byMonth);
+  }
+
+  generateFundingType() {
+    if (!this.fundingTypeMasterData) { return; }
+    const fundingType = [].concat(this.fundingTypeMasterData);
+    const { startDate, endDate } = this.filterForm.value;
+    const filteredRow = fundingType.filter(funding => {
+      if (funding && funding.identity) {
+        return moment(funding.identity.order_date).isBetween(startDate, endDate, 'day', '[]');
+      }
+      return false;
+    });
+
+    const uniqueFundingType = Array.from(new Set(filteredRow.map(i => i.identity.fundingType)));
+    const data = {};
+    uniqueFundingType.forEach((type) => {
+      if (!data[type]) {
+        data[type] = {
+          [this.OrderColumn.prop]: 0,
+          [this.PrintedColumn.prop]: 0
+        };
+      }
+      filteredRow
+        .filter(row => row.identity.fundingType === type)
+        .forEach(row => {
+          data[type][this.OrderColumn.prop] += Number(row[this.OrderColumn.prop]);
+          data[type][this.PrintedColumn.prop] += Number(row[this.PrintedColumn.prop]);
+        });
+    });
+    this.fundingTypeChart = Object.keys(data).map((key) => {
+      return {
+        name: key,
+        value: data[key][this.activeCol]
+      };
+    });
   }
 
 }
