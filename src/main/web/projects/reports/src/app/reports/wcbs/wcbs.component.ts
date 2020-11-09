@@ -106,6 +106,7 @@ export class WcbsComponent implements OnInit, AfterViewInit {
     }
     this.generateData();
     this.generateByMonth();
+    this.generateFundingType();
     this.tableConfig.filters.next(true);
   }
 
