@@ -17,6 +17,7 @@ import { MonthChartConfig, UtilService } from '../../services/util.service';
   styleUrls: ['./wcbs.component.scss']
 })
 export class WcbsComponent implements OnInit, AfterViewInit {
+  qtyPipe: QtyPipe = new QtyPipe();
   readonly PrintedColumn = { prop: 'total_quantity', name: 'No Of Printed', sortable: true, draggable: false, resizeable: false, width: 120, minWidth: 120, pipe: this.qtyPipe };
   readonly OrderColumn = { prop: 'totalOrders', name: 'No Of Orders', sortable: true, draggable: false, resizeable: false, width: 120, minWidth: 120, pipe: this.qtyPipe };
 
@@ -29,7 +30,6 @@ export class WcbsComponent implements OnInit, AfterViewInit {
   };
   dataSource$: BehaviorSubject<any[]> = new BehaviorSubject([]);
   masterData: any[];
-  qtyPipe: QtyPipe = new QtyPipe();
   filterForm: FormGroup;
   activeCol: string = this.OrderColumn.prop;
   maxDate: string;
