@@ -9,7 +9,7 @@ import { take } from 'rxjs/operators';
 import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
 import { QtyPipe } from '../../pipes/qty.pipe';
 import { DateRange } from '../../models/date-range';
-import { MonthChartConfig, UtilService } from '../../services/util.service';
+import { MonthChartConfig, SegmentChartConfig, UtilService } from '../../services/util.service';
 
 @Component({
   selector: 'app-wcbs',
@@ -38,9 +38,11 @@ export class WcbsComponent implements OnInit, AfterViewInit {
   programMasterData: any[];
   monthlyOrderMasterData: any[];
   fundingTypeMasterData: any[];
+  byBusinessSegmentMasterData: any[];
 
   byMonthChart: any[];
   fundingTypeChart: any[];
+  chartByBusiness: any[];
 
   constructor(
     private reportService: ReportService,
@@ -74,9 +76,11 @@ export class WcbsComponent implements OnInit, AfterViewInit {
         this.programMasterData = [].concat(resp.BY_PROGRAM);
         this.monthlyOrderMasterData = [].concat(resp.WCB_BY_MONTH);
         this.fundingTypeMasterData = [].concat(resp.BY_FUNDING_TYPE);
+        this.byBusinessSegmentMasterData = [].concat(resp.WCB_BY_SEGMENT);
         this.generateData();
         this.generateByMonth();
         this.generateFundingType();
+        this.prepareBusinessChart();
       });
   }
 
@@ -107,6 +111,7 @@ export class WcbsComponent implements OnInit, AfterViewInit {
     this.generateData();
     this.generateByMonth();
     this.generateFundingType();
+    this.prepareBusinessChart();
     this.tableConfig.filters.next(true);
   }
 
@@ -229,6 +234,18 @@ export class WcbsComponent implements OnInit, AfterViewInit {
         value: data[key][this.activeCol]
       };
     });
+  }
+
+  prepareBusinessChart() {
+    if (!this.byBusinessSegmentMasterData) { return; }
+    const { startDate, endDate } = this.filterForm.value;
+    const data: SegmentChartConfig = {
+      startDate,
+      endDate,
+      qtyKey: 'total_quantity'
+    };
+
+    this.chartByBusiness = this.util.generateBusinessChartData(data, [].concat(this.byBusinessSegmentMasterData));
   }
 
 }

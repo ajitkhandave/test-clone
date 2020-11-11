@@ -7,7 +7,7 @@ import { DateRange } from '../../models/date-range';
 import { TableConfig } from '../../models/table-config';
 import { ReportService } from '../../services/report.service';
 import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
-import { UtilService, MonthChartConfig } from '../../services/util.service';
+import { UtilService, MonthChartConfig, SegmentChartConfig } from '../../services/util.service';
 
 @Component({
   selector: 'app-all-savers-report',
@@ -164,20 +164,12 @@ export class AllSaversReportComponent implements OnInit, AfterViewInit {
   prepareBusinessChart() {
     if (!this.byBusinessSegmentMasterData) { return; }
     const { startDate, endDate } = this.filterForm.value;
-    const rows = this.byBusinessSegmentMasterData.filter(row => moment(row.segmentIdentity.order_date).isBetween(startDate, endDate, 'day', '[]'));
-    const data: any[] = [];
-    rows.forEach(row => {
-      let existingRow = data.find(r => r.name === row.segmentIdentity.p3Segment);
-      if (!existingRow) {
-        existingRow = {
-          name: row.segmentIdentity.p3Segment,
-          value: Number(row.total_quantity)
-        };
-        data.push(existingRow);
-      } else {
-        existingRow.value += Number(row.total_quantity);
-      }
-    });
-    this.chartByBusiness = data;
+    const data: SegmentChartConfig = {
+      startDate,
+      endDate,
+      qtyKey: 'total_quantity'
+    };
+
+    this.chartByBusiness = this.util.generateBusinessChartData(data, [].concat(this.byBusinessSegmentMasterData));
   }
 }
