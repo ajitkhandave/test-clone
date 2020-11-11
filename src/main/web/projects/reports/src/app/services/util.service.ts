@@ -9,6 +9,12 @@ export interface MonthChartConfig {
   qtyKey: string;
 }
 
+export interface SegmentChartConfig {
+  startDate: string;
+  endDate: string;
+  qtyKey: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +22,7 @@ export class UtilService {
 
   constructor() { }
 
-  generateMonthsChartData(config: MonthChartConfig, rows: any[]): string[] {
+  generateMonthsChartData(config: MonthChartConfig, rows: any[]): { name: string, value: string }[] {
     const data: any[] = [];
     const momentStartDate = moment(config.startDate).startOf('M');
     const momentEndDate = moment(config.endDate).endOf('M');
@@ -41,6 +47,25 @@ export class UtilService {
       interim.add(1, 'M');
     }
 
+    return data;
+  }
+
+  generateBusinessChartData(config: SegmentChartConfig, rows: any[]): { name: string, value: string }[] {
+    const { startDate, endDate } = config;
+    rows = rows.filter(row => moment(row.segmentIdentity.order_date).isBetween(startDate, endDate, 'day', '[]'));
+    const data: any[] = [];
+    rows.forEach(row => {
+      let existingRow = data.find(r => r.name === row.segmentIdentity.p3Segment);
+      if (!existingRow) {
+        existingRow = {
+          name: row.segmentIdentity.p3Segment,
+          value: Number(row[config.qtyKey])
+        };
+        data.push(existingRow);
+      } else {
+        existingRow.value += Number(row[config.qtyKey]);
+      }
+    });
     return data;
   }
 }

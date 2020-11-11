@@ -41,11 +41,18 @@
       </app-column-chart>
     </div>
 
-    <div class="col-12">
+    <div class="col-12 mt-3">
       <h4 class="chart-title">Funding Type</h4>
       <app-single-bar-chart *ngIf="fundingTypeChart" [showXAxisLabel]='false' [showYAxisLabel]='false'
         [single]="fundingTypeChart"></app-single-bar-chart>
     </div>
+
+    <div class="col-12 mt-3">
+      <h4 class="chart-title">Business Segment</h4>
+      <app-single-bar-chart *ngIf="chartByBusiness" [showXAxisLabel]='false' [showYAxisLabel]='false'
+        [single]="chartByBusiness"></app-single-bar-chart>
+    </div>
+
   </div>
   <div class="col-6">
     <app-data-table [columns]="columns" [sorts]="sorts" [tableConfig]="tableConfig"></app-data-table>
