@@ -103,6 +103,14 @@ export class ReportService {
     return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
   }
 
+  fetchInvoiceOrderReport(startDate: string, endDate: string): Observable<any> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/invoicingReports';
+    const params = new HttpParams().set('startDate', startDate).set('endDate', endDate);
+    return this.http.get(url, {
+      params
+    }).pipe(catchError(this.handleError.bind(this)));
+  }
+
   handleError(err?): Observable<any> {
     let msg = 'Something went wrong. Please try again.';
     if (err && err.message) {

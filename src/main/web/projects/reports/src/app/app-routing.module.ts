@@ -5,6 +5,7 @@ import { ErrorComponent } from './components/error/error.component';
 import { HomeComponent } from './components/home/home.component';
 import { TitleComponent } from './components/title/title.component';
 import { AllSaversReportComponent } from './reports/all-savers-report/all-savers-report.component';
+import { InvoiceReportLineItemLevelComponent } from './reports/invoice-report-line-item-level/invoice-report-line-item-level.component';
 import { MemberEngagementDashboardComponent } from './reports/member-engagement-dashboard/member-engagement-dashboard.component';
 import { MonthlyVolumeReportComponent } from './reports/monthly-volume-report/monthly-volume-report.component';
 import { OeVpReportComponent } from './reports/oe-vp-report/oe-vp-report.component';
@@ -13,6 +14,7 @@ import { OrderDetailsOrderLevelComponent } from './reports/order-details-order-l
 import { OrderStatusReportComponent } from './reports/order-status-report/order-status-report.component';
 import { PopActiveProductsComponent } from './reports/pop-active-products/pop-active-products.component';
 import { ShipmentOrdersComponent } from './reports/shipment-orders/shipment-orders.component';
+import { ShippingReportOrderLevelComponent } from './reports/shipping-report-order-level/shipping-report-order-level.component';
 import { StandardBrochuresComponent } from './reports/standard-brochures/standard-brochures.component';
 import { StatusAlertReportComponent } from './reports/status-alert-report/status-alert-report.component';
 import { WcbsComponent } from './reports/wcbs/wcbs.component';
@@ -69,6 +71,12 @@ const routes: Routes = [
         }, {
           path: 'oe-vp-report',
           component: OeVpReportComponent
+        }, {
+          path: 'shipping-report-order-level',
+          component: ShippingReportOrderLevelComponent
+        }, {
+          path: 'shipping-report-line-item-level',
+          component: InvoiceReportLineItemLevelComponent
         }
         ]
       },

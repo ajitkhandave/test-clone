@@ -19,6 +19,10 @@ export class SingleBarChartComponent implements OnInit {
 
   @Input() view: number[];
 
+  @Input() colorScheme = {
+    domain: ['#196ECF']
+  };
+
   constructor() { }
 
   ngOnInit() {
