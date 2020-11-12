@@ -34,6 +34,7 @@ import { ColumnChartComponent } from './components/column-chart/column-chart.com
 import { SingleBarChartComponent } from './components/single-bar-chart/single-bar-chart.component';
 import { ShippingReportOrderLevelComponent } from './reports/shipping-report-order-level/shipping-report-order-level.component';
 import { CommonCurrencyPipe } from './pipes/common-currency.pipe';
+import { InvoiceReportLineItemLevelComponent } from './reports/invoice-report-line-item-level/invoice-report-line-item-level.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { CommonCurrencyPipe } from './pipes/common-currency.pipe';
     ColumnChartComponent,
     SingleBarChartComponent,
     ShippingReportOrderLevelComponent,
-    CommonCurrencyPipe
+    CommonCurrencyPipe,
+    InvoiceReportLineItemLevelComponent
   ],
   imports: [
     BrowserModule,

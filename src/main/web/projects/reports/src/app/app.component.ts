@@ -88,8 +88,7 @@ export class AppComponent implements OnInit {
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
         id: 'shipping-report-line-item-level',
-        name: 'Invoice Report - Line Item Level',
-        disabled: true
+        name: 'Invoice Report - Line Item Level'
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent1@2x.png',
         id: 'shipping-report-order-level',
