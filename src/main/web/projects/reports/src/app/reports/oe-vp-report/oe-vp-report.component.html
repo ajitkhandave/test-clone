@@ -4,7 +4,7 @@
       <div class="form-row pl-3">
         <div class="col-3">
           <label for="dateRange" class="filter-name">Date Range</label>
-          <app-date-range [setRange]="dateRange" (startDateChange)="startDateChange($event)"
+          <app-date-range [setRange]="dateRange" [maxDate]="maxDate" (startDateChange)="startDateChange($event)"
             (endDateChange)="endDateChange($event)"></app-date-range>
         </div>
         <div class="col-auto align-self-end search">

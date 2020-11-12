@@ -12,6 +12,7 @@ import { ErrorComponent } from './components/error/error.component';
 import { DataTableComponent } from './components/data-table/data-table.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { PopActiveProductsComponent } from './reports/pop-active-products/pop-active-products.component';
 import { AllSaversReportComponent } from './reports/all-savers-report/all-savers-report.component';
 import { TitleComponent } from './components/title/title.component';
@@ -29,6 +30,8 @@ import { QtyPipe } from './pipes/qty.pipe';
 import { ShipmentOrdersComponent } from './reports/shipment-orders/shipment-orders.component';
 import { WcbsComponent } from './reports/wcbs/wcbs.component';
 import { OeVpReportComponent } from './reports/oe-vp-report/oe-vp-report.component';
+import { ColumnChartComponent } from './components/column-chart/column-chart.component';
+import { SingleBarChartComponent } from './components/single-bar-chart/single-bar-chart.component';
 
 @NgModule({
   declarations: [
@@ -55,14 +58,17 @@ import { OeVpReportComponent } from './reports/oe-vp-report/oe-vp-report.compone
     OrderDetailsOrderLevelComponent,
     ShipmentOrdersComponent,
     WcbsComponent,
-    OeVpReportComponent
+    OeVpReportComponent,
+    ColumnChartComponent,
+    SingleBarChartComponent
   ],
   imports: [
     BrowserModule,
     CommonModules,
     NgxDatatableModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxChartsModule
   ],
   providers: [
     { provide: 'APPNAME', useValue: 'reports' },

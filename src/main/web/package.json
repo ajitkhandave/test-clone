@@ -27,6 +27,7 @@
     "@sbs/loader": "0.0.7",
     "@sbs/ngpc-auth": "0.0.53",
     "@swimlane/ngx-datatable": "^16.0.2",
+    "@swimlane/ngx-charts": "11.2.0",
     "@types/jquery": "^3.3.29",
     "bodybuilder": "^2.2.16",
     "bootstrap": "^4.2.1",

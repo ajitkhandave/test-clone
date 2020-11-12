@@ -80,6 +80,21 @@ export class AppComponent implements OnInit {
       id: 'shipments-order',
       name: 'Shipments by Order',
       reportImg: '/reports/assets/images/Reporting_Accent3@2x.png'
+    }, {
+      id: 'mpt-report',
+      name: 'MPT Report',
+      reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
+      disabled: true
+    }, {
+      id: 'oe-report',
+      name: 'OE Report',
+      reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
+      disabled: true
+    }, {
+      id: 'survey-report',
+      name: 'Survey Report',
+      reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
+      disabled: true
     }];
     this.service.setReportTypes(types);
 
