@@ -17,6 +17,10 @@ export class ColumnChartComponent implements OnInit {
 
   @Input() single: any[];
 
+  colorScheme = {
+    domain: ['#003fa3']
+  };
+
   constructor() { }
 
   ngOnInit() {  }

@@ -44,6 +44,10 @@ export class WcbsComponent implements OnInit, AfterViewInit {
   fundingTypeChart: any[];
   chartByBusiness: any[];
 
+  colorScheme = {
+    domain: ['#003fa3']
+  };
+
   constructor(
     private reportService: ReportService,
     private util: UtilService,
