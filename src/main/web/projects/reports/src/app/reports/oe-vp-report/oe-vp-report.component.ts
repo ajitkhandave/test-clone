@@ -118,7 +118,9 @@ export class OeVpReportComponent implements OnInit, AfterViewInit {
           row.orders += Number(item.orders);
           row.people += Number(item.people);
         });
-        rows.push(row);
+        if (row.quantity || row.orders || row.people) {
+          rows.push(row);
+        }
       });
     });
     this.dataSource$.next(rows);
