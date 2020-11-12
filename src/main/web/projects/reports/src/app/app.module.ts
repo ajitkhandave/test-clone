@@ -32,6 +32,8 @@ import { WcbsComponent } from './reports/wcbs/wcbs.component';
 import { OeVpReportComponent } from './reports/oe-vp-report/oe-vp-report.component';
 import { ColumnChartComponent } from './components/column-chart/column-chart.component';
 import { SingleBarChartComponent } from './components/single-bar-chart/single-bar-chart.component';
+import { ShippingReportOrderLevelComponent } from './reports/shipping-report-order-level/shipping-report-order-level.component';
+import { CommonCurrencyPipe } from './pipes/common-currency.pipe';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,9 @@ import { SingleBarChartComponent } from './components/single-bar-chart/single-ba
     WcbsComponent,
     OeVpReportComponent,
     ColumnChartComponent,
-    SingleBarChartComponent
+    SingleBarChartComponent,
+    ShippingReportOrderLevelComponent,
+    CommonCurrencyPipe
   ],
   imports: [
     BrowserModule,

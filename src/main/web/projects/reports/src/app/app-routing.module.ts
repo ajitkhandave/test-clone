@@ -13,6 +13,7 @@ import { OrderDetailsOrderLevelComponent } from './reports/order-details-order-l
 import { OrderStatusReportComponent } from './reports/order-status-report/order-status-report.component';
 import { PopActiveProductsComponent } from './reports/pop-active-products/pop-active-products.component';
 import { ShipmentOrdersComponent } from './reports/shipment-orders/shipment-orders.component';
+import { ShippingReportOrderLevelComponent } from './reports/shipping-report-order-level/shipping-report-order-level.component';
 import { StandardBrochuresComponent } from './reports/standard-brochures/standard-brochures.component';
 import { StatusAlertReportComponent } from './reports/status-alert-report/status-alert-report.component';
 import { WcbsComponent } from './reports/wcbs/wcbs.component';
@@ -69,6 +70,9 @@ const routes: Routes = [
         }, {
           path: 'oe-vp-report',
           component: OeVpReportComponent
+        }, {
+          path: 'shipping-report-order-level',
+          component: ShippingReportOrderLevelComponent
         }
         ]
       },

@@ -75,7 +75,46 @@ export class AppComponent implements OnInit {
       id: 'invoicing-report',
       name: 'Invoicing Report',
       reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
-      disabled: true
+      submenu: [{
+        reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
+        id: 'order-report-line-item-level',
+        name: 'Order Report - Line Item Level',
+        disabled: true
+      }, {
+        reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
+        id: 'order-report-order-level',
+        name: 'Order Report - Order Level',
+        disabled: true
+      }, {
+        reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
+        id: 'shipping-report-line-item-level',
+        name: 'Invoice Report - Line Item Level',
+        disabled: true
+      }, {
+        reportImg: '/reports/assets/images/Reporting_Accent1@2x.png',
+        id: 'shipping-report-order-level',
+        name: 'Invoice Report - Order Level'
+      }, {
+        reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
+        id: 'item-count-in-kit',
+        name: 'Item Count In Kit',
+        disabled: true
+      }, {
+        reportImg: '/reports/assets/images/Reporting_Accent1@2x.png',
+        id: 'sku-information',
+        name: 'SKU Information',
+        disabled: true
+      }, {
+        reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
+        id: 'skus-to-add',
+        name: 'SKUs to Add',
+        disabled: true
+      }, {
+        reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
+        id: 'pricing-error',
+        name: 'Pricing Error',
+        disabled: true
+      }]
     }, {
       id: 'shipments-order',
       name: 'Shipments by Order',
