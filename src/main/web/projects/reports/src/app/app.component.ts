@@ -39,11 +39,11 @@ export class AppComponent implements OnInit {
       reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
       submenu: [{
         id: 'line-item-level-report',
-        name: 'Line Item Level',
+        name: 'Order Details - Line Item Level',
         reportImg: '/reports/assets/images/Reporting_Accent3@2x.png'
       }, {
         id: 'order-level-report',
-        name: 'Order Level',
+        name: 'Order Details - Order Level',
         reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
       }]
     }, {
@@ -52,11 +52,11 @@ export class AppComponent implements OnInit {
       reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
       submenu: [{
         id: 'wcbs',
-        name: 'WCBs',
+        name: 'Onboarding Dashboard - WCBs',
         reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
       }, {
         id: 'standard-brochures',
-        name: 'Standard Brochures',
+        name: 'Onboarding Dashboard - Standard Brochures',
         reportImg: '/reports/assets/images/Reporting_Accent2@2x.png'
       }]
     }, {
@@ -96,22 +96,22 @@ export class AppComponent implements OnInit {
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
         id: 'item-count-in-kit',
-        name: 'Item Count In Kit',
+        name: 'Invoice Report - Item Count In Kit',
         disabled: true
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent1@2x.png',
         id: 'sku-information',
-        name: 'SKU Information',
+        name: 'Invoice Report - SKU Information',
         disabled: true
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
         id: 'skus-to-add',
-        name: 'SKUs to Add',
+        name: 'Invoice Report - SKUs to Add',
         disabled: true
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
         id: 'pricing-error',
-        name: 'Pricing Error',
+        name: 'Invoice Report - Pricing Error',
         disabled: true
       }]
     }, {
