@@ -76,7 +76,7 @@ export class ShippingReportOrderLevelComponent implements OnInit, AfterViewInit 
         pipe: this.datePipe,
         comparator: this.datePipe.sort.bind(this)
       },
-      { name: 'Customer Name', sortable: true, draggable: false, resizeable: false }, // TODO:
+      { prop: 'customer_name', name: 'Customer Name', sortable: true, draggable: false, resizeable: false },
       { prop: 'printVendor', name: 'Print Vendor', sortable: true, draggable: false, resizeable: false },
       { prop: 'orderStatus', name: 'Order Status', sortable: true, draggable: false, resizeable: false },
       { prop: 'glCode', name: 'GLCode', sortable: false, draggable: false, resizeable: false, minWidth: 150, width: 150 },
