@@ -253,7 +253,7 @@ export class WcbsComponent implements OnInit, AfterViewInit {
     const data: SegmentChartConfig = {
       startDate,
       endDate,
-      qtyKey: 'total_quantity'
+      qtyKey: this.activeCol
     };
 
     this.chartByBusiness = this.util.generateBusinessChartData(data, [].concat(this.byBusinessSegmentMasterData));
