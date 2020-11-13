@@ -65,6 +65,7 @@ export class WcbsComponent implements OnInit, AfterViewInit {
 
     this.filterForm = new FormGroup({
       programs: new FormControl(''),
+      modules: new FormControl(''),
       dataBy: new FormControl(this.OrderColumn.prop),
       startDate: new FormControl(''),
       endDate: new FormControl('')
@@ -122,6 +123,7 @@ export class WcbsComponent implements OnInit, AfterViewInit {
   clearFilter() {
     this.filterForm.patchValue({
       programs: '',
+      modules: '',
       dataBy: this.OrderColumn.prop
     });
     const isPrintedColumn = this.columns.find(col => col.prop === this.OrderColumn.prop);
@@ -155,11 +157,16 @@ export class WcbsComponent implements OnInit, AfterViewInit {
 
   applyQuery(row) {
     let isProgram = true;
-    const { programs } = this.filterForm.value;
+    let isModule = true;
+    const { programs, modules } = this.filterForm.value;
     if (programs) {
       isProgram = row.programs.toLowerCase().includes(programs.toLowerCase());
     }
-    return isProgram;
+
+    if (modules) {
+      isModule = row.modules.toLowerCase().includes(modules.toLowerCase());
+    }
+    return isProgram && isModule;
   }
 
   generateData() {
