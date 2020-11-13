@@ -64,6 +64,9 @@ public class InvoicingReport implements Serializable {
   @Column(name = "p3_segment")
   private String p3Segment;
 
+  @Column(name = "customer_name")
+  private String customerName;
+
   @Column(name = "product_name")
   private String productName;
 
