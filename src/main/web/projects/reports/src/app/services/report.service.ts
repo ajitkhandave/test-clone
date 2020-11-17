@@ -115,6 +115,10 @@ export class ReportService {
     return of([]);
   }
 
+  fetchItemCountInKit(): Observable<any[]> {
+    return of([]);
+  }
+
   handleError(err?): Observable<any> {
     let msg = 'Something went wrong. Please try again.';
     if (err && err.message) {

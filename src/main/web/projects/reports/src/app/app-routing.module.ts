@@ -5,6 +5,7 @@ import { ErrorComponent } from './components/error/error.component';
 import { HomeComponent } from './components/home/home.component';
 import { TitleComponent } from './components/title/title.component';
 import { AllSaversReportComponent } from './reports/all-savers-report/all-savers-report.component';
+import { InvoiceReportItemCountComponent } from './reports/invoice-report-item-count/invoice-report-item-count.component';
 import { InvoiceReportLineItemLevelComponent } from './reports/invoice-report-line-item-level/invoice-report-line-item-level.component';
 import { MemberEngagementDashboardComponent } from './reports/member-engagement-dashboard/member-engagement-dashboard.component';
 import { MonthlyVolumeReportComponent } from './reports/monthly-volume-report/monthly-volume-report.component';
@@ -85,6 +86,9 @@ const routes: Routes = [
         }, {
           path: 'order-report-line-item-level',
           component: OrderReportLineItemLevelComponent
+        }, {
+          path: 'item-count-in-kit',
+          component: InvoiceReportItemCountComponent
         }
         ]
       },
