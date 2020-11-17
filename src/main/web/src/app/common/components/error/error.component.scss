@@ -1,0 +1,14 @@
+.error-card-wrapper {
+  height: 65vh;
+  display: flex;
+  .error-card {
+    margin: auto 30%;
+    .card-body{
+      border-left: 20px solid #122377;
+    }
+    .card-text{
+      font-size: 32px;
+      color: #122377;
+    }
+  }
+}
