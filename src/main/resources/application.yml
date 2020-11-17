@@ -45,6 +45,7 @@ app:
       customer-web-endpoint: ${app.base-url}
       log-ui-error: ${app.base-url}/api/log
       login-url: ${app.login-url}
+      access-role: eni_ADMIN
 ---
 spring:
   profiles: local
