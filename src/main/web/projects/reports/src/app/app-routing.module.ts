@@ -11,6 +11,7 @@ import { MonthlyVolumeReportComponent } from './reports/monthly-volume-report/mo
 import { OeVpReportComponent } from './reports/oe-vp-report/oe-vp-report.component';
 import { OrderDetailsLineItemLevelComponent } from './reports/order-details-line-item-level/order-details-line-item-level.component';
 import { OrderDetailsOrderLevelComponent } from './reports/order-details-order-level/order-details-order-level.component';
+import { OrderReportOrderLevelComponent } from './reports/order-report-order-level/order-report-order-level.component';
 import { OrderStatusReportComponent } from './reports/order-status-report/order-status-report.component';
 import { PopActiveProductsComponent } from './reports/pop-active-products/pop-active-products.component';
 import { ShipmentOrdersComponent } from './reports/shipment-orders/shipment-orders.component';
@@ -77,6 +78,9 @@ const routes: Routes = [
         }, {
           path: 'shipping-report-line-item-level',
           component: InvoiceReportLineItemLevelComponent
+        }, {
+          path: 'order-report-order-level',
+          component: OrderReportOrderLevelComponent
         }
         ]
       },
