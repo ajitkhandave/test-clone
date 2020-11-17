@@ -90,12 +90,12 @@ export class InvoiceReportLineItemLevelComponent implements OnInit, AfterViewIni
       { prop: 'lineItemStatus', name: 'Line Item Status', sortable: true, draggable: false, resizeable: false, minWidth: 150, width: 150 },
       { prop: 'glCode', name: 'GLCode', sortable: false, draggable: false, resizeable: false, minWidth: 150, width: 150 },
       { prop: 'quantityOrdered', name: 'Qty Ordered', sortable: true, draggable: false, resizeable: false, pipe: this.qtyPipe },
-      { prop: 'productAmount', name: 'Product Price', sortable: true, draggable: false, resizeable: false, pipe: this.currencyPipe },
-      { name: 'Kitting Price', sortable: true, draggable: false, resizeable: false, pipe: this.currencyPipe }, // Todo
-      { name: 'Label & Small Carton Price', sortable: true, draggable: false, resizeable: false, pipe: this.currencyPipe }, // Todo
-      { name: 'Staple Price', sortable: true, draggable: false, resizeable: false, pipe: this.currencyPipe }, // ToDo
-      { prop: 'taxAmount', name: 'Tax Amount', sortable: true, draggable: false, resizeable: false, pipe: this.currencyPipe },
-      { prop: 'totalAmount', name: 'Total Amount', sortable: true, draggable: false, resizeable: false, pipe: this.currencyPipe }
+      { prop: 'productAmount', name: 'Product Price', sortable: true, draggable: false, resizeable: false, pipe: this.currencyPipe, minWidth: 115, width: 115 },
+      { name: 'Kitting Price', sortable: true, draggable: false, resizeable: false, pipe: this.currencyPipe, minWidth: 115, width: 115 }, // Todo
+      { name: 'Label & Small Carton Price', sortable: true, draggable: false, resizeable: false, pipe: this.currencyPipe, minWidth: 185, width: 185 }, // Todo
+      { name: 'Staple Price', sortable: true, draggable: false, resizeable: false, pipe: this.currencyPipe, minWidth: 100, width: 100 }, // ToDo
+      { prop: 'taxAmount', name: 'Tax Amount', sortable: true, draggable: false, resizeable: false, pipe: this.currencyPipe, minWidth: 110, width: 110 },
+      { prop: 'totalAmount', name: 'Total Amount', sortable: true, draggable: false, resizeable: false, pipe: this.currencyPipe, minWidth: 120, width: 120 }
     ];
     this.sorts = [];
     this.filterForm = new FormGroup({

@@ -8,6 +8,7 @@ import { TableConfig } from '../../models/table-config';
 import { ReportService } from '../../services/report.service';
 import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
 import { MonthChartConfig, SegmentChartConfig, UtilService } from '../../services/util.service';
+import { QtyPipe } from '../../pipes/qty.pipe';
 
 @Component({
   selector: 'app-member-engagement-dashboard',
@@ -35,6 +36,8 @@ export class MemberEngagementDashboardComponent implements OnInit, AfterViewInit
   byBusinessSegmentMasterData: any[];
   chartByBusiness: any[];
 
+  qtyPipe = new QtyPipe();
+
   constructor(
     private reportService: ReportService,
     private cdr: ChangeDetectorRef,
@@ -45,9 +48,9 @@ export class MemberEngagementDashboardComponent implements OnInit, AfterViewInit
     this.columns = [
       { prop: 'sku', name: 'SKU', sortable: true, draggable: false },
       { prop: 'productName', name: 'Product Name', sortable: true, draggable: false, width: 240, minWidth: 240, maxWidth: 240 },
-      { prop: 'quantity', name: 'Printed', sortable: true, draggable: false },
-      { prop: 'ordersPerSku', name: 'Orders', sortable: true, draggable: false },
-      { prop: 'kitsCount', name: 'Kits', sortable: true, draggable: false, minWidth: 100 },
+      { prop: 'quantity', name: 'Printed', sortable: true, draggable: false, pipe: this.qtyPipe },
+      { prop: 'ordersPerSku', name: 'Orders', sortable: true, draggable: false, pipe: this.qtyPipe },
+      { prop: 'kitsCount', name: 'Kits', sortable: true, draggable: false, minWidth: 100, pipe: this.qtyPipe },
     ];
 
     this.sorts = [];
