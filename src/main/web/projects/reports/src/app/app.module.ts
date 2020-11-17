@@ -36,6 +36,7 @@ import { ShippingReportOrderLevelComponent } from './reports/shipping-report-ord
 import { CommonCurrencyPipe } from './pipes/common-currency.pipe';
 import { InvoiceReportLineItemLevelComponent } from './reports/invoice-report-line-item-level/invoice-report-line-item-level.component';
 import { OrderReportOrderLevelComponent } from './reports/order-report-order-level/order-report-order-level.component';
+import { OrderReportLineItemLevelComponent } from './reports/order-report-line-item-level/order-report-line-item-level.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { OrderReportOrderLevelComponent } from './reports/order-report-order-lev
     ShippingReportOrderLevelComponent,
     CommonCurrencyPipe,
     InvoiceReportLineItemLevelComponent,
-    OrderReportOrderLevelComponent
+    OrderReportOrderLevelComponent,
+    OrderReportLineItemLevelComponent
   ],
   imports: [
     BrowserModule,
