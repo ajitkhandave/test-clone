@@ -35,6 +35,9 @@ import { SingleBarChartComponent } from './components/single-bar-chart/single-ba
 import { ShippingReportOrderLevelComponent } from './reports/shipping-report-order-level/shipping-report-order-level.component';
 import { CommonCurrencyPipe } from './pipes/common-currency.pipe';
 import { InvoiceReportLineItemLevelComponent } from './reports/invoice-report-line-item-level/invoice-report-line-item-level.component';
+import { OrderReportOrderLevelComponent } from './reports/order-report-order-level/order-report-order-level.component';
+import { OrderReportLineItemLevelComponent } from './reports/order-report-line-item-level/order-report-line-item-level.component';
+import { InvoiceReportItemCountComponent } from './reports/invoice-report-item-count/invoice-report-item-count.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +69,10 @@ import { InvoiceReportLineItemLevelComponent } from './reports/invoice-report-li
     SingleBarChartComponent,
     ShippingReportOrderLevelComponent,
     CommonCurrencyPipe,
-    InvoiceReportLineItemLevelComponent
+    InvoiceReportLineItemLevelComponent,
+    OrderReportOrderLevelComponent,
+    OrderReportLineItemLevelComponent,
+    InvoiceReportItemCountComponent
   ],
   imports: [
     BrowserModule,

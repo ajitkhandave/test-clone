@@ -4,19 +4,19 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import * as moment from 'moment';
 import { DateRange } from '../../models/date-range';
 import { TableConfig } from '../../models/table-config';
+import { CommonCurrencyPipe } from '../../pipes/common-currency.pipe';
 import { CommonDatePipe } from '../../pipes/common-date.pipe';
+import { QtyPipe } from '../../pipes/qty.pipe';
 import { ReportService } from '../../services/report.service';
 import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
 import { take } from 'rxjs/operators';
-import { CommonCurrencyPipe } from '../../pipes/common-currency.pipe';
-import { QtyPipe } from '../../pipes/qty.pipe';
 
 @Component({
-  selector: 'app-shipping-report-order-level',
-  templateUrl: './shipping-report-order-level.component.html',
-  styleUrls: ['./shipping-report-order-level.component.scss']
+  selector: 'app-order-report-order-level',
+  templateUrl: './order-report-order-level.component.html',
+  styleUrls: ['./order-report-order-level.component.scss']
 })
-export class ShippingReportOrderLevelComponent implements OnInit, AfterViewInit {
+export class OrderReportOrderLevelComponent implements OnInit, AfterViewInit {
 
   columns: any[];
   sorts: any[];
@@ -124,10 +124,10 @@ export class ShippingReportOrderLevelComponent implements OnInit, AfterViewInit 
 
   fetchRows() {
     const { startDate, endDate } = this.filterForm.value;
-    this.reportService.fetchInvoiceOrderReport(startDate, endDate).pipe(
+    this.reportService.fetchInvoiceOrderTypeReport(startDate, endDate).pipe(
       take(1)
     ).subscribe(resp => {
-      this.dataSource$.next(resp.SHIPPED_REPORT);
+      this.dataSource$.next(resp);
       this.onSearch();
     });
   }
@@ -139,15 +139,17 @@ export class ShippingReportOrderLevelComponent implements OnInit, AfterViewInit 
   clearFilter() {
     this.filterForm.patchValue({
       p3OrderId: '',
-      orderNumber: ''
+      orderNumber: '',
+      orderStatus: ''
     });
     this.tableConfig.filters.next(null);
   }
 
   applyQuery(row) {
-    const { orderNumber, p3OrderId } = this.filterForm.value;
+    const { orderNumber, p3OrderId, orderStatus } = this.filterForm.value;
     let isOrderNumber = true;
     let isP3OrderId = true;
+    let isOrderStatus = true;
 
     if (orderNumber) {
       isOrderNumber = row.clientOrderId.toLowerCase().includes(orderNumber.toLowerCase());
@@ -157,7 +159,10 @@ export class ShippingReportOrderLevelComponent implements OnInit, AfterViewInit 
       isP3OrderId = row.p3OrderId.toLowerCase().includes(p3OrderId.toLowerCase());
     }
 
-    return isOrderNumber && isP3OrderId;
-  }
+    if (orderStatus) {
+      isOrderStatus = row.orderStatus === orderStatus;
+    }
 
+    return isOrderNumber && isP3OrderId && isOrderStatus;
+  }
 }

@@ -111,6 +111,14 @@ export class ReportService {
     }).pipe(catchError(this.handleError.bind(this)));
   }
 
+  fetchInvoiceOrderTypeReport(startDate: string, endDate: string): Observable<any[]> {
+    return of([]);
+  }
+
+  fetchItemCountInKit(): Observable<any[]> {
+    return of([]);
+  }
+
   handleError(err?): Observable<any> {
     let msg = 'Something went wrong. Please try again.';
     if (err && err.message) {

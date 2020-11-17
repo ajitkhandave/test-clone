@@ -8,6 +8,7 @@ import { TableConfig } from '../../models/table-config';
 import { ReportService } from '../../services/report.service';
 import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
 import { UtilService, MonthChartConfig, SegmentChartConfig } from '../../services/util.service';
+import { QtyPipe } from '../../pipes/qty.pipe';
 
 @Component({
   selector: 'app-all-savers-report',
@@ -34,6 +35,7 @@ export class AllSaversReportComponent implements OnInit, AfterViewInit {
   chartByMonth: any[];
   byBusinessSegmentMasterData: any[];
   chartByBusiness: any[];
+  qtyPipe = new QtyPipe();
 
   constructor(
     private reportService: ReportService,
@@ -45,9 +47,9 @@ export class AllSaversReportComponent implements OnInit, AfterViewInit {
     this.columns = [
       { prop: 'sku', name: 'SKU', sortable: true, draggable: false },
       { prop: 'productName', name: 'Product Name', sortable: true, draggable: false, width: 240, minWidth: 240, maxWidth: 240 },
-      { prop: 'quantity', name: 'Printed', sortable: true, draggable: false },
-      { prop: 'ordersPerSku', name: 'Orders', sortable: true, draggable: false },
-      { prop: 'kitsCount', name: 'Kits', sortable: true, draggable: false, minWidth: 100 },
+      { prop: 'quantity', name: 'Printed', sortable: true, draggable: false, pipe: this.qtyPipe },
+      { prop: 'ordersPerSku', name: 'Orders', sortable: true, draggable: false, pipe: this.qtyPipe },
+      { prop: 'kitsCount', name: 'Kits', sortable: true, draggable: false, minWidth: 100, pipe: this.qtyPipe },
     ];
 
     this.sorts = [];
