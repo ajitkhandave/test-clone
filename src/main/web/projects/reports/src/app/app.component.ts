@@ -96,22 +96,22 @@ export class AppComponent implements OnInit {
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
         id: 'item-count-in-kit',
-        name: 'Invoice Report - Item Count In Kit',
+        name: 'Item Count In Kit',
         disabled: true
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent1@2x.png',
         id: 'sku-information',
-        name: 'Invoice Report - SKU Information',
+        name: 'SKU Information',
         disabled: true
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
         id: 'skus-to-add',
-        name: 'Invoice Report - SKUs to Add',
+        name: 'SKUs to Add',
         disabled: true
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
         id: 'pricing-error',
-        name: 'Invoice Report - Pricing Error',
+        name: 'Pricing Error',
         disabled: true
       }]
     }, {
@@ -127,11 +127,6 @@ export class AppComponent implements OnInit {
       id: 'oe-report',
       name: 'OE Report',
       reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
-      disabled: true
-    }, {
-      id: 'survey-report',
-      name: 'Survey Report',
-      reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
       disabled: true
     }];
     this.service.setReportTypes(types);
