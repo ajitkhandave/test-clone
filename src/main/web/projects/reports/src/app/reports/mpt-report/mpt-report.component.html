@@ -1,0 +1,54 @@
+<div class="row mt-3 mb-3">
+  <div class="col-12">
+    <div class="border-wrapper">
+      <h4 class="chart-title">{{type}} per day</h4>
+      <ngx-charts-bar-vertical-2d
+        class="counts-per-day-chart"
+        *ngIf="orderCountsPerDay"
+        [xAxis]="true"
+        [yAxis]="true"
+        [roundDomains]="true"
+        [showGridLines]="false"
+        [noBarWhenZero]="true"
+        [showGridLines]="false"
+        [groupPadding]="1"
+        [results]="orderCountsPerDay">
+      </ngx-charts-bar-vertical-2d>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-3 mb-3">
+  <div class="col-6">
+    <div class="border-wrapper">
+      <h4 class="chart-title">Business Segment (by {{type}})</h4>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <div class="border-wrapper">
+      <h4 class="chart-title">Status (by {{type}})</h4>
+    </div>
+  </div>
+</div>
+<div class="row mt-3 mb-3">
+  <div class="col-6">
+    <div class="border-wrapper">
+      <h4 class="chart-title">Top 10 Fliers (by {{type}})</h4>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <div class="col-12 p-0">
+      <div class="border-wrapper">
+        <h4 class="chart-title">Top 5 Kit Templates (by {{type}})</h4>
+      </div>
+    </div>
+
+    <div class="col-12 mt-3 mb-3 p-0">
+      <div class="border-wrapper">
+        <h4 class="chart-title">Top 5 Users (by {{type}})</h4>
+      </div>
+    </div>
+  </div>
+</div>
