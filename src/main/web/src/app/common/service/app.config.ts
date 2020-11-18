@@ -35,10 +35,10 @@ export class AppConfig {
   }
 
   public roleGuard(){
-    if(this.authService.authenticated() && location.pathname.indexOf('/error') < 0){
+    if(this.authService.authenticated() && location.pathname.indexOf('reports/error') < 0){
       let role = this.authService.decodeToken().authorities;
       if(role.indexOf(this.config['access-role']) < 0) {
-        location.href = '\\' + 'error';
+        location.href = '\\' + 'reports/error';
       }
     }
   }

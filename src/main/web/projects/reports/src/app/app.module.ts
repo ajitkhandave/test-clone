@@ -8,7 +8,6 @@ import { CommonModules, CommonProviders } from '../../../../src/app/common/const
 import { ReportHeaderComponent } from './components/report-header/report-header.component';
 import { HomeComponent } from './components/home/home.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
-import { ErrorComponent } from './components/error/error.component';
 import { DataTableComponent } from './components/data-table/data-table.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -45,7 +44,6 @@ import { InvoiceReportItemCountComponent } from './reports/invoice-report-item-c
     ReportHeaderComponent,
     HomeComponent,
     ContactUsComponent,
-    ErrorComponent,
     DataTableComponent,
     PaginationComponent,
     PopActiveProductsComponent,

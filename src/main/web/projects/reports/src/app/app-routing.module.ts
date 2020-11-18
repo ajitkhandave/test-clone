@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
-import { ErrorComponent } from './components/error/error.component';
 import { HomeComponent } from './components/home/home.component';
 import { TitleComponent } from './components/title/title.component';
 import { AllSaversReportComponent } from './reports/all-savers-report/all-savers-report.component';
@@ -95,10 +94,6 @@ const routes: Routes = [
       {
         path: 'contact',
         component: ContactUsComponent
-      },
-      {
-        path: 'error',
-        component: ErrorComponent
       }
     ]
   }

@@ -14,7 +14,8 @@ export class ErrorComponent implements OnInit {
   constructor(private constant: AppConfig) { }
 
   ngOnInit() {
-    this.status = 'We’re sorry, you do not have permission to access this page.';
+    this.status = 'We’re sorry, you do not have permission to access this page. Please login in to ';
+    this.loginurl= this.constant.get('login-url');
   }
 
 }
