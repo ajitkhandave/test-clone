@@ -38,6 +38,19 @@ export class ShipmentOrdersComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
+    this.displayShipmentReport();
+    this.filterForm = new FormGroup({
+      clientOrderId: new FormControl(''),
+      orderStatus: new FormControl(''),
+      startDate: new FormControl(''),
+      endDate: new FormControl(''),
+      filterBy: new FormControl('shipmentOrderDate')
+    }, { validators: FilterSelectedValidator });
+    this.sorts = [{ prop: 'clientOrderId', dir: 'desc' }];
+    this.fetchShipmentOrders();
+  }
+
+  displayShipmentReport() {
     this.columns = [
       { prop: 'p3OrderId', name: 'P3 Order ID', sortable: true, draggable: false, resizeable: false },
       { prop: 'clientOrderId', name: 'Order Number', sortable: true, draggable: false, resizeable: false, width: 220, minWidth: 220 },
@@ -81,34 +94,16 @@ export class ShipmentOrdersComponent implements OnInit, AfterViewInit {
       { prop: 'printVendor', name: 'Print Vendor', sortable: true, draggable: false, resizeable: false },
       { prop: 'shipments', name: 'Shipments', sortable: false, draggable: false, resizeable: false, width: 80, maxWidth: 80, minWidth: 80, cellClass: 'text-center' }
     ];
-
-    this.filterForm = new FormGroup({
-      clientOrderId: new FormControl(''),
-      orderStatus: new FormControl(''),
-      startDate: new FormControl(''),
-      endDate: new FormControl(''),
-      filterBy: new FormControl('shipmentOrderDate')
-    }, { validators: FilterSelectedValidator });
-
-    this.sorts = [{ prop: 'clientOrderId', dir: 'desc' }];
-    this.fetchShipmentOrders();
+    this.isAddressView = false;
   }
 
   fetchShipmentOrders() {
-    const loadShipmentData = () => {
-      this.dataSource$.next([].concat(this.shipmentData));
-      this.isAddressView = false;
-      this.onSearch();
-    };
-    if (this.shipmentData.length) {
-      loadShipmentData();
-      return;
-    }
     this.reportService.fetchShipmentOrders()
       .pipe(take(1))
       .subscribe(resp => {
         this.shipmentData = [].concat(resp);
-        loadShipmentData();
+        this.dataSource$.next([].concat(this.shipmentData));
+        this.onSearch();
       });
   }
 
@@ -148,6 +143,7 @@ export class ShipmentOrdersComponent implements OnInit, AfterViewInit {
   }
 
   applyQuery(row) {
+    if (this.isAddressView) { return true; }
     let isInRange = true;
     let isOrderStatus = true;
     let isOrderId = true;
@@ -202,7 +198,11 @@ export class ShipmentOrdersComponent implements OnInit, AfterViewInit {
   }
 
   goBack() {
-    this.ngOnInit();
+    this.displayShipmentReport();
+    this.dataSource$.next([].concat(this.shipmentData));
+    setTimeout(() => { // To bring the HTML back on the screen and apply the values.
+      this.clearFilter();
+    });
   }
 
 }
