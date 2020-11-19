@@ -183,7 +183,7 @@ export class ShipmentOrdersComponent implements OnInit, AfterViewInit {
   displayAddressReport(rows: any[]) {
     this.isAddressView = true;
     this.columns = [
-      { prop: 'p3OrderId', name: 'P3 Order ID', sortable: true, draggable: false, resizeable: false },
+      { prop: 'identity.platformOrderId', name: 'PO_ID', sortable: true, draggable: false, resizeable: false },
       { prop: 'identity.clientOrderId', name: 'Order Number', sortable: true, draggable: false, resizeable: false, width: 220, minWidth: 220 },
       { prop: 'address1', name: 'Address 1', sortable: true, draggable: false, resizeable: false },
       { prop: 'address2', name: 'Address 2', sortable: true, draggable: false, resizeable: false },
