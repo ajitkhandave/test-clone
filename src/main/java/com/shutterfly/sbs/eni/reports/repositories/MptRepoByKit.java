@@ -1,5 +1,7 @@
 package com.shutterfly.sbs.eni.reports.repositories;
 
-public class MptRepoByKit {
+import com.shutterfly.sbs.eni.reports.repositories.model.MPTKitData;
+
+public interface MptRepoByKit extends ExtendedRepository<MPTKitData, String> {
 
 }
