@@ -2,7 +2,10 @@
   height: 65vh;
   display: flex;
   .error-card {
-    margin: auto 30%;
+    margin: 5% 25%;
+    max-width: 70%;
+    max-height: 250px;
+    overflow: hidden;
     .card-body{
       border-left: 20px solid #122377;
     }
