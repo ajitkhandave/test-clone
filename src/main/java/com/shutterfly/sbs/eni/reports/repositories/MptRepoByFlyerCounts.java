@@ -1,5 +1,7 @@
 package com.shutterfly.sbs.eni.reports.repositories;
 
-public class MptRepoByFlyerCounts {
+import com.shutterfly.sbs.eni.reports.repositories.model.MPTFlyerCountsData;
+
+public interface MptRepoByFlyerCounts extends ExtendedRepository<MPTFlyerCountsData, String> {
 
 }
