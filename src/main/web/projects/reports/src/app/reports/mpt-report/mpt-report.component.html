@@ -1,19 +1,65 @@
+<form [formGroup]="filterForm" (submit)="onSearch()">
+  <div class="order__filter-container mt-2">
+    <div class="order__filter-container-input">
+      <div class="form-row pl-3">
+        <div class="col-2">
+          <label for="quarter" class="filter-name">Select Quarter</label>
+          <select class="form-select form-control filters" formControlName="quarter" id="quarter">
+            <option value="1">Q1</option>
+            <option value="2">Q2</option>
+            <option value="3">Q3</option>
+            <option value="4">Q4</option>
+          </select>
+        </div>
+        <div class="col-2">
+          <label for="selectYear" class="filter-name">Select Year</label>
+          <select class="form-select form-control filters" formControlName="year" id="selectYear">
+            <option [value]="year" *ngFor="let year of years">{{year}}</option>
+          </select>
+        </div>
+        <div class="col-2">
+          <label for="vendor" class="filter-name">Vendor</label>
+          <div class="position-relative">
+            <input class="form-control filters" id="vendor" type="text" name="vendor" placeholder="Vendor"
+              formControlName="vendor" />
+          </div>
+        </div>
+        <div class="col-2">
+          <label for="type" class="filter-name">View Data By</label>
+          <select class="form-select form-control filters" formControlName="type" id="type">
+            <option [value]="data" *ngFor="let data of viewDataBy">{{data}}</option>
+          </select>
+        </div>
+
+        <div class="col-auto align-self-end search">
+          <button class="btn btn-sm btn-link mr-1 clear-filter-btn" type="button" (click)="clearFilter()">Clear
+            Filters</button>
+          <button class="btn btn-secondary" type="submit" [disabled]="filterForm.invalid" id="search">
+            SEARCH </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+
 <div class="row mt-3 mb-3">
   <div class="col-12">
     <div class="border-wrapper">
       <h4 class="chart-title">{{type}} per day</h4>
-      <ngx-charts-bar-vertical-2d
-        class="counts-per-day-chart"
-        *ngIf="orderCountsPerDay"
-        [xAxis]="true"
-        [yAxis]="true"
-        [roundDomains]="true"
-        [showGridLines]="false"
-        [noBarWhenZero]="true"
-        [showGridLines]="false"
-        [groupPadding]="1"
-        [results]="orderCountsPerDay">
-      </ngx-charts-bar-vertical-2d>
+      <div class="counts-per-day-chart">
+        <ngx-charts-bar-vertical-2d
+          *ngIf="orderCountsPerDay"
+          [xAxis]="true"
+          [yAxis]="true"
+          [roundDomains]="true"
+          [showGridLines]="false"
+          [noBarWhenZero]="true"
+          [showGridLines]="false"
+          [groupPadding]="1"
+          [results]="orderCountsPerDay">
+        </ngx-charts-bar-vertical-2d>
+      </div>
     </div>
   </div>
 </div>
@@ -22,6 +68,12 @@
   <div class="col-6">
     <div class="border-wrapper">
       <h4 class="chart-title">Business Segment (by {{type}})</h4>
+      <app-single-bar-chart
+        *ngIf="chartByBusiness"
+        [showXAxisLabel]='false'
+        [showYAxisLabel]='false'
+        [single]="chartByBusiness"
+      ></app-single-bar-chart>
     </div>
   </div>
 
