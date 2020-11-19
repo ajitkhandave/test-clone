@@ -193,9 +193,33 @@ public class ReportController {
   public Map<String, List<Object>> fetchMPTReports() {
     Map<String, List<Object>> invoicingReport = new HashMap<String, List<Object>>();
     try {
-      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.INVOICING_SHIPPED_REPORT.getName());
-      List<Object> reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.INVOICING_SHIPPED_REPORT.getRepository(), null, null);
-      invoicingReport.put("SHIPPED_REPORT", reportResult);
+      List<String> perDayQuery = reportService.getQueriesForReport(ENIReportsCategoryEnum.MPT_REPORT_ORDER_COUNTS_PER_DAY.getName());
+      List<Object> perDayResult = reportService.getAllActiveProducts(perDayQuery, ENIReportsCategoryEnum.MPT_REPORT_ORDER_COUNTS_PER_DAY.getRepository(), null, null);
+      invoicingReport.put("MPT_REPORT_PER_DAY", perDayResult);
+
+      List<String> segmentQuery = reportService.getQueriesForReport(ENIReportsCategoryEnum.MPT__REPORT_ORDER_COUNTS_BY_BUSINESS_SEGMENT.getName());
+      List<Object> segmentResult = reportService.getAllActiveProducts(segmentQuery, ENIReportsCategoryEnum.MPT__REPORT_ORDER_COUNTS_BY_BUSINESS_SEGMENT.getRepository(), null, null);
+      invoicingReport.put("MPT_REPORT_BY_SEGMENT", segmentResult);
+
+     /* List<String> flyerCountQuery = reportService.getQueriesForReport(ENIReportsCategoryEnum.MPT__REPORT_ORDER_COUNTS_BY_FLYER_COUNTS.getName());
+      List<Object> flyerCountResult = reportService.getAllActiveProducts(flyerCountQuery, ENIReportsCategoryEnum.MPT__REPORT_ORDER_COUNTS_BY_FLYER_COUNTS.getRepository(), null, null);
+      invoicingReport.put("MPT_REPORT_BY_FLYER_COUNT", flyerCountResult);*/
+
+      List<String> kitQuery = reportService.getQueriesForReport(ENIReportsCategoryEnum.MPT__REPORT_ORDER_COUNTS_BY_KIT.getName());
+      List<Object> kitReportResult = reportService.getAllActiveProducts(kitQuery, ENIReportsCategoryEnum.MPT__REPORT_ORDER_COUNTS_BY_KIT.getRepository(), null, null);
+      invoicingReport.put("MPT_REPORT_BY_KIT", kitReportResult);
+
+      List<String> statusQuery = reportService.getQueriesForReport(ENIReportsCategoryEnum.MPT__REPORT_ORDER_COUNTS_BY_STATUS.getName());
+      List<Object> statusResult = reportService.getAllActiveProducts(statusQuery, ENIReportsCategoryEnum.MPT__REPORT_ORDER_COUNTS_BY_STATUS.getRepository(), null, null);
+      invoicingReport.put("MPT_REPORT_BY_STATUS", statusResult);
+
+      List<String> usersQuery = reportService.getQueriesForReport(ENIReportsCategoryEnum.MPT__REPORT_ORDER_COUNTS_BY_USERS.getName());
+      List<Object> usersResult = reportService.getAllActiveProducts(usersQuery, ENIReportsCategoryEnum.MPT__REPORT_ORDER_COUNTS_BY_USERS.getRepository(), null, null);
+      invoicingReport.put("MPT_REPORT_BY_USERS", usersResult);
+
+      List<String> totalsQuery = reportService.getQueriesForReport(ENIReportsCategoryEnum.MPT__REPORT_ORDER_COUNTS_TOTALS.getName());
+      List<Object> totalsReportResult = reportService.getAllActiveProducts(totalsQuery, ENIReportsCategoryEnum.MPT__REPORT_ORDER_COUNTS_TOTALS.getRepository(), null, null);
+      invoicingReport.put("MPT_REPORT_BY_TOTALS", totalsReportResult);
 
     } catch(RecordsNotFoundException ex) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
