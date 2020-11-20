@@ -20,5 +20,7 @@ public class MPTUsersIdentity implements Serializable  {
   private String userName;
   @Column(name = "print_vendor")
   private String printVendor;
+  @Column(name = "order_date")
+  private String orderDate;
 
 }

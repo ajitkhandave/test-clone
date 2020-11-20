@@ -20,5 +20,7 @@ public class MPTSegmentIdentity implements Serializable  {
   private String p3Segment;
   @Column(name = "print_vendor")
   private String printVendor;
+  @Column(name = "order_date")
+  private String orderDate;
 
 }
