@@ -36,6 +36,10 @@ export class MptReportComponent implements OnInit, AfterViewInit {
   statusChart: any[];
   masterFlierChart: any[];
   flierChart: any[];
+  masterKitChart: any[];
+  kitChart: any[];
+  masterUserChart: any[];
+  userChart: any[];
 
   constructor(
     private reportService: ReportService,
@@ -80,6 +84,9 @@ export class MptReportComponent implements OnInit, AfterViewInit {
     this.generateBusinessSegement(startDate.clone(), endDate.clone());
     this.generateStatus(startDate.clone(), endDate.clone());
     this.generateFlier(startDate.clone(), endDate.clone());
+    this.generateKit(startDate.clone(), endDate.clone());
+    this.generateUser(startDate.clone(), endDate.clone());
+
   }
 
   clearFilter() {
@@ -93,7 +100,9 @@ export class MptReportComponent implements OnInit, AfterViewInit {
       this.masterOrderCountsPerDay = [].concat(resp.MPT_REPORT_PER_DAY);
       this.masterChartByBusiness = [].concat(resp.MPT_REPORT_BY_SEGMENT);
       this.masterStatusChart = [].concat(resp.MPT_REPORT_BY_STATUS);
-      // this.masterFlierChart = [].concat(resp.MPT_REPORT_BY_FLIER);
+      this.masterFlierChart = [].concat(resp.MPT_REPORT_BY_FLYER_COUNT);
+      this.masterKitChart = [].concat(resp.MPT_REPORT_BY_KIT);
+      this.masterUserChart = [].concat(resp.MPT_REPORT_BY_USERS);
       this.onSearch();
     });
   }
@@ -152,8 +161,26 @@ export class MptReportComponent implements OnInit, AfterViewInit {
   generateFlier(startDate, endDate) {
     if (!this.masterFlierChart) { return; }
     // Filter the records by Vendor, startDate & endDate
-    // const filteredData = this.masterFlierChart.filter(row => this.filterRecords(startDate, endDate, row));
-    // this.flierChart = this.generateUniqueChart(filteredData, 'status');
+    const filteredData = this.masterFlierChart.filter(row => this.filterRecords(startDate, endDate, row));
+    this.flierChart = this.generateUniqueChart(filteredData, 'product_name'); // Todo: Validate once data are there.
+  }
+
+  /** Kit Chart */
+  generateKit(startDate, endDate) {
+    if (!this.masterKitChart) { return; }
+    // Filter the records by Vendor, startDate & endDate
+    const filteredData = this.masterKitChart.filter(row => this.filterRecords(startDate, endDate, row));
+    const kitChart = this.generateUniqueChart(filteredData, 'productName');
+    this.kitChart = kitChart.slice(0, 5); // Only Top 5 needed.
+  }
+
+  /** Kit Chart */
+  generateUser(startDate, endDate) {
+    if (!this.masterUserChart) { return; }
+    // Filter the records by Vendor, startDate & endDate
+    const filteredData = this.masterUserChart.filter(row => this.filterRecords(startDate, endDate, row));
+    const userChart = this.generateUniqueChart(filteredData, 'userName');
+    this.userChart = userChart.slice(0, 5); // Only Top 5 needed.
   }
 
   /** Generic Funciton for CountsPerDay Chart */
