@@ -201,9 +201,9 @@ public class ReportController {
       List<Object> segmentResult = reportService.getAllActiveProducts(segmentQuery, ENIReportsCategoryEnum.MPT__REPORT_ORDER_COUNTS_BY_BUSINESS_SEGMENT.getRepository(), null, null);
       invoicingReport.put("MPT_REPORT_BY_SEGMENT", segmentResult);
 
-     /* List<String> flyerCountQuery = reportService.getQueriesForReport(ENIReportsCategoryEnum.MPT__REPORT_ORDER_COUNTS_BY_FLYER_COUNTS.getName());
+      List<String> flyerCountQuery = reportService.getQueriesForReport(ENIReportsCategoryEnum.MPT__REPORT_ORDER_COUNTS_BY_FLYER_COUNTS.getName());
       List<Object> flyerCountResult = reportService.getAllActiveProducts(flyerCountQuery, ENIReportsCategoryEnum.MPT__REPORT_ORDER_COUNTS_BY_FLYER_COUNTS.getRepository(), null, null);
-      invoicingReport.put("MPT_REPORT_BY_FLYER_COUNT", flyerCountResult);*/
+      invoicingReport.put("MPT_REPORT_BY_FLYER_COUNT", flyerCountResult);
 
       List<String> kitQuery = reportService.getQueriesForReport(ENIReportsCategoryEnum.MPT__REPORT_ORDER_COUNTS_BY_KIT.getName());
       List<Object> kitReportResult = reportService.getAllActiveProducts(kitQuery, ENIReportsCategoryEnum.MPT__REPORT_ORDER_COUNTS_BY_KIT.getRepository(), null, null);
