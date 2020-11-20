@@ -85,8 +85,8 @@ export class OrderDetailsOrderLevelComponent implements OnInit, AfterViewInit {
       { prop: 'segment', name: 'Segment', sortable: false, draggable: false, resizeable: false },
       { prop: 'plansAndProducts', name: 'Plans And Products', sortable: false, draggable: false, resizeable: false },
       { prop: 'numberOfEmployees', name: 'Employees', sortable: false, draggable: false, resizeable: false },
-      // { prop: '', name: 'Purchaser', sortable: true, draggable: false, resizeable: false }, // Todo: Query to ask Platform team.
-      { prop: 'userEmail', name: 'Purchaser Email', sortable: true, draggable: false, resizeable: false },
+      { prop: 'Purchaser', name: 'Purchaser', sortable: true, draggable: false, resizeable: false },
+      { prop: 'purchaser_email', name: 'Purchaser Email', sortable: true, draggable: false, resizeable: false },
       { prop: 'customerName', name: 'Customer Name', sortable: false, draggable: false, resizeable: false },
       { prop: 'shipToCompanyName', name: 'Ship To Company Name', sortable: true, draggable: false, resizeable: false, minWidth: 170 },
       { prop: 'firstName', name: 'Ship To First Name', sortable: false, draggable: false, resizeable: false },
