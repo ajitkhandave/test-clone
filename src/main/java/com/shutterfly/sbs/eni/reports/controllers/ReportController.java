@@ -79,6 +79,19 @@ public class ReportController {
     }
   }
 
+  @ApiOperation(value = "ENI Line Item Details Reports Data", authorizations = { @Authorization(value="Authorization") })
+  @GetMapping(path = "/fetchReport/lineItemDetails", produces = "application/json")
+  public List<Object> fetchLineItemReports(@RequestParam(value = "startDate", required = false) String startDate, @RequestParam(value = "endDate", required = false) String  endDate ) {
+    try {
+      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.LINE_ITEM_DETAILS_REPORT.getName());
+      return reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.LINE_ITEM_DETAILS_REPORT.getRepository(), startDate, endDate);
+    } catch(RecordsNotFoundException ex) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+    } catch(Exception ex) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+    }
+  }
+
   @ApiOperation(value = "ENI Onboarding Dashbaord Reports Data", authorizations = { @Authorization(value="Authorization") })
   @GetMapping(path = "/fetchReport/onboardingDashboard", produces = "application/json")
   public Map<String, List<Object>> fetchOnbaordingDashboardReport() {
