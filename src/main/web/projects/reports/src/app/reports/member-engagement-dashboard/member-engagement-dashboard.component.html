@@ -6,6 +6,13 @@
           <label for="sku" class="filter-name">SKU</label>
           <input class="form-control filters" id="sku" name="sku" placeholder="Enter Sku" formControlName="sku" />
         </div>
+        <div class="col-2">
+          <label for="type" class="filter-name">View Data By</label>
+          <select class="form-select form-control filters" formControlName="type" id="type">
+            <option value="total_quantity">Printed</option>
+            <option value="totalOrders">Orders</option>
+          </select>
+        </div>
         <div class="col-3">
           <label for="dateRange" class="filter-name">Date Range</label>
           <app-date-range [setRange]="dateRange" [maxDate]="maxDate" (startDateChange)="startDateChange($event)"
@@ -25,13 +32,13 @@
 <div class="row mt-3 mb-3">
   <div class="col-5">
     <div class="col-12">
-      <h4 class="chart-title">Total Printed By Month</h4>
+      <h4 class="chart-title">Total {{activeType}} By Month</h4>
       <app-column-chart *ngIf="chartByMonth" [showXAxisLabel]='false' [showYAxisLabel]='false' [single]="chartByMonth">
       </app-column-chart>
     </div>
 
     <div class="col-12">
-      <h4 class="chart-title">Business Segment <small>(Printed)</small></h4>
+      <h4 class="chart-title">Business Segment <small>({{activeType}})</small></h4>
       <app-single-bar-chart
         *ngIf="chartByBusiness"
         [view]="[440, 400]"
