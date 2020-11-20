@@ -66,6 +66,8 @@ export class UtilService {
         existingRow.value += Number(row[config.qtyKey]);
       }
     });
-    return data;
+    return data
+      .filter(r => !!r.value)
+      .sort((a, b) => b.value - a.value);
   }
 }
