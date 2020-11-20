@@ -41,6 +41,14 @@ export class MptReportComponent implements OnInit, AfterViewInit {
   masterUserChart: any[];
   userChart: any[];
 
+  masterTotalChart: any[];
+  totalChart: {
+    orders: number,
+    kits: number,
+    qty: number,
+    shipments: number
+  };
+
   constructor(
     private reportService: ReportService,
     private cdr: ChangeDetectorRef
@@ -86,7 +94,7 @@ export class MptReportComponent implements OnInit, AfterViewInit {
     this.generateFlier(startDate.clone(), endDate.clone());
     this.generateKit(startDate.clone(), endDate.clone());
     this.generateUser(startDate.clone(), endDate.clone());
-
+    this.generateTotals(startDate.clone(), endDate.clone());
   }
 
   clearFilter() {
@@ -103,6 +111,7 @@ export class MptReportComponent implements OnInit, AfterViewInit {
       this.masterFlierChart = [].concat(resp.MPT_REPORT_BY_FLYER_COUNT);
       this.masterKitChart = [].concat(resp.MPT_REPORT_BY_KIT);
       this.masterUserChart = [].concat(resp.MPT_REPORT_BY_USERS);
+      this.masterTotalChart = [].concat(resp.MPT_REPORT_BY_TOTALS);
       this.onSearch();
     });
   }
@@ -181,6 +190,38 @@ export class MptReportComponent implements OnInit, AfterViewInit {
     const filteredData = this.masterUserChart.filter(row => this.filterRecords(startDate, endDate, row));
     const userChart = this.generateUniqueChart(filteredData, 'userName');
     this.userChart = userChart.slice(0, 5); // Only Top 5 needed.
+  }
+
+  /** Totals Chart */
+  generateTotals(startDate, endDate) {
+    if (!this.masterTotalChart) { return; }
+    const { vendor } = this.filterForm.value;
+    const orderCounts = {
+      orders: 0,
+      kits: 0,
+      qty: 0,
+      shipments: 0
+    };
+
+    this.masterTotalChart.filter(row => {
+      let isInRage = true;
+      let isVendor = true;
+      if (startDate && endDate && row.orderDate) {
+        isInRage = moment(row.orderDate).isBetween(startDate, endDate, 'day', '[]');
+      }
+
+      if (vendor) {
+        isVendor = (row.printVendor.toLowerCase()).includes(vendor.toLowerCase());
+      }
+      return isInRage && isVendor;
+    }).forEach(order => {
+      orderCounts.kits += Number(order.kitCount || 0);
+      orderCounts.orders += Number(order.orderCount || 0);
+      orderCounts.qty += Number(order.quantity || 0);
+      orderCounts.shipments += Number(order.shipments || 0);
+    });
+
+    this.totalChart = orderCounts;
   }
 
   /** Generic Funciton for CountsPerDay Chart */

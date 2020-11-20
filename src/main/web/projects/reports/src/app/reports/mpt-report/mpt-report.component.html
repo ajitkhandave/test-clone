@@ -44,6 +44,25 @@
 
 
 <div class="row mt-3 mb-3">
+  <div class="col-3">
+    <h4 class="chart-title-label">Orders</h4>
+    <h5 class="chart-title">{{totalChart?.orders | qty}}</h5>
+  </div>
+  <div class="col-3">
+    <h4 class="chart-title-label">Kits</h4>
+    <h5 class="chart-title">{{totalChart?.kits | qty}}</h5>
+  </div>
+  <div class="col-3">
+    <h4 class="chart-title-label">Quantity</h4>
+    <h5 class="chart-title">{{totalChart?.qty | qty}}</h5>
+  </div>
+  <div class="col-3">
+    <h4 class="chart-title-label">Shipments</h4>
+    <h5 class="chart-title">{{totalChart?.shipments | qty}}</h5>
+  </div>
+</div>
+
+<div class="row mt-3 mb-3">
   <div class="col-12">
     <div class="border-wrapper">
       <h4 class="chart-title">{{type}} per day</h4>
