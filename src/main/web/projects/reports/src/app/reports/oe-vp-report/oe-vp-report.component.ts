@@ -61,7 +61,7 @@ export class OeVpReportComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     const val = {
-      startDate: moment().add(-1, 'year').startOf('y').format('YYYY-MM-DD'),
+      startDate: moment().startOf('y').format('YYYY-MM-DD'),
       endDate: moment().endOf('y').format('YYYY-MM-DD')
     };
     this.filterForm.patchValue(val);

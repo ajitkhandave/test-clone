@@ -31,6 +31,7 @@ export class OrderDetailsLineItemLevelComponent implements OnInit, AfterViewInit
   dateRange: Subject<DateRange> = new Subject();
   filterForm: FormGroup;
   datePipe = new CommonDatePipe();
+  lineItemStatuses: string[] = [];
 
   constructor(
     private reportService: ReportService,
@@ -85,8 +86,8 @@ export class OrderDetailsLineItemLevelComponent implements OnInit, AfterViewInit
       { prop: 'segment', name: 'Segment', sortable: false, draggable: false, resizeable: false },
       { prop: 'plansAndProducts', name: 'Plans And Products', sortable: false, draggable: false, resizeable: false },
       { prop: 'numberOfEmployees', name: 'Employees', sortable: false, draggable: false, resizeable: false },
-      // { prop: '', name: 'Purchaser', sortable: true, draggable: false, resizeable: false }, // Todo: Query to ask Platform team.
-      { prop: 'userEmail', name: 'Purchaser Email', sortable: true, draggable: false, resizeable: false },
+      { prop: 'Purchaser', name: 'Purchaser', sortable: true, draggable: false, resizeable: false }, // Todo: Query to ask Platform team.
+      { prop: 'purchaser_email', name: 'Purchaser Email', sortable: true, draggable: false, resizeable: false },
       { prop: 'customerProductId', name: 'Customer Product ID', sortable: true, draggable: false, resizeable: false },
       { prop: 'productName', name: 'Product Name', sortable: true, draggable: false, resizeable: false },
       { prop: 'sku', name: 'SKU', sortable: true, draggable: false, resizeable: false },
@@ -147,10 +148,11 @@ export class OrderDetailsLineItemLevelComponent implements OnInit, AfterViewInit
 
   fetchRows() {
     const { startDate, endDate } = this.filterForm.value;
-    this.reportService.fetchOrderDetails(startDate, endDate).pipe(
+    this.reportService.fetchLineItemDetails(startDate, endDate).pipe(
       take(1)
     ).subscribe(rows => {
       this.dataSource$.next(rows);
+      this.lineItemStatuses = Array.from(new Set(rows.map(r => r.lineItemStatus)));
       this.onSearch();
     });
   }

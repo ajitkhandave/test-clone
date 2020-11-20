@@ -121,8 +121,7 @@ export class AppComponent implements OnInit {
     }, {
       id: 'mpt-report',
       name: 'MPT Report',
-      reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
-      disabled: true
+      reportImg: '/reports/assets/images/Reporting_Accent4@2x.png'
     }, {
       id: 'oe-report',
       name: 'OE Report',

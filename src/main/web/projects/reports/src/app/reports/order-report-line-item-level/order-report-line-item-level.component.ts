@@ -35,6 +35,7 @@ export class OrderReportLineItemLevelComponent implements OnInit, AfterViewInit 
   datePipe = new CommonDatePipe();
   qtyPipe = new QtyPipe();
   currencyPipe = new CommonCurrencyPipe();
+  lineItemStatuses: string[] = [];
 
   constructor(
     private reportService: ReportService,
@@ -136,6 +137,7 @@ export class OrderReportLineItemLevelComponent implements OnInit, AfterViewInit 
       take(1)
     ).subscribe(resp => {
       this.dataSource$.next(resp);
+      this.lineItemStatuses = Array.from(new Set(resp.map(r => r.lineItemStatus)));
       this.onSearch();
     });
   }

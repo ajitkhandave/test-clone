@@ -35,6 +35,7 @@ export class OrderReportOrderLevelComponent implements OnInit, AfterViewInit {
   datePipe = new CommonDatePipe();
   qtyPipe = new QtyPipe();
   currencyPipe = new CommonCurrencyPipe();
+  orderStatuses: string[] = [];
 
   constructor(
     private reportService: ReportService,
@@ -128,6 +129,7 @@ export class OrderReportOrderLevelComponent implements OnInit, AfterViewInit {
       take(1)
     ).subscribe(resp => {
       this.dataSource$.next(resp);
+      this.orderStatuses = Array.from(new Set(resp.map(r => r.orderStatus)));
       this.onSearch();
     });
   }

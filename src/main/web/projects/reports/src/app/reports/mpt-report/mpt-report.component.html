@@ -44,6 +44,25 @@
 
 
 <div class="row mt-3 mb-3">
+  <div class="col-3">
+    <h4 class="chart-title-label">Orders</h4>
+    <h5 class="chart-title">{{totalChart?.orders | qty}}</h5>
+  </div>
+  <div class="col-3">
+    <h4 class="chart-title-label">Kits</h4>
+    <h5 class="chart-title">{{totalChart?.kits | qty}}</h5>
+  </div>
+  <div class="col-3">
+    <h4 class="chart-title-label">Quantity</h4>
+    <h5 class="chart-title">{{totalChart?.qty | qty}}</h5>
+  </div>
+  <div class="col-3">
+    <h4 class="chart-title-label">Shipments</h4>
+    <h5 class="chart-title">{{totalChart?.shipments | qty}}</h5>
+  </div>
+</div>
+
+<div class="row mt-3 mb-3">
   <div class="col-12">
     <div class="border-wrapper">
       <h4 class="chart-title">{{type}} per day</h4>
@@ -80,6 +99,12 @@
   <div class="col-6">
     <div class="border-wrapper">
       <h4 class="chart-title">Status (by {{type}})</h4>
+      <app-single-bar-chart
+        *ngIf="statusChart"
+        [showXAxisLabel]='false'
+        [showYAxisLabel]='false'
+        [single]="statusChart"
+      ></app-single-bar-chart>
     </div>
   </div>
 </div>
@@ -87,20 +112,38 @@
   <div class="col-6">
     <div class="border-wrapper">
       <h4 class="chart-title">Top 10 Fliers (by {{type}})</h4>
+      <app-single-bar-chart
+        *ngIf="flierChart"
+        [showXAxisLabel]='false'
+        [showYAxisLabel]='false'
+        [single]="flierChart"
+      ></app-single-bar-chart>
     </div>
   </div>
 
   <div class="col-6">
-    <div class="col-12 p-0">
-      <div class="border-wrapper">
-        <h4 class="chart-title">Top 5 Kit Templates (by {{type}})</h4>
-      </div>
+    <div class="border-wrapper">
+      <h4 class="chart-title">Top 5 Kit Templates (by {{type}})</h4>
+      <app-single-bar-chart
+        *ngIf="kitChart"
+        [showXAxisLabel]='false'
+        [showYAxisLabel]='false'
+        [single]="kitChart"
+      ></app-single-bar-chart>
     </div>
+  </div>
+</div>
 
-    <div class="col-12 mt-3 mb-3 p-0">
-      <div class="border-wrapper">
-        <h4 class="chart-title">Top 5 Users (by {{type}})</h4>
-      </div>
+<div class="row mt-3 mb-3">
+  <div class="col-6">
+    <div class="border-wrapper">
+      <h4 class="chart-title">Top 5 Users (by {{type}})</h4>
+      <app-single-bar-chart
+        *ngIf="userChart"
+        [showXAxisLabel]='false'
+        [showYAxisLabel]='false'
+        [single]="userChart"
+      ></app-single-bar-chart>
     </div>
   </div>
 </div>
