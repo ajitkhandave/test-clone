@@ -31,7 +31,7 @@ export class OrderDetailsOrderLevelComponent implements OnInit, AfterViewInit {
   dateRange: Subject<DateRange> = new Subject();
   filterForm: FormGroup;
   datePipe = new CommonDatePipe();
-
+  orderStatuses: string[] = [];
 
   constructor(
     private reportService: ReportService,
@@ -145,6 +145,7 @@ export class OrderDetailsOrderLevelComponent implements OnInit, AfterViewInit {
       take(1)
     ).subscribe(rows => {
       this.dataSource$.next(rows);
+      this.orderStatuses = Array.from(new Set(rows.map(r => r.orderStatus)));
       this.onSearch();
     });
   }

@@ -31,6 +31,7 @@ export class ShipmentOrdersComponent implements OnInit, AfterViewInit {
   filterForm: FormGroup;
   isAddressView: boolean = false;
   shipmentData: any[] = [];
+  orderStatuses: string[] = [];
 
   constructor(
     private reportService: ReportService,
@@ -103,6 +104,7 @@ export class ShipmentOrdersComponent implements OnInit, AfterViewInit {
       .subscribe(resp => {
         this.shipmentData = [].concat(resp);
         this.dataSource$.next([].concat(this.shipmentData));
+        this.orderStatuses = Array.from(new Set(resp.map(r => r.orderStatus)));
         this.onSearch();
       });
   }

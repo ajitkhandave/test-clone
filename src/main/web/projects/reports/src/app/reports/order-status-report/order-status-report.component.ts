@@ -7,6 +7,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { DateRange } from '../../models/date-range';
 import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
 import { CommonDatePipe } from '../../pipes/common-date.pipe';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-order-status-report',
@@ -20,12 +21,15 @@ export class OrderStatusReportComponent implements OnInit {
   tableConfig: TableConfig = {
     scrollbarH: true,
     filters: new Subject<boolean>(),
-    api: () => this.reportService.fetchOrderStatusReports(),
+    api: () => this.reportService.fetchOrderStatusReports().pipe(
+      tap((resp)=> this.generateStatusList(resp))
+    ),
     query: (row) => this.applyQuery(row)
   };
   filterForm: FormGroup;
   dateRange: Subject<DateRange> = new Subject();
   datePipe = new CommonDatePipe();
+  orderStatuses: string[] = [];
 
   constructor(
     private reportService: ReportService
@@ -56,8 +60,7 @@ export class OrderStatusReportComponent implements OnInit {
         name: 'Status',
         sortable: true,
         draggable: false,
-        resizeable: false,
-        pipe: { transform: (value) => value.split('_').join(' ') }
+        resizeable: false
       },
       {
         prop: 'orderDate',
@@ -92,6 +95,10 @@ export class OrderStatusReportComponent implements OnInit {
       startDate: new FormControl(''),
       endDate: new FormControl('')
     }, { validators: FilterSelectedValidator });
+  }
+
+  generateStatusList(resp: any[]) {
+    this.orderStatuses = Array.from(new Set(resp.map(r => r.status)));
   }
 
   /**

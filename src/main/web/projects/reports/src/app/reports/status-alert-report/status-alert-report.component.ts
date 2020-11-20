@@ -6,6 +6,7 @@ import { TableConfig } from '../../models/table-config';
 import { ReportService } from '../../services/report.service';
 import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
 import { CommonDatePipe } from '../../pipes/common-date.pipe';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-status-alert-report',
@@ -19,11 +20,14 @@ export class StatusAlertReportComponent implements OnInit {
   tableConfig: TableConfig = {
     scrollbarH: true,
     filters: new Subject<boolean>(),
-    api: () => this.reportService.fetchStatusAlertReport(),
+    api: () => this.reportService.fetchStatusAlertReport().pipe(
+      tap((resp)=> this.generateStatus(resp))
+    ),
     query: (row) => this.applyQuery(row)
   };
   filterForm: FormGroup;
   datePipe = new CommonDatePipe();
+  orderStatuses: string[] = [];
 
   constructor(
     private reportService: ReportService
@@ -56,8 +60,7 @@ export class StatusAlertReportComponent implements OnInit {
         name: 'Status',
         sortable: true,
         draggable: false,
-        resizeable: false,
-        pipe: { transform: (value) => value.split('_').join(' ') }
+        resizeable: false
       },
       {
         prop: 'orderDate',
@@ -102,6 +105,10 @@ export class StatusAlertReportComponent implements OnInit {
       status: ''
     });
     this.tableConfig.filters.next(false);
+  }
+
+  generateStatus(resp) {
+    this.orderStatuses = Array.from(new Set(resp.map(r => r.status)));
   }
 
   applyQuery(row) {
