@@ -21,11 +21,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table
 @Builder
-public class OrderDetails implements Serializable {
+public class LineItemDetails implements Serializable {
 
-  @Id
-  @Column(name = "po_id")
-  private String orderId;
+  @EmbeddedId
+  private OrderDetailsIdentity identity;
 
   @Column(name = "client_order_id")
   private String clientOrderId;
@@ -39,6 +38,9 @@ public class OrderDetails implements Serializable {
   @Column(name = "ship_method")
   private String shipMethod;
 
+  @Column(name = "customer_product_id")
+  private String customerProductId;
+
   @Column(name = "p3_order_id")
   private String p3OrderId;
 
@@ -50,6 +52,12 @@ public class OrderDetails implements Serializable {
 
   @Column(name = "number_of_employees")
   private String numberOfEmployees;
+
+  @Column(name = "purchaser")
+  private String purchaser;
+
+  @Column(name = "purchaser_email")
+  private String purchaser_email;
 
   @Column(name = "mpt_approver")
   private String mptApprover;
@@ -72,6 +80,7 @@ public class OrderDetails implements Serializable {
   @Column(name = "customer_name")
   private String customerName;
 
+
   @Column(name = "print_procurement_team")
   private String printProcurementTeam;
 
@@ -90,17 +99,29 @@ public class OrderDetails implements Serializable {
   @Column(name = "gl_code")
   private String glCode;
 
+  @Column(name = "product_name")
+  private String productName;
+
+  @Column(name = "sku")
+  private String sku;
+
   @Column(name = "complete_ship_date")
   private String completeShipDate;
 
   @Column(name = "ship_to_company_name")
   private String shipToCompanyName;
 
+  @Column(name = "p_id")
+  private String personId;
+
   @Column(name = "first_name")
   private String firstName;
 
   @Column(name = "last_name")
   private String lastName;
+
+  @Column(name = "a_id")
+  private String addressId;
 
   @Column(name = "address1")
   private String address1;
@@ -117,7 +138,17 @@ public class OrderDetails implements Serializable {
   @Column(name = "zip_code")
   private String zipCode;
 
-  @Column(name = "order_status")
-  private String orderStatus;
+
+  @Column(name = "line_item_status")
+  private String lineItemStatus;
+
+  @Column(name = "tracking_number")
+  private String trackingNumber;
+
+  @Column(name = "quantity_shipped")
+  private String quantityShipped;
+
+  @Column(name = "quantity_ordered")
+  private String quantityOrdered;
 
 }
