@@ -20,5 +20,7 @@ public class MPTStatusIdentity implements Serializable  {
   private String status;
   @Column(name = "print_vendor")
   private String printVendor;
+  @Column(name = "order_date")
+  private String orderDate;
 
 }

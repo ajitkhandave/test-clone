@@ -20,5 +20,7 @@ public class MPTFlyerCountsIdentity implements Serializable  {
   private String productName;
   @Column(name = "print_vendor")
   private String printVendor;
+  @Column(name = "order_date")
+  private String orderDate;
 
 }
