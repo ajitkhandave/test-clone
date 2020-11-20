@@ -80,6 +80,12 @@
   <div class="col-6">
     <div class="border-wrapper">
       <h4 class="chart-title">Status (by {{type}})</h4>
+      <app-single-bar-chart
+        *ngIf="statusChart"
+        [showXAxisLabel]='false'
+        [showYAxisLabel]='false'
+        [single]="statusChart"
+      ></app-single-bar-chart>
     </div>
   </div>
 </div>
