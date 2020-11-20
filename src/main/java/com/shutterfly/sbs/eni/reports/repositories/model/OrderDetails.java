@@ -120,4 +120,10 @@ public class OrderDetails implements Serializable {
   @Column(name = "order_status")
   private String orderStatus;
 
+  @Column(name = "purchaser")
+  private String purchaser;
+
+  @Column(name = "purchaser_email")
+  private String purchaser_email;
+
 }
