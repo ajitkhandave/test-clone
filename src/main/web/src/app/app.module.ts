@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './common/components/header/header.component';
 import { FooterComponent } from './common/components/footer/footer.component';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { ErrorComponent } from './common/components/error/error.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,

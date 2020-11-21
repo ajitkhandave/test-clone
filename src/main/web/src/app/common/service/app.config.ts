@@ -23,6 +23,7 @@ export class AppConfig {
         this.authService.tokenInfo().then(user => {
           this.config['user'] = user;
           resolve(config);
+          this.roleGuard();
         }).catch(err => {
           resolve(config);
         });
@@ -31,5 +32,14 @@ export class AppConfig {
       console.error('error' + e);
       throw e;
     });
+  }
+
+  public roleGuard(){
+    if(this.authService.authenticated() && location.pathname.indexOf('reports/error') < 0){
+      let role = this.authService.decodeToken().authorities;
+      if(role.indexOf(this.config['access-role']) < 0) {
+        location.href = '\\' + 'reports/error';
+      }
+    }
   }
 }

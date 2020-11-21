@@ -8,6 +8,7 @@ import { TableConfig } from '../../models/table-config';
 import { ReportService } from '../../services/report.service';
 import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
 import { UtilService, MonthChartConfig, SegmentChartConfig } from '../../services/util.service';
+import { QtyPipe } from '../../pipes/qty.pipe';
 
 @Component({
   selector: 'app-all-savers-report',
@@ -34,7 +35,8 @@ export class AllSaversReportComponent implements OnInit, AfterViewInit {
   chartByMonth: any[];
   byBusinessSegmentMasterData: any[];
   chartByBusiness: any[];
-
+  qtyPipe = new QtyPipe();
+  activeType: string;
   constructor(
     private reportService: ReportService,
     private util: UtilService,
@@ -45,9 +47,9 @@ export class AllSaversReportComponent implements OnInit, AfterViewInit {
     this.columns = [
       { prop: 'sku', name: 'SKU', sortable: true, draggable: false },
       { prop: 'productName', name: 'Product Name', sortable: true, draggable: false, width: 240, minWidth: 240, maxWidth: 240 },
-      { prop: 'quantity', name: 'Printed', sortable: true, draggable: false },
-      { prop: 'ordersPerSku', name: 'Orders', sortable: true, draggable: false },
-      { prop: 'kitsCount', name: 'Kits', sortable: true, draggable: false, minWidth: 100 },
+      { prop: 'quantity', name: 'Printed', sortable: true, draggable: false, pipe: this.qtyPipe },
+      { prop: 'ordersPerSku', name: 'Orders', sortable: true, draggable: false, pipe: this.qtyPipe },
+      { prop: 'kitsCount', name: 'Kits', sortable: true, draggable: false, minWidth: 100, pipe: this.qtyPipe },
     ];
 
     this.sorts = [];
@@ -55,7 +57,8 @@ export class AllSaversReportComponent implements OnInit, AfterViewInit {
     this.filterForm = new FormGroup({
       sku: new FormControl(''),
       startDate: new FormControl(''),
-      endDate: new FormControl('')
+      endDate: new FormControl(''),
+      type: new FormControl('total_quantity')
     }, { validators: FilterSelectedValidator });
     this.maxDate = moment().endOf('y').format('YYYY-MM-DD');
     this.fetchRecords();
@@ -73,6 +76,8 @@ export class AllSaversReportComponent implements OnInit, AfterViewInit {
   }
 
   onSearch() {
+    const { type } = this.filterForm.value;
+    this.activeType = type === 'total_quantity' ? 'Printed' : 'Orders';
     this.generateRows();
     this.prepareByMonthChart();
     this.prepareBusinessChart();
@@ -81,6 +86,7 @@ export class AllSaversReportComponent implements OnInit, AfterViewInit {
 
   clearFilter() {
     this.filterForm.get('sku').patchValue(null);
+    this.filterForm.get('type').patchValue('total_quantity');
     this.ngAfterViewInit();
   }
 
@@ -149,27 +155,26 @@ export class AllSaversReportComponent implements OnInit, AfterViewInit {
 
   prepareByMonthChart() {
     if (!this.byMonthMasterData) { return; }
-    const { startDate, endDate } = this.filterForm.value;
+    const { startDate, endDate, type } = this.filterForm.value;
     const rows = [].concat(this.byMonthMasterData) || [];
     const chartConfig: MonthChartConfig = {
       startDate,
       endDate,
       monthKey: 'order_month',
       yearKey: 'order_year',
-      qtyKey: 'total_quantity'
+      qtyKey: type
     };
     this.chartByMonth = this.util.generateMonthsChartData(chartConfig, rows);
   }
 
   prepareBusinessChart() {
     if (!this.byBusinessSegmentMasterData) { return; }
-    const { startDate, endDate } = this.filterForm.value;
+    const { startDate, endDate, type } = this.filterForm.value;
     const data: SegmentChartConfig = {
       startDate,
       endDate,
-      qtyKey: 'total_quantity'
+      qtyKey: type
     };
-
     this.chartByBusiness = this.util.generateBusinessChartData(data, [].concat(this.byBusinessSegmentMasterData));
   }
 }

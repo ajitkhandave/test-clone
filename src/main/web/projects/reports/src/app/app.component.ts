@@ -39,11 +39,11 @@ export class AppComponent implements OnInit {
       reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
       submenu: [{
         id: 'line-item-level-report',
-        name: 'Line Item Level',
+        name: 'Order Details - Line Item Level',
         reportImg: '/reports/assets/images/Reporting_Accent3@2x.png'
       }, {
         id: 'order-level-report',
-        name: 'Order Level',
+        name: 'Order Details - Order Level',
         reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
       }]
     }, {
@@ -52,11 +52,11 @@ export class AppComponent implements OnInit {
       reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
       submenu: [{
         id: 'wcbs',
-        name: 'WCBs',
+        name: 'Onboarding Dashboard - WCBs',
         reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
       }, {
         id: 'standard-brochures',
-        name: 'Standard Brochures',
+        name: 'Onboarding Dashboard - Standard Brochures',
         reportImg: '/reports/assets/images/Reporting_Accent2@2x.png'
       }]
     }, {
@@ -75,7 +75,45 @@ export class AppComponent implements OnInit {
       id: 'invoicing-report',
       name: 'Invoicing Report',
       reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
-      disabled: true
+      submenu: [{
+        reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
+        id: 'order-report-line-item-level',
+        name: 'Order Report - Line Item Level',
+        disabled: true
+      }, {
+        reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
+        id: 'order-report-order-level',
+        name: 'Order Report - Order Level',
+        disabled: true
+      }, {
+        reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
+        id: 'shipping-report-line-item-level',
+        name: 'Invoice Report - Line Item Level'
+      }, {
+        reportImg: '/reports/assets/images/Reporting_Accent1@2x.png',
+        id: 'shipping-report-order-level',
+        name: 'Invoice Report - Order Level'
+      }, {
+        reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
+        id: 'item-count-in-kit',
+        name: 'Item Count In Kit',
+        disabled: true
+      }, {
+        reportImg: '/reports/assets/images/Reporting_Accent1@2x.png',
+        id: 'sku-information',
+        name: 'SKU Information',
+        disabled: true
+      }, {
+        reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
+        id: 'skus-to-add',
+        name: 'SKUs to Add',
+        disabled: true
+      }, {
+        reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
+        id: 'pricing-error',
+        name: 'Pricing Error',
+        disabled: true
+      }]
     }, {
       id: 'shipments-order',
       name: 'Shipments by Order',
@@ -83,17 +121,11 @@ export class AppComponent implements OnInit {
     }, {
       id: 'mpt-report',
       name: 'MPT Report',
-      reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
-      disabled: true
+      reportImg: '/reports/assets/images/Reporting_Accent4@2x.png'
     }, {
       id: 'oe-report',
       name: 'OE Report',
       reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
-      disabled: true
-    }, {
-      id: 'survey-report',
-      name: 'Survey Report',
-      reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
       disabled: true
     }];
     this.service.setReportTypes(types);

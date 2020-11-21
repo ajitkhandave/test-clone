@@ -8,7 +8,6 @@ import { CommonModules, CommonProviders } from '../../../../src/app/common/const
 import { ReportHeaderComponent } from './components/report-header/report-header.component';
 import { HomeComponent } from './components/home/home.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
-import { ErrorComponent } from './components/error/error.component';
 import { DataTableComponent } from './components/data-table/data-table.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -32,6 +31,13 @@ import { WcbsComponent } from './reports/wcbs/wcbs.component';
 import { OeVpReportComponent } from './reports/oe-vp-report/oe-vp-report.component';
 import { ColumnChartComponent } from './components/column-chart/column-chart.component';
 import { SingleBarChartComponent } from './components/single-bar-chart/single-bar-chart.component';
+import { ShippingReportOrderLevelComponent } from './reports/shipping-report-order-level/shipping-report-order-level.component';
+import { CommonCurrencyPipe } from './pipes/common-currency.pipe';
+import { InvoiceReportLineItemLevelComponent } from './reports/invoice-report-line-item-level/invoice-report-line-item-level.component';
+import { OrderReportOrderLevelComponent } from './reports/order-report-order-level/order-report-order-level.component';
+import { OrderReportLineItemLevelComponent } from './reports/order-report-line-item-level/order-report-line-item-level.component';
+import { InvoiceReportItemCountComponent } from './reports/invoice-report-item-count/invoice-report-item-count.component';
+import { MptReportComponent } from './reports/mpt-report/mpt-report.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +45,6 @@ import { SingleBarChartComponent } from './components/single-bar-chart/single-ba
     ReportHeaderComponent,
     HomeComponent,
     ContactUsComponent,
-    ErrorComponent,
     DataTableComponent,
     PaginationComponent,
     PopActiveProductsComponent,
@@ -60,7 +65,14 @@ import { SingleBarChartComponent } from './components/single-bar-chart/single-ba
     WcbsComponent,
     OeVpReportComponent,
     ColumnChartComponent,
-    SingleBarChartComponent
+    SingleBarChartComponent,
+    ShippingReportOrderLevelComponent,
+    CommonCurrencyPipe,
+    InvoiceReportLineItemLevelComponent,
+    OrderReportOrderLevelComponent,
+    OrderReportLineItemLevelComponent,
+    InvoiceReportItemCountComponent,
+    MptReportComponent
   ],
   imports: [
     BrowserModule,

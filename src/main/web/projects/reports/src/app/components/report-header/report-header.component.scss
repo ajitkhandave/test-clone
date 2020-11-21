@@ -23,6 +23,9 @@
         text-decoration: none;
         background-color: $site-primary-color;
       }
+      &.overflow-hidden {
+        white-space: normal;
+      }
     }
   }
   padding: 0 1rem;

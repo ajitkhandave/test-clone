@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AppConfig} from "../../../../../../src/app/common/service/app.config";
+import {AppConfig} from "../../service/app.config";
 
 @Component({
   selector: 'app-error',

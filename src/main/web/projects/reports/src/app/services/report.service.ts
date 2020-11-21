@@ -93,6 +93,14 @@ export class ReportService {
     }).pipe(catchError(this.handleError.bind(this)));
   }
 
+  fetchLineItemDetails(startDate: string, endDate: string): Observable<any> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/lineItemDetails';
+    const params = new HttpParams().set('startDate', startDate).set('endDate', endDate);
+    return this.http.get(url, {
+      params
+    }).pipe(catchError(this.handleError.bind(this)));
+  }
+
   fetchShipmentOrders(): Observable<any> {
     const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/shipmentOrders';
     return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
@@ -100,6 +108,27 @@ export class ReportService {
 
   fetchOeVpReport(): Observable<any> {
     const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/OE_VP_DATA_REPORT';
+    return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
+  }
+
+  fetchInvoiceOrderReport(startDate: string, endDate: string): Observable<any> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/invoicingReports';
+    const params = new HttpParams().set('startDate', startDate).set('endDate', endDate);
+    return this.http.get(url, {
+      params
+    }).pipe(catchError(this.handleError.bind(this)));
+  }
+
+  fetchInvoiceOrderTypeReport(startDate: string, endDate: string): Observable<any[]> {
+    return of([]);
+  }
+
+  fetchItemCountInKit(): Observable<any[]> {
+    return of([]);
+  }
+
+  fetchMptReport(): Observable<any> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/mptReportData';
     return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
   }
 

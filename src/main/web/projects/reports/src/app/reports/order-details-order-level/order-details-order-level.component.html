@@ -23,12 +23,7 @@
           <label for="status" class="filter-name">Order Status</label>
           <select class="form-select form-control filters" formControlName="orderStatus" id="status">
             <option hidden value="" disabled selected>Select Status</option>
-            <option value="CLOSED">CLOSED</option>
-            <option value="DENIED">DENIED</option>
-            <option value="ERROR">ERROR</option>
-            <option value="IN_PROCESS">IN PROCESS</option>
-            <option value="SENT_TO_PRINTER">SENT TO PRINTER</option>
-            <option value="SHIPPED">SHIPPED</option>
+            <option [value]="status" *ngFor="let status of orderStatuses">{{status}}</option>
           </select>
         </div>
 

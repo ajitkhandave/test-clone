@@ -44,6 +44,10 @@ export class WcbsComponent implements OnInit, AfterViewInit {
   fundingTypeChart: any[];
   chartByBusiness: any[];
 
+  colorScheme = {
+    domain: ['#003fa3']
+  };
+
   constructor(
     private reportService: ReportService,
     private util: UtilService,
@@ -61,6 +65,7 @@ export class WcbsComponent implements OnInit, AfterViewInit {
 
     this.filterForm = new FormGroup({
       programs: new FormControl(''),
+      modules: new FormControl(''),
       dataBy: new FormControl(this.OrderColumn.prop),
       startDate: new FormControl(''),
       endDate: new FormControl('')
@@ -86,7 +91,7 @@ export class WcbsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     const val = {
-      startDate: moment().add(-1, 'year').startOf('y').format('YYYY-MM-DD'),
+      startDate: moment().startOf('y').format('YYYY-MM-DD'),
       endDate: moment().endOf('y').format('YYYY-MM-DD')
     };
     this.filterForm.patchValue(val);
@@ -118,6 +123,7 @@ export class WcbsComponent implements OnInit, AfterViewInit {
   clearFilter() {
     this.filterForm.patchValue({
       programs: '',
+      modules: '',
       dataBy: this.OrderColumn.prop
     });
     const isPrintedColumn = this.columns.find(col => col.prop === this.OrderColumn.prop);
@@ -151,11 +157,16 @@ export class WcbsComponent implements OnInit, AfterViewInit {
 
   applyQuery(row) {
     let isProgram = true;
-    const { programs } = this.filterForm.value;
+    let isModule = true;
+    const { programs, modules } = this.filterForm.value;
     if (programs) {
       isProgram = row.programs.toLowerCase().includes(programs.toLowerCase());
     }
-    return isProgram;
+
+    if (modules) {
+      isModule = row.modules.toLowerCase().includes(modules.toLowerCase());
+    }
+    return isProgram && isModule;
   }
 
   generateData() {
@@ -242,7 +253,7 @@ export class WcbsComponent implements OnInit, AfterViewInit {
     const data: SegmentChartConfig = {
       startDate,
       endDate,
-      qtyKey: 'total_quantity'
+      qtyKey: this.activeCol
     };
 
     this.chartByBusiness = this.util.generateBusinessChartData(data, [].concat(this.byBusinessSegmentMasterData));

@@ -45,7 +45,7 @@
 <ng-template #popMenu let-submenu="submenu">
   <a
     *ngFor="let menu of submenu"
-    class="user-logout"
+    class="user-logout overflow-hidden"
     ngbDropdownItem
     [routerLink]="['/reports/type', menu.id]"
     [disabled]="menu.disabled"
