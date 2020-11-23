@@ -152,7 +152,7 @@ export class OrderDetailsLineItemLevelComponent implements OnInit, AfterViewInit
       take(1)
     ).subscribe(rows => {
       this.dataSource$.next(rows);
-      this.lineItemStatuses = Array.from(new Set(rows.map(r => r.lineItemStatus)));
+      this.lineItemStatuses = Array.from(new Set(rows.map(r => r.lineItemStatus))).sort() as string[];
       this.onSearch();
     });
   }

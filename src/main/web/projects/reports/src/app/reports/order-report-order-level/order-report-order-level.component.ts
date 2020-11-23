@@ -129,7 +129,7 @@ export class OrderReportOrderLevelComponent implements OnInit, AfterViewInit {
       take(1)
     ).subscribe(resp => {
       this.dataSource$.next(resp);
-      this.orderStatuses = Array.from(new Set(resp.map(r => r.orderStatus)));
+      this.orderStatuses = Array.from(new Set(resp.map(r => r.orderStatus))).sort() as string[];
       this.onSearch();
     });
   }

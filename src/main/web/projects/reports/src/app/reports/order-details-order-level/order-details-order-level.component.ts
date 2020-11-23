@@ -145,7 +145,7 @@ export class OrderDetailsOrderLevelComponent implements OnInit, AfterViewInit {
       take(1)
     ).subscribe(rows => {
       this.dataSource$.next(rows);
-      this.orderStatuses = Array.from(new Set(rows.map(r => r.orderStatus)));
+      this.orderStatuses = Array.from(new Set(rows.map(r => r.orderStatus))).sort() as string[];
       this.onSearch();
     });
   }
