@@ -108,7 +108,7 @@ export class StatusAlertReportComponent implements OnInit {
   }
 
   generateStatus(resp) {
-    this.orderStatuses = Array.from(new Set(resp.map(r => r.status)));
+    this.orderStatuses = Array.from(new Set(resp.map(r => r.status))).sort() as string[];
   }
 
   applyQuery(row) {
