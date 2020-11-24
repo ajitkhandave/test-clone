@@ -98,7 +98,7 @@ export class OrderStatusReportComponent implements OnInit {
   }
 
   generateStatusList(resp: any[]) {
-    this.orderStatuses = Array.from(new Set(resp.map(r => r.status)));
+    this.orderStatuses = Array.from(new Set(resp.map(r => r.status))).sort() as string[];
   }
 
   /**
