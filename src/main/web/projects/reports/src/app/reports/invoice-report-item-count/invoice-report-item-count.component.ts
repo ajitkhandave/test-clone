@@ -37,9 +37,9 @@ export class InvoiceReportItemCountComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.columns = [
       { prop: 'p3OrderId', name: 'P3 Order ID', sortable: true, draggable: false, resizeable: false },
-      { prop: 'clientOrderId', name: 'Order Number', sortable: true, draggable: false, resizeable: false },
+      { prop: 'client_order_id', name: 'Order Number', sortable: true, draggable: false, resizeable: false },
       {
-        prop: 'orderDate',
+        prop: 'order_date',
         name: 'Order Date',
         sortable: true,
         draggable: false,
@@ -51,7 +51,7 @@ export class InvoiceReportItemCountComponent implements OnInit, AfterViewInit {
         maxWidth: 130
       },
       {
-        prop: 'needByDate',
+        prop: 'order_need_by_date',
         name: 'Need By Date',
         sortable: true,
         draggable: false,
@@ -63,7 +63,7 @@ export class InvoiceReportItemCountComponent implements OnInit, AfterViewInit {
         maxWidth: 130
       },
       {
-        prop: 'shipmentDate',
+        prop: 'complete_ship_date',
         name: 'Ship Date',
         sortable: true,
         draggable: false,
@@ -74,8 +74,7 @@ export class InvoiceReportItemCountComponent implements OnInit, AfterViewInit {
         minWidth: 130,
         maxWidth: 130
       },
-      { name: 'Customer Product ID', sortable: true, draggable: false, resizeable: false, minWidth: 230, width: 230, maxWidth: 230 },
-      { prop: 'count', name: 'Count', sortable: true, draggable: false, resizeable: false }
+      { prop: 'items_in_kit', name: 'Count', sortable: true, draggable: false, resizeable: false }
     ];
     this.filterForm = new FormGroup({
       p3OrderId: new FormControl(''),
