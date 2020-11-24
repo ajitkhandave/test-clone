@@ -201,6 +201,52 @@ public class ReportController {
     return invoicingReport;
   }
 
+  @ApiOperation(value = "Invoicing Pricing Error Report Data", authorizations = { @Authorization(value="Authorization") })
+  @GetMapping(path = "/fetchReport/invoicingReports/pricingError", produces = "application/json")
+  public List<Object> fetchInvoicingPricingReport() {
+    List<Object> reportResult;
+    try {
+      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.INVOICING_PRICING_ERROR_REPORT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.INVOICING_PRICING_ERROR_REPORT.getRepository(), null, null);
+
+    } catch(RecordsNotFoundException ex) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+    } catch(Exception ex) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+    }
+    return reportResult;
+  }
+
+  @ApiOperation(value = "Invoicing Pricing Error Report Data", authorizations = { @Authorization(value="Authorization") })
+  @GetMapping(path = "/fetchReport/invoicingReports/missingSku", produces = "application/json")
+  public List<Object> fetchInvoicingMissingSkuReport() {
+    List<Object> reportResult;
+    try {
+      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.INVOICING_MISSING_SKU_REPORT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.INVOICING_MISSING_SKU_REPORT.getRepository(), null, null);
+
+    } catch(RecordsNotFoundException ex) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+    } catch(Exception ex) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+    }
+    return reportResult;
+  }
+  @ApiOperation(value = "Invoicing Item Count in Kit Report Data", authorizations = { @Authorization(value="Authorization") })
+  @GetMapping(path = "/fetchReport/invoicingReports/itemCountKit", produces = "application/json")
+  public List<Object> fetchInvoicingItemCountKitReport() {
+    List<Object> reportResult;
+    try {
+      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.INVOICING_ITEM_COUNT_KIT_REPORT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.INVOICING_ITEM_COUNT_KIT_REPORT.getRepository(), null, null);
+
+    } catch(RecordsNotFoundException ex) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+    } catch(Exception ex) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+    }
+    return reportResult;
+  }
   @ApiOperation(value = "MPT Report Data", authorizations = { @Authorization(value="Authorization") })
   @GetMapping(path = "/fetchReport/mptReportData", produces = "application/json")
   public Map<String, List<Object>> fetchMPTReports() {
