@@ -94,7 +94,7 @@ export class MptReportComponent implements OnInit, AfterViewInit {
     this.generateFlier(startDate.clone(), endDate.clone());
     this.generateKit(startDate.clone(), endDate.clone());
     this.generateUser(startDate.clone(), endDate.clone());
-    this.generateTotals(startDate.clone(), endDate.clone());
+    // this.generateTotals(startDate.clone(), endDate.clone());
   }
 
   clearFilter() {

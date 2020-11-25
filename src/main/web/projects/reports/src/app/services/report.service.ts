@@ -123,8 +123,9 @@ export class ReportService {
     return of([]);
   }
 
-  fetchItemCountInKit(): Observable<any[]> {
-    return of([]);
+  fetchItemCountInKit(): Observable<any> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/invoicingReports/itemCountKit';
+    return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
   }
 
   fetchMptReport(): Observable<any> {

@@ -104,7 +104,7 @@ export class ShipmentOrdersComponent implements OnInit, AfterViewInit {
       .subscribe(resp => {
         this.shipmentData = [].concat(resp);
         this.dataSource$.next([].concat(this.shipmentData));
-        this.orderStatuses = Array.from(new Set(resp.map(r => r.orderStatus)));
+        this.orderStatuses = Array.from(new Set(resp.map(r => r.orderStatus))).sort() as string[];
         this.onSearch();
       });
   }

@@ -1,0 +1,6 @@
+INSERT INTO `reports_details` ( `report_name`, `created_by`, `created_date`, `modified_by`, `modified_date`) VALUES ('INVOICING MISSING SKU REPORT', 'admin', NOW(), 'admin',NOW());
+
+INSERT INTO `reports_query_details` (`report_id`) SELECT report_id from reports_details where report_name = 'INVOICING MISSING SKU REPORT';
+
+update `reports_query_details` set `query_detail`='SELECT lic.customer_sku AS sku FROM ${schema}.platform_order po JOIN ${schema}.line_item li ON po.id = li.order_id JOIN ${schema}.line_item_component lic ON li.id = lic.line_item_id LEFT JOIN EnI.sku_item esi ON esi.item_number = lic.customer_sku WHERE po.program_id = 3 AND SUBSTRING_INDEX(SUBSTRING_INDEX((SELECT value FROM ${schema}.order_property WHERE order_id = po.id AND name = ''artworkFileLocation''),''/'',6),''/'',-1) != ''RR-DO-11'' AND po.order_date >= ''2020-01-01'' AND esi.item_number IS NULL GROUP BY (CASE WHEN LOCATE(".",lic.customer_sku) > 0 THEN LEFT(lic.customer_sku,LOCATE(".",lic.customer_sku)-1) ELSE lic.customer_sku END)' , `datasource` = '${schema}', `created_date` = NOW(), `modified_date` = NOW()
+where report_id = (SELECT report_id from reports_details where report_name = 'INVOICING MISSING SKU REPORT')
