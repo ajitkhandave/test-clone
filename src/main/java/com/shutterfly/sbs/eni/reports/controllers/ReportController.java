@@ -184,22 +184,6 @@ public class ReportController {
     return standardBrochuresReport;
   }
 
-  @ApiOperation(value = "Invoicing Report Data", authorizations = { @Authorization(value="Authorization") })
-  @GetMapping(path = "/fetchReport/invoicingReports", produces = "application/json")
-  public Map<String, List<Object>> fetchInvoicingReport() {
-    Map<String, List<Object>> invoicingReport = new HashMap<String, List<Object>>();
-    try {
-      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.INVOICING_SHIPPED_REPORT.getName());
-      List<Object> reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.INVOICING_SHIPPED_REPORT.getRepository(), null, null);
-      invoicingReport.put("SHIPPED_REPORT", reportResult);
-
-    } catch(RecordsNotFoundException ex) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
-    } catch(Exception ex) {
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
-    }
-    return invoicingReport;
-  }
 
   @ApiOperation(value = "Invoicing Pricing Error Report Data", authorizations = { @Authorization(value="Authorization") })
   @GetMapping(path = "/fetchReport/invoicingReports/pricingError", produces = "application/json")
@@ -232,6 +216,102 @@ public class ReportController {
     }
     return reportResult;
   }
+  @ApiOperation(value = "Invoicing Order Details Report Data", authorizations = { @Authorization(value="Authorization") })
+  @GetMapping(path = "/fetchReport/invoicingReports/orderDetails", produces = "application/json")
+  public List<Object> fetchInvoicingOrderDetailsReport(@RequestParam(value = "startDate", required = true) String startDate, @RequestParam(value = "endDate", required = true) String  endDate ) {
+    List<Object> reportResult;
+    try {
+      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.INVOICING_ORDERS_LEVEL_REPORT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.INVOICING_ORDERS_LEVEL_REPORT.getRepository(), startDate, endDate);
+
+    } catch(RecordsNotFoundException ex) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+    } catch(Exception ex) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+    }
+    return reportResult;
+  }
+
+  @ApiOperation(value = "Invoicing Line Item Details Report Data", authorizations = { @Authorization(value="Authorization") })
+  @GetMapping(path = "/fetchReport/invoicingReports/lineItemDetails", produces = "application/json")
+  public List<Object> fetchInvoicingLineItemDetailsReport(@RequestParam(value = "startDate", required = true) String startDate, @RequestParam(value = "endDate", required = true) String  endDate) {
+    List<Object> reportResult;
+    try {
+      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.INVOICING_ORDERS_LINE_ITEM_LEVEL_REPORT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.INVOICING_ORDERS_LINE_ITEM_LEVEL_REPORT.getRepository(), startDate, endDate);
+
+    } catch(RecordsNotFoundException ex) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+    } catch(Exception ex) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+    }
+    return reportResult;
+  }
+
+  @ApiOperation(value = "Invoicing Shipped Order Details Data", authorizations = { @Authorization(value="Authorization") })
+  @GetMapping(path = "/fetchReport/invoicingReports/shippedOrderDetails", produces = "application/json")
+  public List<Object> fetchInvoicingShippedOrderDetailsReport(@RequestParam(value = "startDate", required = true) String startDate, @RequestParam(value = "endDate", required = true) String  endDate) {
+    List<Object> reportResult;
+    try {
+      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.INVOICING_SHIPPED_ORDER_LEVEL_REPORT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.INVOICING_SHIPPED_ORDER_LEVEL_REPORT.getRepository(), startDate, endDate);
+
+    } catch(RecordsNotFoundException ex) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+    } catch(Exception ex) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+    }
+    return reportResult;
+  }
+
+  @ApiOperation(value = "Invoicing shipped Line Item Details Data", authorizations = { @Authorization(value="Authorization") })
+  @GetMapping(path = "/fetchReport/invoicingReports/shippedLineItemDetails", produces = "application/json")
+  public List<Object> fetchInvoicingShippedLineItemReport(@RequestParam(value = "startDate", required = true) String startDate, @RequestParam(value = "endDate", required = true) String  endDate) {
+    List<Object> reportResult;
+    try {
+      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.INVOICING_SHIPPED_LINE_ITEM_LEVEL_REPORT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.INVOICING_SHIPPED_LINE_ITEM_LEVEL_REPORT.getRepository(), startDate, endDate);
+
+    } catch(RecordsNotFoundException ex) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+    } catch(Exception ex) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+    }
+    return reportResult;
+  }
+
+  @ApiOperation(value = "Invoicing sku information Report Data", authorizations = { @Authorization(value="Authorization") })
+  @GetMapping(path = "/fetchReport/invoicingReports/skuInformation", produces = "application/json")
+  public List<Object> fetchInvoicingSkuInformationReport(@RequestParam(value = "startDate", required = true) String startDate, @RequestParam(value = "endDate", required = true) String  endDate) {
+    List<Object> reportResult;
+    try {
+      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.INVOICING_SKU_INFORMATION_REPORT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.INVOICING_SKU_INFORMATION_REPORT.getRepository(), startDate, endDate);
+
+    } catch(RecordsNotFoundException ex) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+    } catch(Exception ex) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+    }
+    return reportResult;
+  }
+
+  @ApiOperation(value = "Invoicing Form Factor Totals Report Data", authorizations = { @Authorization(value="Authorization") })
+  @GetMapping(path = "/fetchReport/invoicingReports/formFactorTotals", produces = "application/json")
+  public List<Object> fetchInvoicingItemCountKitReport(@RequestParam(value = "startDate", required = true) String startDate, @RequestParam(value = "endDate", required = true) String  endDate) {
+    List<Object> reportResult;
+    try {
+      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.INVOICING_FORM_FACTOR_TOTAL_REPORT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.INVOICING_FORM_FACTOR_TOTAL_REPORT.getRepository(), startDate, endDate);
+
+    } catch(RecordsNotFoundException ex) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+    } catch(Exception ex) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+    }
+    return reportResult;
+  }
+
   @ApiOperation(value = "Invoicing Item Count in Kit Report Data", authorizations = { @Authorization(value="Authorization") })
   @GetMapping(path = "/fetchReport/invoicingReports/itemCountKit", produces = "application/json")
   public List<Object> fetchInvoicingItemCountKitReport() {
@@ -247,6 +327,7 @@ public class ReportController {
     }
     return reportResult;
   }
+
   @ApiOperation(value = "MPT Report Data", authorizations = { @Authorization(value="Authorization") })
   @GetMapping(path = "/fetchReport/mptReportData", produces = "application/json")
   public Map<String, List<Object>> fetchMPTReports() {
