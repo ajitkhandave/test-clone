@@ -19,7 +19,7 @@ spring:
     outOfOrder: true
     baseline-on-migrate: true
     validateOnMigrate: false
-    table: schema_version
+    table: schema_version_reports
   mvc:
     view:
       suffix: .html
