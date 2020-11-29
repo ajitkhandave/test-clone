@@ -125,6 +125,10 @@ public class ReportController {
       reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_WCB_BY_SEGMENT_REPORT.getRepository(), null, null);
       standardBrochuresReport.put("WCB_BY_SEGMENT", reportResult);
 
+      queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_ORDERS_TRANSLATED_REPORT.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.ONBOARDING_DASHBOARD_ORDERS_TRANSLATED_REPORT.getRepository(), null, null);
+      standardBrochuresReport.put("BY_ORDERS_TRANSLATED", reportResult);
+
 
     } catch(RecordsNotFoundException ex) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
