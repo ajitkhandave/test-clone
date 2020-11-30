@@ -19,6 +19,7 @@ import { PopActiveProductsComponent } from './reports/pop-active-products/pop-ac
 import { PricingErrorComponent } from './reports/pricing-error/pricing-error.component';
 import { ShipmentOrdersComponent } from './reports/shipment-orders/shipment-orders.component';
 import { ShippingReportOrderLevelComponent } from './reports/shipping-report-order-level/shipping-report-order-level.component';
+import { SkusToAddComponent } from './reports/skus-to-add/skus-to-add.component';
 import { StandardBrochuresComponent } from './reports/standard-brochures/standard-brochures.component';
 import { StatusAlertReportComponent } from './reports/status-alert-report/status-alert-report.component';
 import { WcbsComponent } from './reports/wcbs/wcbs.component';
@@ -96,6 +97,9 @@ const routes: Routes = [
         }, {
           path: 'pricing-error',
           component: PricingErrorComponent
+        }, {
+          path: 'skus-to-add',
+          component: SkusToAddComponent
         }
         ]
       },

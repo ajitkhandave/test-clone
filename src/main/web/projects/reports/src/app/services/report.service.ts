@@ -153,6 +153,11 @@ export class ReportService {
     return this.http.get<any[]>(url).pipe(catchError(this.handleError.bind(this)));
   }
 
+  fetchMissingSkus(): Observable<any[]> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/invoicingReports/missingSku';
+    return this.http.get<any[]>(url).pipe(catchError(this.handleError.bind(this)));
+  }
+
   fetchMptReport(): Observable<any> {
     const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/mptReportData';
     return this.http.get(url).pipe(catchError(this.handleError.bind(this)));

@@ -103,8 +103,7 @@ export class AppComponent implements OnInit {
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
         id: 'skus-to-add',
-        name: 'SKUs to Add',
-        disabled: true
+        name: 'SKUs to Add'
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
         id: 'pricing-error',
