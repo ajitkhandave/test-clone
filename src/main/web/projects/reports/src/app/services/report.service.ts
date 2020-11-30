@@ -111,16 +111,36 @@ export class ReportService {
     return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
   }
 
-  fetchInvoiceOrderReport(startDate: string, endDate: string): Observable<any> {
-    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/invoicingReports';
+  fetchInvoiceOrderReport(startDate: string, endDate: string): Observable<any[]> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/invoicingReports/shippedOrderDetails';
     const params = new HttpParams().set('startDate', startDate).set('endDate', endDate);
-    return this.http.get(url, {
+    return this.http.get<any[]>(url, {
+      params
+    }).pipe(catchError(this.handleError.bind(this)));
+  }
+
+  fetchInvoiceLineItemReport(startDate: string, endDate: string): Observable<any[]> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/invoicingReports/shippedLineItemDetails';
+    const params = new HttpParams().set('startDate', startDate).set('endDate', endDate);
+    return this.http.get<any[]>(url, {
       params
     }).pipe(catchError(this.handleError.bind(this)));
   }
 
   fetchInvoiceOrderTypeReport(startDate: string, endDate: string): Observable<any[]> {
-    return of([]);
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/invoicingReports/orderDetails';
+    const params = new HttpParams().set('startDate', startDate).set('endDate', endDate);
+    return this.http.get<any[]>(url, {
+      params
+    }).pipe(catchError(this.handleError.bind(this)));
+  }
+
+  fetchInvoiceLineItemTypeReport(startDate: string, endDate: string): Observable<any[]> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/invoicingReports/lineItemDetails';
+    const params = new HttpParams().set('startDate', startDate).set('endDate', endDate);
+    return this.http.get<any[]>(url, {
+      params
+    }).pipe(catchError(this.handleError.bind(this)));
   }
 
   fetchItemCountInKit(): Observable<any> {
