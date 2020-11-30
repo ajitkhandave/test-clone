@@ -44,7 +44,7 @@ export class OrderReportLineItemLevelComponent implements OnInit, AfterViewInit 
 
   ngOnInit() {
     this.columns = [
-      { prop: 'p3OrderId', name: 'P3 Order Id', sortable: true, draggable: false, resizeable: false },
+      { prop: 'p3_order_id', name: 'P3 Order Id', sortable: true, draggable: false, resizeable: false },
       { prop: 'clientOrderId', name: 'Order Number', sortable: true, draggable: false, resizeable: false },
       { prop: 'p3Segment', name: 'Segment', sortable: true, draggable: false, resizeable: false },
       {
@@ -60,7 +60,7 @@ export class OrderReportLineItemLevelComponent implements OnInit, AfterViewInit 
         comparator: this.datePipe.sort.bind(this)
       },
       {
-        prop: 'orderDate', name: 'Order Date', sortable: true, draggable: false, resizeable: false,
+        prop: 'order_date', name: 'Order Date', sortable: true, draggable: false, resizeable: false,
         minWidth: 100, maxWidth: 100, width: 100,
         pipe: this.datePipe,
         comparator: this.datePipe.sort.bind(this)
@@ -77,25 +77,43 @@ export class OrderReportLineItemLevelComponent implements OnInit, AfterViewInit 
         pipe: this.datePipe,
         comparator: this.datePipe.sort.bind(this)
       },
-      { prop: 'customer_name', name: 'Customer Name', sortable: true, draggable: false, resizeable: false },
-      { prop: 'customerProductId', name: 'Customer Product Id', sortable: true, draggable: false, resizeable: false },
-      { prop: 'productName', name: 'Product Name', sortable: true, draggable: false, resizeable: false },
+      { name: 'Customer Name', sortable: true, draggable: false, resizeable: false }, // Todo: Missing
+      { prop: 'customer_product_id', name: 'Customer Product Id', sortable: true, draggable: false, resizeable: false },
+      { prop: 'product_name', name: 'Product Name', sortable: true, draggable: false, resizeable: false },
       { prop: 'sku', name: 'SKU', sortable: true, draggable: false, resizeable: false },
       { prop: 'pageCount', name: 'Page Count', sortable: true, draggable: false, resizeable: false },
       { prop: 'finish', name: 'Finish', sortable: true, draggable: false, resizeable: false },
       { prop: 'size', name: 'Size', sortable: true, draggable: false, resizeable: false },
-      { prop: 'black_color', name: 'Black/Color', sortable: true, draggable: false, resizeable: false },
-      { prop: 'trackingNumber', name: 'Tracking Number', sortable: true, draggable: false, resizeable: false },
+      { prop: 'blackColor', name: 'Black/Color', sortable: true, draggable: false, resizeable: false },
+      { prop: 'tracking_number', name: 'Tracking Number', sortable: true, draggable: false, resizeable: false },
       { prop: 'printVendor', name: 'Print Vendor', sortable: true, draggable: false, resizeable: false },
       { prop: 'lineItemStatus', name: 'Line Item Status', sortable: true, draggable: false, resizeable: false, minWidth: 150, width: 150 },
       { prop: 'glCode', name: 'GLCode', sortable: false, draggable: false, resizeable: false, minWidth: 150, width: 150 },
       { prop: 'quantityOrdered', name: 'Qty Ordered', sortable: true, draggable: false, resizeable: false, pipe: this.qtyPipe },
-      { prop: 'productAmount', name: 'Product Price', sortable: true, draggable: false, resizeable: false, pipe: this.currencyPipe, minWidth: 115, width: 115 },
-      { name: 'Kitting Price', sortable: true, draggable: false, resizeable: false, pipe: this.currencyPipe, minWidth: 115, width: 115 }, // Todo
-      { name: 'Label & Small Carton Price', sortable: true, draggable: false, resizeable: false, pipe: this.currencyPipe, minWidth: 185, width: 185 }, // Todo
-      { name: 'Staple Price', sortable: true, draggable: false, resizeable: false, pipe: this.currencyPipe, minWidth: 100, width: 100 }, // ToDo
-      { prop: 'taxAmount', name: 'Tax Amount', sortable: true, draggable: false, resizeable: false, pipe: this.currencyPipe, minWidth: 110, width: 110 },
-      { prop: 'totalAmount', name: 'Total Amount', sortable: true, draggable: false, resizeable: false, pipe: this.currencyPipe, minWidth: 120, width: 120 }
+      {
+        prop: 'productPrice', name: 'Product Price', sortable: true, draggable: false, resizeable: false,
+        pipe: this.currencyPipe, minWidth: 115, width: 115
+      },
+      {
+        prop: 'kittingPrice', name: 'Kitting Price', sortable: true, draggable: false, resizeable: false,
+        pipe: this.currencyPipe, minWidth: 115, width: 115
+      },
+      {
+        prop: 'labeAndCartonPrice', name: 'Label & Small Carton Price', sortable: true, draggable: false, resizeable: false,
+        pipe: this.currencyPipe, minWidth: 185, width: 185
+      },
+      {
+        prop: 'staplePrice', name: 'Staple Price', sortable: true, draggable: false, resizeable: false,
+        pipe: this.currencyPipe, minWidth: 100, width: 100
+      },
+      {
+        prop: 'taxAmount', name: 'Tax Amount', sortable: true, draggable: false, resizeable: false,
+        pipe: this.currencyPipe, minWidth: 110, width: 110
+      },
+      {
+        prop: 'totalAmount', name: 'Total Amount', sortable: true, draggable: false, resizeable: false,
+        pipe: this.currencyPipe, minWidth: 120, width: 120
+      }
     ];
     this.sorts = [];
     this.filterForm = new FormGroup({
@@ -133,7 +151,7 @@ export class OrderReportLineItemLevelComponent implements OnInit, AfterViewInit 
 
   fetchRows() {
     const { startDate, endDate } = this.filterForm.value;
-    this.reportService.fetchInvoiceOrderTypeReport(startDate, endDate).pipe(
+    this.reportService.fetchInvoiceLineItemTypeReport(startDate, endDate).pipe(
       take(1)
     ).subscribe(resp => {
       this.dataSource$.next(resp);
@@ -166,7 +184,7 @@ export class OrderReportLineItemLevelComponent implements OnInit, AfterViewInit 
     }
 
     if (p3OrderId) {
-      isP3OrderId = row.p3OrderId.toLowerCase().includes(p3OrderId.toLowerCase());
+      isP3OrderId = row.p3_order_id.toLowerCase().includes(p3OrderId.toLowerCase());
     }
 
     if (orderStatus) {
