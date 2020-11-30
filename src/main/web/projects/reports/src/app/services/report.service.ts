@@ -143,9 +143,14 @@ export class ReportService {
     }).pipe(catchError(this.handleError.bind(this)));
   }
 
-  fetchItemCountInKit(): Observable<any> {
+  fetchItemCountInKit(): Observable<any[]> {
     const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/invoicingReports/itemCountKit';
-    return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
+    return this.http.get<any[]>(url).pipe(catchError(this.handleError.bind(this)));
+  }
+
+  fetchPricingErrorReport(): Observable<any[]> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/invoicingReports/pricingError';
+    return this.http.get<any[]>(url).pipe(catchError(this.handleError.bind(this)));
   }
 
   fetchMptReport(): Observable<any> {

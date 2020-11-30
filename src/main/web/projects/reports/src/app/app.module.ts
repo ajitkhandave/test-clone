@@ -38,6 +38,7 @@ import { OrderReportOrderLevelComponent } from './reports/order-report-order-lev
 import { OrderReportLineItemLevelComponent } from './reports/order-report-line-item-level/order-report-line-item-level.component';
 import { InvoiceReportItemCountComponent } from './reports/invoice-report-item-count/invoice-report-item-count.component';
 import { MptReportComponent } from './reports/mpt-report/mpt-report.component';
+import { PricingErrorComponent } from './reports/pricing-error/pricing-error.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { MptReportComponent } from './reports/mpt-report/mpt-report.component';
     OrderReportOrderLevelComponent,
     OrderReportLineItemLevelComponent,
     InvoiceReportItemCountComponent,
-    MptReportComponent
+    MptReportComponent,
+    PricingErrorComponent
   ],
   imports: [
     BrowserModule,

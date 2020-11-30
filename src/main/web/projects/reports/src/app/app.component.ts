@@ -108,8 +108,7 @@ export class AppComponent implements OnInit {
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
         id: 'pricing-error',
-        name: 'Pricing Error',
-        disabled: true
+        name: 'Pricing Error'
       }]
     }, {
       id: 'shipments-order',
