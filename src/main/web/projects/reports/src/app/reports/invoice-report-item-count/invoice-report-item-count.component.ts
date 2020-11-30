@@ -64,7 +64,7 @@ export class InvoiceReportItemCountComponent implements OnInit, AfterViewInit {
       },
       {
         prop: 'complete_ship_date',
-        name: 'Ship Date',
+        name: 'Shipped Date',
         sortable: true,
         draggable: false,
         resizeable: false,
@@ -73,6 +73,13 @@ export class InvoiceReportItemCountComponent implements OnInit, AfterViewInit {
         width: 130,
         minWidth: 130,
         maxWidth: 130
+      },
+      {
+        // prop: '', // Todo: Missing in the API
+        name: 'Customer Product ID',
+        sortable: true,
+        draggable: false,
+        resizeable: false,
       },
       { prop: 'items_in_kit', name: 'Count', sortable: true, draggable: false, resizeable: false }
     ];
@@ -92,6 +99,7 @@ export class InvoiceReportItemCountComponent implements OnInit, AfterViewInit {
       .pipe(take(1))
       .subscribe(resp => {
         this.dataSource$.next(resp);
+        this.onSearch();
       });
   }
 
@@ -136,7 +144,7 @@ export class InvoiceReportItemCountComponent implements OnInit, AfterViewInit {
     let isClientOrderId = true;
 
     if (startDate && endDate) {
-      isInRange = moment(row.orderDate).isBetween(startDate, endDate, 'day', '[]');
+      isInRange = moment(row.order_date).isBetween(startDate, endDate, 'day', '[]');
     }
 
     if (p3OrderId) {
@@ -144,7 +152,7 @@ export class InvoiceReportItemCountComponent implements OnInit, AfterViewInit {
     }
 
     if (clientOrderId) {
-      isClientOrderId = (row.clientOrderId || '').includes(clientOrderId.toLowerCase());
+      isClientOrderId = (row.client_order_id || '').includes(clientOrderId.toLowerCase());
     }
     return isInRange && isP3OrderId && isClientOrderId;
   }

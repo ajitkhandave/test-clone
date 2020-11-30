@@ -94,8 +94,7 @@ export class AppComponent implements OnInit {
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
         id: 'item-count-in-kit',
-        name: 'Item Count In Kit',
-        disabled: true
+        name: 'Item Count In Kit'
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent1@2x.png',
         id: 'sku-information',
