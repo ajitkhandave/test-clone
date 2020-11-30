@@ -16,8 +16,10 @@ import { OrderReportLineItemLevelComponent } from './reports/order-report-line-i
 import { OrderReportOrderLevelComponent } from './reports/order-report-order-level/order-report-order-level.component';
 import { OrderStatusReportComponent } from './reports/order-status-report/order-status-report.component';
 import { PopActiveProductsComponent } from './reports/pop-active-products/pop-active-products.component';
+import { PricingErrorComponent } from './reports/pricing-error/pricing-error.component';
 import { ShipmentOrdersComponent } from './reports/shipment-orders/shipment-orders.component';
 import { ShippingReportOrderLevelComponent } from './reports/shipping-report-order-level/shipping-report-order-level.component';
+import { SkusToAddComponent } from './reports/skus-to-add/skus-to-add.component';
 import { StandardBrochuresComponent } from './reports/standard-brochures/standard-brochures.component';
 import { StatusAlertReportComponent } from './reports/status-alert-report/status-alert-report.component';
 import { WcbsComponent } from './reports/wcbs/wcbs.component';
@@ -92,6 +94,12 @@ const routes: Routes = [
         }, {
           path: 'mpt-report',
           component: MptReportComponent
+        }, {
+          path: 'pricing-error',
+          component: PricingErrorComponent
+        }, {
+          path: 'skus-to-add',
+          component: SkusToAddComponent
         }
         ]
       },

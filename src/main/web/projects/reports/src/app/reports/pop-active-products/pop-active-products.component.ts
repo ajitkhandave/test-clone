@@ -36,7 +36,7 @@ export class PopActiveProductsComponent implements OnInit {
       { prop: 'staticConfigurable', name: 'Static/Configurable', sortable: true, draggable: false, cellClass: 'text-capitalized' }
     ];
 
-    this.sorts = [{ prop: 'itemNumber', dir: 'desc' }];
+    this.sorts = [{ prop: 'itemNumber', dir: 'asc' }];
 
     this.filterForm = new FormGroup({
       itemNumber: new FormControl(''),

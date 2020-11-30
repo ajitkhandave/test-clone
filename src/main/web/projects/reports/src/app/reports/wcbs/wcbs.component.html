@@ -51,13 +51,19 @@
     <div class="col-12 mt-3">
       <h4 class="chart-title">Funding Type</h4>
       <app-single-bar-chart *ngIf="fundingTypeChart" [showXAxisLabel]='false' [showYAxisLabel]='false'
-        [single]="fundingTypeChart"></app-single-bar-chart>
+        [single]="fundingTypeChart" [colorScheme]="colorScheme"></app-single-bar-chart>
     </div>
 
     <div class="col-12 mt-3">
       <h4 class="chart-title">Business Segment</h4>
       <app-single-bar-chart *ngIf="chartByBusiness" [showXAxisLabel]='false' [showYAxisLabel]='false'
         [single]="chartByBusiness" [colorScheme]="colorScheme"></app-single-bar-chart>
+    </div>
+
+    <div class="col-12 mt-3">
+      <h4 class="chart-title">Orders Translated</h4>
+      <app-single-bar-chart *ngIf="orderTranslated" [showXAxisLabel]='false' [showYAxisLabel]='false'
+        [single]="orderTranslated" [colorScheme]="colorScheme"></app-single-bar-chart>
     </div>
 
   </div>
