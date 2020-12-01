@@ -163,6 +163,22 @@ export class ReportService {
     return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
   }
 
+  fetchFormFactorTotals(startDate: string, endDate: string): Observable<any[]> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/invoicingReports/formFactorTotals';
+    const params = new HttpParams().set('startDate', startDate).set('endDate', endDate);
+    return this.http.get<any[]>(url, {
+      params
+    }).pipe(catchError(this.handleError.bind(this)));
+  }
+
+  fetchSkuInformation(startDate: string, endDate: string): Observable<any[]> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/invoicingReports/skuInformation';
+    const params = new HttpParams().set('startDate', startDate).set('endDate', endDate);
+    return this.http.get<any[]>(url, {
+      params
+    }).pipe(catchError(this.handleError.bind(this)));
+  }
+
   handleError(err?): Observable<any> {
     let msg = 'Something went wrong. Please try again.';
     if (err && err.message) {

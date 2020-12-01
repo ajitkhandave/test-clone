@@ -40,6 +40,7 @@ import { InvoiceReportItemCountComponent } from './reports/invoice-report-item-c
 import { MptReportComponent } from './reports/mpt-report/mpt-report.component';
 import { PricingErrorComponent } from './reports/pricing-error/pricing-error.component';
 import { SkusToAddComponent } from './reports/skus-to-add/skus-to-add.component';
+import { SkuInformationComponent } from './reports/sku-information/sku-information.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { SkusToAddComponent } from './reports/skus-to-add/skus-to-add.component'
     InvoiceReportItemCountComponent,
     MptReportComponent,
     PricingErrorComponent,
-    SkusToAddComponent
+    SkusToAddComponent,
+    SkuInformationComponent
   ],
   imports: [
     BrowserModule,
