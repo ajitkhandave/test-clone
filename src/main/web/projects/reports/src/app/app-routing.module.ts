@@ -19,6 +19,7 @@ import { PopActiveProductsComponent } from './reports/pop-active-products/pop-ac
 import { PricingErrorComponent } from './reports/pricing-error/pricing-error.component';
 import { ShipmentOrdersComponent } from './reports/shipment-orders/shipment-orders.component';
 import { ShippingReportOrderLevelComponent } from './reports/shipping-report-order-level/shipping-report-order-level.component';
+import { SkuInformationComponent } from './reports/sku-information/sku-information.component';
 import { SkusToAddComponent } from './reports/skus-to-add/skus-to-add.component';
 import { StandardBrochuresComponent } from './reports/standard-brochures/standard-brochures.component';
 import { StatusAlertReportComponent } from './reports/status-alert-report/status-alert-report.component';
@@ -100,6 +101,9 @@ const routes: Routes = [
         }, {
           path: 'skus-to-add',
           component: SkusToAddComponent
+        }, {
+          path: 'sku-information',
+          component: SkuInformationComponent
         }
         ]
       },

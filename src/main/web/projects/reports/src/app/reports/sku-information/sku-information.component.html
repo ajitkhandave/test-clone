@@ -1,0 +1,25 @@
+<form [formGroup]="filterForm" (submit)="onSearch()">
+  <div class="order__filter-container mt-2">
+    <div class="order__filter-container-input">
+      <div class="form-row pl-3">
+        <div class="col-3">
+          <label for="dateRange" class="filter-name">Date Range</label>
+          <app-date-range [setRange]="dateRange" (startDateChange)="startDateChange($event)"
+            (endDateChange)="endDateChange($event)"></app-date-range>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<div class="row mt-3 mb-3">
+  <div class="col-12">
+    <h4 class="chart-title">Form Factor Totals</h4>
+    <app-data-table [columns]="formFactorColumns" [sorts]="formFactorSorts" [tableConfig]="formFactorTableConfig">
+    </app-data-table>
+  </div>
+  <div class="col-12 mt-3">
+    <h4 class="chart-title">SKU Totals</h4>
+    <app-data-table [columns]="skuTotalsColumns" [sorts]="skuTotalsSorts" [tableConfig]="skuTotalsTableConfig">
+    </app-data-table>
+  </div>
+</div>
