@@ -82,9 +82,12 @@ export class OrderReportOrderLevelComponent implements OnInit, AfterViewInit {
       { prop: 'orderStatus', name: 'Order Status', sortable: true, draggable: false, resizeable: false },
       { prop: 'glCode', name: 'GLCode', sortable: false, draggable: false, resizeable: false, minWidth: 150, width: 150 },
       { prop: 'quantityOrdered', name: 'Qty Ordered', sortable: true, draggable: false, resizeable: false, pipe: this.qtyPipe },
-      { prop: 'productAmount', name: 'Product Price', sortable: true, draggable: false, resizeable: false, pipe: this.currencyPipe, minWidth: 115, width: 115 },
       {
-        prop: 'productPrice', name: 'Kitting Price', sortable: true, draggable: false, resizeable: false,
+        prop: 'productPrice', name: 'Product Price', sortable: true, draggable: false, resizeable: false,
+        pipe: this.currencyPipe, minWidth: 115, width: 115
+      },
+      {
+        prop: 'kittingPrice', name: 'Kitting Price', sortable: true, draggable: false, resizeable: false,
         pipe: this.currencyPipe, minWidth: 115, width: 115
       },
       {

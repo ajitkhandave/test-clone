@@ -9,7 +9,6 @@ import { QtyPipe } from '../../pipes/qty.pipe';
 import { ReportService } from '../../services/report.service';
 import { take } from 'rxjs/operators';
 import { FilterSelectedValidator } from '../../validators/filter-selected.validator';
-import { CommonCurrencyPipe } from '../../pipes/common-currency.pipe';
 
 @Component({
   selector: 'app-sku-information',
@@ -39,7 +38,6 @@ export class SkuInformationComponent implements OnInit, AfterViewInit {
   dateRange: Subject<DateRange> = new Subject();
   filterForm: FormGroup;
   qtyPipe = new QtyPipe();
-  currencyPipe = new CommonCurrencyPipe();
 
   constructor(
     private reportService: ReportService,
@@ -54,11 +52,7 @@ export class SkuInformationComponent implements OnInit, AfterViewInit {
       { prop: '13 x 12.5', name: '13 x 12.5', sortable: true, draggable: false, resizeable: false, pipe: this.qtyPipe },
       { prop: '21 x 16.5', name: '21 x 16.5', sortable: true, draggable: false, resizeable: false, pipe: this.qtyPipe },
       { prop: '21.25 x 18.13', name: '21.25 x 18.13', sortable: true, draggable: false, resizeable: false, pipe: this.qtyPipe },
-      { prop: 'noSize', name: '', sortable: true, draggable: false, resizeable: false, pipe: this.qtyPipe, headerClass: 'ml-3' },
-      {
-        name: 'Grand Total', sortable: true, draggable: false, resizeable: false,
-        headerClass: 'text-center', cellClass: 'text-center', pipe: this.currencyPipe
-      } // Todo: Fields are missig
+      { prop: 'noSize', name: '', sortable: true, draggable: false, resizeable: false, pipe: this.qtyPipe, headerClass: 'ml-3' }
     ];
     this.skuTotalsColumns = [
       { prop: 'identity.customer_sku', name: 'SKU', sortable: true, draggable: false, resizeable: false },
