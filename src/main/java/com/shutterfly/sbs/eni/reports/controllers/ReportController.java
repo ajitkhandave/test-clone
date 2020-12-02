@@ -302,7 +302,7 @@ public class ReportController {
 
   @ApiOperation(value = "Invoicing Form Factor Totals Report Data", authorizations = { @Authorization(value="Authorization") })
   @GetMapping(path = "/fetchReport/invoicingReports/formFactorTotals", produces = "application/json")
-  public List<Object> fetchInvoicingItemCountKitReport(@RequestParam(value = "startDate", required = true) String startDate, @RequestParam(value = "endDate", required = true) String  endDate) {
+  public List<Object> fetchInvoicingFormFactorTotals(@RequestParam(value = "startDate", required = true) String startDate, @RequestParam(value = "endDate", required = true) String  endDate) {
     List<Object> reportResult;
     try {
       List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.INVOICING_FORM_FACTOR_TOTAL_REPORT.getName());
@@ -318,11 +318,11 @@ public class ReportController {
 
   @ApiOperation(value = "Invoicing Item Count in Kit Report Data", authorizations = { @Authorization(value="Authorization") })
   @GetMapping(path = "/fetchReport/invoicingReports/itemCountKit", produces = "application/json")
-  public List<Object> fetchInvoicingItemCountKitReport() {
+  public List<Object> fetchInvoicingItemCountKitReport(@RequestParam(value = "startDate", required = true) String startDate, @RequestParam(value = "endDate", required = true) String  endDate) {
     List<Object> reportResult;
     try {
       List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.INVOICING_ITEM_COUNT_KIT_REPORT.getName());
-      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.INVOICING_ITEM_COUNT_KIT_REPORT.getRepository(), null, null);
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.INVOICING_ITEM_COUNT_KIT_REPORT.getRepository(), startDate, endDate);
 
     } catch(RecordsNotFoundException ex) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
