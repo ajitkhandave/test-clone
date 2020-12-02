@@ -26,6 +26,9 @@ public class InvoicingOrderReport implements Serializable {
   @Column(name = "client_order_id")
   private String clientOrderId;
 
+  @Column(name = "order_date")
+  private String orderDate;
+
   @Column(name = "order_need_by_date")
   private String needByDate;
 
