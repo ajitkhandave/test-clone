@@ -36,6 +36,9 @@ public class ItemCountKit implements Serializable {
     @Column(name = "complete_ship_date")
     private String complete_ship_date;
 
+    @Column(name = "customer_product_id")
+    private String customer_product_id;
+
     @Column(name = "items_in_kit")
     private String items_in_kit;
 
