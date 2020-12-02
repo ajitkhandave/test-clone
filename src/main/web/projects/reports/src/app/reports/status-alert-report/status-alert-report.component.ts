@@ -85,7 +85,7 @@ export class StatusAlertReportComponent implements OnInit {
       { prop: 'printVendor', name: 'Print Vendor', sortable: false, draggable: false, resizeable: false }
     ];
 
-    this.sorts = [];
+    this.sorts = [{ prop: 'clientOrderId', dir: 'asc' }];
 
     this.filterForm = new FormGroup({
       clientOrderId: new FormControl(''),

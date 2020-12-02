@@ -78,13 +78,11 @@ export class AppComponent implements OnInit {
       submenu: [{
         reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
         id: 'order-report-line-item-level',
-        name: 'Order Report - Line Item Level',
-        disabled: true
+        name: 'Order Report - Line Item Level'
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
         id: 'order-report-order-level',
-        name: 'Order Report - Order Level',
-        disabled: true
+        name: 'Order Report - Order Level'
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
         id: 'shipping-report-line-item-level',
@@ -96,23 +94,19 @@ export class AppComponent implements OnInit {
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
         id: 'item-count-in-kit',
-        name: 'Item Count In Kit',
-        disabled: true
+        name: 'Item Count In Kit'
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent1@2x.png',
         id: 'sku-information',
-        name: 'SKU Information',
-        disabled: true
+        name: 'SKU Information'
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
         id: 'skus-to-add',
-        name: 'SKUs to Add',
-        disabled: true
+        name: 'SKUs to Add'
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
         id: 'pricing-error',
-        name: 'Pricing Error',
-        disabled: true
+        name: 'Pricing Error'
       }]
     }, {
       id: 'shipments-order',

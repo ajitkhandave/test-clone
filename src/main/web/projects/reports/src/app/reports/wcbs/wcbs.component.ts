@@ -39,10 +39,12 @@ export class WcbsComponent implements OnInit, AfterViewInit {
   monthlyOrderMasterData: any[];
   fundingTypeMasterData: any[];
   byBusinessSegmentMasterData: any[];
+  orderTranslatedMasterData: any[];
 
   byMonthChart: any[];
   fundingTypeChart: any[];
   chartByBusiness: any[];
+  orderTranslated: any[];
 
   colorScheme = {
     domain: ['#003fa3']
@@ -82,10 +84,12 @@ export class WcbsComponent implements OnInit, AfterViewInit {
         this.monthlyOrderMasterData = [].concat(resp.WCB_BY_MONTH);
         this.fundingTypeMasterData = [].concat(resp.BY_FUNDING_TYPE);
         this.byBusinessSegmentMasterData = [].concat(resp.WCB_BY_SEGMENT);
+        this.orderTranslatedMasterData = [].concat(resp.BY_ORDERS_TRANSLATED);
         this.generateData();
         this.generateByMonth();
         this.generateFundingType();
         this.prepareBusinessChart();
+        this.generateOrderTranslatedChart();
       });
   }
 
@@ -117,6 +121,7 @@ export class WcbsComponent implements OnInit, AfterViewInit {
     this.generateByMonth();
     this.generateFundingType();
     this.prepareBusinessChart();
+    this.generateOrderTranslatedChart();
     this.tableConfig.filters.next(true);
   }
 
@@ -243,6 +248,44 @@ export class WcbsComponent implements OnInit, AfterViewInit {
       return {
         name: key,
         value: data[key][this.activeCol]
+      };
+    });
+  }
+
+  generateOrderTranslatedChart() {
+    if (!this.orderTranslatedMasterData) { return; }
+    const { startDate, endDate } = this.filterForm.value;
+    const orderCountKey = 'orderCount';
+    const orderPrintedKey = 'printed';
+    const activeKey = this.activeCol === this.OrderColumn.prop ? orderCountKey : orderPrintedKey;
+    const orderTranslated = [].concat(this.orderTranslatedMasterData);
+    // Todo: Enable this once order_dates are available from the API.
+    // .filter(funding => {
+    //   if (funding && funding.identity) {
+    //     return moment(funding.identity.order_date).isBetween(startDate, endDate, 'day', '[]');
+    //   }
+    //   return false;
+    // });
+    const uniqueTranslateType = Array.from(new Set(orderTranslated.map(i => i.translationHeader)));
+    const data = {};
+    uniqueTranslateType.forEach((type) => {
+      if (!data[type]) {
+        data[type] = {
+          [orderCountKey]: 0,
+          [orderPrintedKey]: 0
+        };
+      }
+      orderTranslated
+        .filter(row => row.translationHeader === type)
+        .forEach(row => {
+          data[type][orderCountKey] += Number(row[orderCountKey]);
+          data[type][orderPrintedKey] += Number(row[orderPrintedKey]);
+        });
+    });
+    this.orderTranslated = Object.keys(data).map((key) => {
+      return {
+        name: key,
+        value: data[key][activeKey]
       };
     });
   }
