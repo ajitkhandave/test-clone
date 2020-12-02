@@ -75,13 +75,21 @@ export class InvoiceReportItemCountComponent implements OnInit, AfterViewInit {
         maxWidth: 130
       },
       {
-        // prop: '', // Todo: Missing in the API
+        prop: 'customer_product_id',
         name: 'Customer Product ID',
         sortable: true,
         draggable: false,
         resizeable: false,
+        width: 240,
+        maxWidth: 240,
+        minWidth: 240
       },
-      { prop: 'items_in_kit', name: 'Count', sortable: true, draggable: false, resizeable: false }
+      {
+        prop: 'items_in_kit', name: 'Count', sortable: true, draggable: false, resizeable: false,
+        width: 120,
+        maxWidth: 120,
+        minWidth: 120
+      }
     ];
     this.filterForm = new FormGroup({
       p3OrderId: new FormControl(''),
@@ -89,13 +97,12 @@ export class InvoiceReportItemCountComponent implements OnInit, AfterViewInit {
       startDate: new FormControl(''),
       endDate: new FormControl('')
     }, { validators: FilterSelectedValidator });
-
     this.sorts = [];
-    this.fetchData();
   }
 
   fetchData() {
-    this.reportService.fetchItemCountInKit()
+    const { startDate, endDate } = this.filterForm.value;
+    this.reportService.fetchItemCountInKit(startDate, endDate)
       .pipe(take(1))
       .subscribe(resp => {
         this.dataSource$.next(resp);
@@ -104,14 +111,13 @@ export class InvoiceReportItemCountComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    const date = moment().add(-1, 'M').startOf('M');
     const val = {
-      startDate: date.format('YYYY-MM-DD'),
-      endDate: date.endOf('M').format('YYYY-MM-DD')
+      startDate: moment().add(-1, 'M').format('YYYY-MM-DD'),
+      endDate: moment().format('YYYY-MM-DD')
     };
-    this.filterForm.patchValue(val);
+    this.startDateChange(val.startDate);
+    this.endDateChange(val.endDate);
     this.dateRange.next(val);
-    this.onSearch();
     this.cdr.detectChanges();
   }
 
@@ -135,17 +141,15 @@ export class InvoiceReportItemCountComponent implements OnInit, AfterViewInit {
   endDateChange(date) {
     const control = this.filterForm.get('endDate');
     control.patchValue(date);
+    if (date) {
+      this.fetchData();
+    }
   }
 
   applyQuery(row) {
-    const { startDate, endDate, p3OrderId, clientOrderId } = this.filterForm.value;
-    let isInRange = true;
+    const { p3OrderId, clientOrderId } = this.filterForm.value;
     let isP3OrderId = true;
     let isClientOrderId = true;
-
-    if (startDate && endDate) {
-      isInRange = moment(row.order_date).isBetween(startDate, endDate, 'day', '[]');
-    }
 
     if (p3OrderId) {
       isP3OrderId = (row.p3OrderId || '').includes(p3OrderId.toLowerCase());
@@ -154,7 +158,7 @@ export class InvoiceReportItemCountComponent implements OnInit, AfterViewInit {
     if (clientOrderId) {
       isClientOrderId = (row.client_order_id || '').includes(clientOrderId.toLowerCase());
     }
-    return isInRange && isP3OrderId && isClientOrderId;
+    return isP3OrderId && isClientOrderId;
   }
 
 }

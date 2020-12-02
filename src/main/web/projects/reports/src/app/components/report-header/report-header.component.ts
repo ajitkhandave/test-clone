@@ -68,7 +68,7 @@ export class ReportHeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   get errorUrl(): boolean {
-    return !this.router.url.includes('error');
+    return !this.router.url.endsWith('/error');
   }
 
   popoverOpened(p, type: ReportType) {

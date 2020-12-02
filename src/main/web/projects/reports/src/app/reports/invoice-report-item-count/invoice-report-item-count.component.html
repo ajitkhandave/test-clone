@@ -2,6 +2,13 @@
   <div class="order__filter-container mt-2">
     <div class="order__filter-container-input">
       <div class="form-row pl-3">
+        <div class="col-3">
+          <label for="dateRange" class="filter-name">Date Range</label>
+          <app-date-range [setRange]="dateRange" (startDateChange)="startDateChange($event)"
+            (endDateChange)="endDateChange($event)"></app-date-range>
+        </div>
+      </div>
+      <div class="form-row pl-3 mt-2">
         <div class="col-2">
           <label for="p3OrderId" class="filter-name">P3 Order ID</label>
           <div class="position-relative">
@@ -15,11 +22,6 @@
             <input class="form-control filters" id="clientOrderId" type="text" name="clientOrderId"
               placeholder="Order Number" formControlName="clientOrderId" />
           </div>
-        </div>
-        <div class="col-3">
-          <label for="dateRange" class="filter-name">Date Range</label>
-          <app-date-range [setRange]="dateRange" (startDateChange)="startDateChange($event)"
-            (endDateChange)="endDateChange($event)"></app-date-range>
         </div>
         <div class="col-auto align-self-end search">
           <button class="btn btn-sm btn-link mr-1 clear-filter-btn" type="button" (click)="clearFilter()">Clear
