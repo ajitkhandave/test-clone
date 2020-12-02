@@ -143,9 +143,12 @@ export class ReportService {
     }).pipe(catchError(this.handleError.bind(this)));
   }
 
-  fetchItemCountInKit(): Observable<any[]> {
+  fetchItemCountInKit(startDate: string, endDate: string): Observable<any[]> {
     const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/invoicingReports/itemCountKit';
-    return this.http.get<any[]>(url).pipe(catchError(this.handleError.bind(this)));
+    const params = new HttpParams().set('startDate', startDate).set('endDate', endDate);
+    return this.http.get<any[]>(url, {
+      params
+    }).pipe(catchError(this.handleError.bind(this)));
   }
 
   fetchPricingErrorReport(): Observable<any[]> {
