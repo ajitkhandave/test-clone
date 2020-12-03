@@ -289,7 +289,7 @@ export class MptReportComponent implements OnInit, AfterViewInit {
       case this.viewDataBy[2]:
         return 'quantity';
       case this.viewDataBy[3]:
-        return 'shipmentCount';
+        return 'shipments';
     }
   }
 
