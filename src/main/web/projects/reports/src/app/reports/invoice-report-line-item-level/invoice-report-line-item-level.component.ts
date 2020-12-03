@@ -77,7 +77,7 @@ export class InvoiceReportLineItemLevelComponent implements OnInit, AfterViewIni
         pipe: this.datePipe,
         comparator: this.datePipe.sort.bind(this)
       },
-      { name: 'Customer Name', sortable: true, draggable: false, resizeable: false }, // Todo: Customer Name field.
+      { prop: 'shipToCompanyName', name: 'Customer Name', sortable: true, draggable: false, resizeable: false },
       { prop: 'customer_product_id', name: 'Customer Product Id', sortable: true, draggable: false, resizeable: false },
       { prop: 'product_name', name: 'Product Name', sortable: true, draggable: false, resizeable: false },
       { prop: 'sku', name: 'SKU', sortable: true, draggable: false, resizeable: false },
