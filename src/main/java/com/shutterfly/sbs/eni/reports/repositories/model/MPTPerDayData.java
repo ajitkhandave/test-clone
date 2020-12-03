@@ -33,4 +33,6 @@ public class MPTPerDayData implements Serializable  {
   @Column(name = "quantity")
   private String quantity;
 
+  @Column(name = "shipments")
+  private String shipments;
 }
