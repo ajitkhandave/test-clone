@@ -171,7 +171,7 @@ export class MptReportComponent implements OnInit, AfterViewInit {
     if (!this.masterFlierChart) { return; }
     // Filter the records by Vendor, startDate & endDate
     const filteredData = this.masterFlierChart.filter(row => this.filterRecords(startDate, endDate, row));
-    this.flierChart = this.generateUniqueChart(filteredData, 'product_name'); // Todo: Validate once data are there.
+    this.flierChart = this.generateUniqueChart(filteredData, 'productName').slice(0, 10); // Top 10 needed Fliers.
   }
 
   /** Kit Chart */
