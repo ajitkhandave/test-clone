@@ -33,4 +33,7 @@ public class MPTKitData implements Serializable  {
   @Column(name = "quantity")
   private String quantity;
 
+  @Column(name = "shipments")
+  private String shipments;
+
 }
