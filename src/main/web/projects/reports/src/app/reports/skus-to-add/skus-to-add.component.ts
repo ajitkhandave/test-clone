@@ -23,7 +23,7 @@ export class SkusToAddComponent implements OnInit {
 
   ngOnInit() {
     this.columns = [
-      { prop: 'sku', name: '', sortable: false, draggable: false, resizable: false },
+      { prop: 'sku', name: 'sku', sortable: false, draggable: false, resizable: false },
     ];
 
     this.sorts = [];
