@@ -24,9 +24,8 @@ import lombok.NoArgsConstructor;
 
 public class OrdersTranslatedDetails implements Serializable  {
 
-  @Id
-  @Column(name = "tranlation_header")
-  private String translationHeader;
+  @EmbeddedId
+  private OrdersTranslatedDetailsIdentity identity;
 
   @Column(name = "order_count")
   private String orderCount;
