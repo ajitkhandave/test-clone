@@ -249,7 +249,7 @@ export class WcbsComponent implements OnInit, AfterViewInit {
         name: key,
         value: data[key][this.activeCol]
       };
-    });
+    }).filter(r => !!r.value).sort((a, b) => b.value - a.value);
   }
 
   generateOrderTranslatedChart() {
@@ -258,15 +258,14 @@ export class WcbsComponent implements OnInit, AfterViewInit {
     const orderCountKey = 'orderCount';
     const orderPrintedKey = 'printed';
     const activeKey = this.activeCol === this.OrderColumn.prop ? orderCountKey : orderPrintedKey;
-    const orderTranslated = [].concat(this.orderTranslatedMasterData);
-    // Todo: Enable this once order_dates are available from the API.
-    // .filter(funding => {
-    //   if (funding && funding.identity) {
-    //     return moment(funding.identity.order_date).isBetween(startDate, endDate, 'day', '[]');
-    //   }
-    //   return false;
-    // });
-    const uniqueTranslateType = Array.from(new Set(orderTranslated.map(i => i.translationHeader)));
+    const orderTranslated = [].concat(this.orderTranslatedMasterData)
+      .filter(funding => {
+        if (funding && funding.identity) {
+          return moment(funding.identity.orderDate).isBetween(startDate, endDate, 'day', '[]');
+        }
+        return false;
+      });
+    const uniqueTranslateType = Array.from(new Set(orderTranslated.map(i => i.identity.translationHeader)));
     const data = {};
     uniqueTranslateType.forEach((type) => {
       if (!data[type]) {
@@ -276,7 +275,7 @@ export class WcbsComponent implements OnInit, AfterViewInit {
         };
       }
       orderTranslated
-        .filter(row => row.translationHeader === type)
+        .filter(row => row.identity.translationHeader === type)
         .forEach(row => {
           data[type][orderCountKey] += Number(row[orderCountKey]);
           data[type][orderPrintedKey] += Number(row[orderPrintedKey]);
@@ -287,7 +286,7 @@ export class WcbsComponent implements OnInit, AfterViewInit {
         name: key,
         value: data[key][activeKey]
       };
-    });
+    }).filter(r => !!r.value).sort((a, b) => b.value - a.value);
   }
 
   prepareBusinessChart() {
