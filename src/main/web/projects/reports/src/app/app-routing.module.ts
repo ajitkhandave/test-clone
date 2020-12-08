@@ -38,6 +38,7 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
+        canActivate: [RoleGuard],
         component: HomeComponent
       },
       {
