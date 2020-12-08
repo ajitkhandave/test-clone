@@ -186,7 +186,7 @@ export class WcbsComponent implements OnInit, AfterViewInit {
       return false; // To ignore the null data.
     });
     filteredRows.forEach(row => {
-      const program = rows.find(p => row.identity.modules === p.modules);
+      const program = rows.find(p => row.identity.modules === p.modules && row.identity.programs === p.programs);
       if (program) {
         program.total_quantity += Number(row.total_quantity);
         program.totalOrders += Number(row.totalOrders);
