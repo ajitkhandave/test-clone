@@ -26,9 +26,6 @@ public class MonthlyVolume implements Serializable {
   @EmbeddedId
   private MonthlyVolumeIdentity monthlyVolumeIdentity;
 
-  @Column(name = "order_date")
-  private String orderDate;
-
   @Column(name = "order_year")
   private String orderYear;
 
