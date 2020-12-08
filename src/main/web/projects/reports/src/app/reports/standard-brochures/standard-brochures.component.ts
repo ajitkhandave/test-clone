@@ -166,8 +166,8 @@ export class StandardBrochuresComponent implements OnInit, AfterViewInit {
     const filteredRows = products.filter((row) => {
       if (row && row.standardBrochuresIdentity) {
         const isInRange = moment(row.standardBrochuresIdentity.order_date).isBetween(startDate, endDate, 'day', '[]');
-        const isStandardProduct = row.standardBrochuresIdentity.product.includes('Standard');
-        return isInRange && isStandardProduct;
+       // const isStandardProduct = row.standardBrochuresIdentity.product.includes('Standard');
+        return isInRange;
       }
       return false; // To ignore the null data.
     });
