@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { AuthService } from '@sbs/ngpc-auth';
 import { filter } from 'rxjs/operators';
 import { ReportType } from './models/report-type';
+import { AccessRole } from './services/access.role';
+import { ReportEnum } from './services/report.constant';
 import { ReportService } from './services/report.service';
 
 @Component({
@@ -10,118 +13,120 @@ import { ReportService } from './services/report.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'reports';
   constructor(
     private service: ReportService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
+    const token = this.authService.decodeToken();
+    const authorities = (token && token.authorities) || [];
     const types: ReportType[] = [{
-      id: 'all-savers-report',
+      id: ReportEnum.AllSaversReport,
       name: 'All Savers Report',
       reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
     }, {
-      id: 'status-alert-report',
+      id: ReportEnum.StatusAlertReport,
       name: 'Status Alerts Report',
       reportImg: '/reports/assets/images/Reporting_Accent2@2x.png'
     }, {
-      id: 'pop-active-products',
+      id: ReportEnum.PopActiveProducts,
       name: 'POP Active Products Report',
       reportImg: '/reports/assets/images/Reporting_Accent3@2x.png'
     }, {
-      id: 'order-status-report',
+      id: ReportEnum.OrderStatusReport,
       name: 'Order Status Report',
       reportImg: '/reports/assets/images/Reporting_Accent4@2x.png'
     }, {
-      id: 'order-details',
+      id: ReportEnum.OrderDetailsReport,
       name: 'Order Details Report',
       reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
       submenu: [{
-        id: 'line-item-level-report',
+        id: ReportEnum.OrderDetailsLineItemReport,
         name: 'Order Details - Line Item Level',
         reportImg: '/reports/assets/images/Reporting_Accent3@2x.png'
       }, {
-        id: 'order-level-report',
+        id: ReportEnum.OrderDetailsOrderReport,
         name: 'Order Details - Order Level',
         reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
       }]
     }, {
-      id: 'onboarding-dashboard',
+      id: ReportEnum.OnboardingDashboardReport,
       name: 'Onboarding Dashboard',
       reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
       submenu: [{
-        id: 'wcbs',
+        id: ReportEnum.WcbsReport,
         name: 'Onboarding Dashboard - WCBs',
         reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
       }, {
-        id: 'standard-brochures',
+        id: ReportEnum.StandardBrochuresReport,
         name: 'Onboarding Dashboard - Standard Brochures',
         reportImg: '/reports/assets/images/Reporting_Accent2@2x.png'
       }]
     }, {
-      id: 'oe-vp-report',
+      id: ReportEnum.OeVpReport,
       name: 'Open Enrollment VP Data Report',
       reportImg: '/reports/assets/images/Reporting_Accent2@2x.png'
     }, {
-      id: 'monthly-volume-report',
+      id: ReportEnum.MonthlyVolumeReport,
       name: 'Monthly Volume Report',
       reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
     }, {
-      id: 'member-engagement-dashboard',
+      id: ReportEnum.MemberEngagementDashboardReport,
       name: 'Member Engagement Dashboard',
       reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
     }, {
-      id: 'invoicing-report',
+      id: ReportEnum.InvoicingReport,
       name: 'Invoicing Report',
       reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
       submenu: [{
         reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
-        id: 'order-report-line-item-level',
+        id: ReportEnum.InvoicingOrderReportLineItemLevel,
         name: 'Order Report - Line Item Level'
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
-        id: 'order-report-order-level',
+        id: ReportEnum.InvoicingOrderReportOrderLevel,
         name: 'Order Report - Order Level'
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
-        id: 'shipping-report-line-item-level',
+        id: ReportEnum.InvoicingInvoiceReportLineItemLevel,
         name: 'Invoice Report - Line Item Level'
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent1@2x.png',
-        id: 'shipping-report-order-level',
+        id: ReportEnum.InvoicingInvoiceReportOrderLevel,
         name: 'Invoice Report - Order Level'
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
-        id: 'item-count-in-kit',
+        id: ReportEnum.InvoicingItemCountInKitReport,
         name: 'Item Count In Kit'
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent1@2x.png',
-        id: 'sku-information',
+        id: ReportEnum.InvoicingSkuInformationReport,
         name: 'SKU Information'
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
-        id: 'skus-to-add',
+        id: ReportEnum.InvoicingSkusToAddReport,
         name: 'SKUs to Add'
       }, {
         reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
-        id: 'pricing-error',
+        id: ReportEnum.InvoicingPricingErrorReport,
         name: 'Pricing Error'
       }]
     }, {
-      id: 'shipments-order',
+      id: ReportEnum.ShipmentsOrderReport,
       name: 'Shipments by Order',
       reportImg: '/reports/assets/images/Reporting_Accent3@2x.png'
     }, {
-      id: 'mpt-report',
+      id: ReportEnum.MptReport,
       name: 'MPT Report',
       reportImg: '/reports/assets/images/Reporting_Accent4@2x.png'
     }, {
-      id: 'oe-report',
+      id: ReportEnum.OeReport,
       name: 'OE Report',
       reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
       disabled: true
-    }];
+    }].filter(report => AccessRole.isAllowed(authorities, report.id));
     this.service.setReportTypes(types);
 
     this.router.events.pipe(

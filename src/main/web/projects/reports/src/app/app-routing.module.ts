@@ -24,6 +24,8 @@ import { SkusToAddComponent } from './reports/skus-to-add/skus-to-add.component'
 import { StandardBrochuresComponent } from './reports/standard-brochures/standard-brochures.component';
 import { StatusAlertReportComponent } from './reports/status-alert-report/status-alert-report.component';
 import { WcbsComponent } from './reports/wcbs/wcbs.component';
+import { ReportEnum } from './services/report.constant';
+import { RoleGuard } from './services/role.guard';
 
 const routes: Routes = [
   {
@@ -36,73 +38,95 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
+        canActivate: [RoleGuard],
         component: HomeComponent
       },
       {
         path: 'type',
         component: TitleComponent,
         children: [{
-          path: 'pop-active-products',
+          path: ReportEnum.PopActiveProducts,
+          canActivate: [RoleGuard],
           component: PopActiveProductsComponent
         }, {
-          path: 'all-savers-report',
+          path: ReportEnum.AllSaversReport,
+          canActivate: [RoleGuard],
           component: AllSaversReportComponent
         }, {
-          path: 'order-status-report',
+          path: ReportEnum.OrderStatusReport,
+          canActivate: [RoleGuard],
           component: OrderStatusReportComponent
         }, {
-          path: 'monthly-volume-report',
+          path: ReportEnum.MonthlyVolumeReport,
+          canActivate: [RoleGuard],
           component: MonthlyVolumeReportComponent
         }, {
-          path: 'status-alert-report',
+          path: ReportEnum.StatusAlertReport,
+          canActivate: [RoleGuard],
           component: StatusAlertReportComponent
         }, {
-          path: 'member-engagement-dashboard',
+          path: ReportEnum.MemberEngagementDashboardReport,
+          canActivate: [RoleGuard],
           component: MemberEngagementDashboardComponent
         }, {
-          path: 'standard-brochures',
+          path: ReportEnum.StandardBrochuresReport,
+          canActivate: [RoleGuard],
           component: StandardBrochuresComponent
         }, {
-          path: 'line-item-level-report',
+          path: ReportEnum.OrderDetailsLineItemReport,
+          canActivate: [RoleGuard],
           component: OrderDetailsLineItemLevelComponent
         }, {
-          path: 'order-level-report',
+          path: ReportEnum.OrderDetailsOrderReport,
+          canActivate: [RoleGuard],
           component: OrderDetailsOrderLevelComponent
         }, {
-          path: 'shipments-order',
+          path: ReportEnum.ShipmentsOrderReport,
+          canActivate: [RoleGuard],
           component: ShipmentOrdersComponent
         }, {
-          path: 'wcbs',
+          path: ReportEnum.WcbsReport,
+          canActivate: [RoleGuard],
           component: WcbsComponent
         }, {
-          path: 'oe-vp-report',
+          path: ReportEnum.OeVpReport,
+          canActivate: [RoleGuard],
           component: OeVpReportComponent
         }, {
-          path: 'shipping-report-order-level',
+          path: ReportEnum.InvoicingInvoiceReportOrderLevel,
+          canActivate: [RoleGuard],
           component: ShippingReportOrderLevelComponent
         }, {
-          path: 'shipping-report-line-item-level',
+          path: ReportEnum.InvoicingInvoiceReportLineItemLevel,
+          canActivate: [RoleGuard],
           component: InvoiceReportLineItemLevelComponent
         }, {
-          path: 'order-report-order-level',
+          path: ReportEnum.InvoicingOrderReportOrderLevel,
+          canActivate: [RoleGuard],
           component: OrderReportOrderLevelComponent
         }, {
-          path: 'order-report-line-item-level',
+          path: ReportEnum.InvoicingOrderReportLineItemLevel,
+          canActivate: [RoleGuard],
           component: OrderReportLineItemLevelComponent
         }, {
-          path: 'item-count-in-kit',
+          path: ReportEnum.InvoicingItemCountInKitReport,
+          canActivate: [RoleGuard],
           component: InvoiceReportItemCountComponent
         }, {
-          path: 'mpt-report',
+          path: ReportEnum.MptReport,
+          canActivate: [RoleGuard],
           component: MptReportComponent
         }, {
-          path: 'pricing-error',
+          path: ReportEnum.InvoicingPricingErrorReport,
+          canActivate: [RoleGuard],
           component: PricingErrorComponent
         }, {
-          path: 'skus-to-add',
+          path: ReportEnum.InvoicingSkusToAddReport,
+          canActivate: [RoleGuard],
           component: SkusToAddComponent
         }, {
-          path: 'sku-information',
+          path: ReportEnum.InvoicingSkuInformationReport,
+          canActivate: [RoleGuard],
           component: SkuInformationComponent
         }
         ]
