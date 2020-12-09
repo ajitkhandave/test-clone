@@ -120,3 +120,27 @@ server:
   tomcat:
     remote-ip-header: x-forwarded-for
     protocol-header: x-forwarded-proto
+
+---
+
+spring:
+  profiles: prod
+  datasource:
+    url:  jdbc:mysql://uhgsql13-lv/eni?verifyServerCertificate=false&useSSL=true&requireSSL=false&rewriteBatchedStatements=true
+    username: sbs_prd_eni
+    password: ayVASBSb
+  flyway:
+    placeholders:
+      schema: sbs_platform_order
+app:
+  base-url: https://eni-reports.sbs.shutterfly.com
+  login-url: https://eni-omni.sbs.shutterfly.com/auth
+  security:
+    auth:
+      gateway-endpoint: https://web-api-uhg.sbs.shutterfly.com
+      cookie-domain: sbs.shutterfly.com
+      issuer: https://auth-api-uhg.internal.shutterfly.com
+server:
+  tomcat:
+    remote-ip-header: x-forwarded-for
+    protocol-header: x-forwarded-proto
