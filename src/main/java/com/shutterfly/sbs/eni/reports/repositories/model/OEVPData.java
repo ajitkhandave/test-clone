@@ -1,10 +1,8 @@
 package com.shutterfly.sbs.eni.reports.repositories.model;
 
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,8 +20,18 @@ import lombok.NoArgsConstructor;
 @Builder
 public class OEVPData implements Serializable {
 
-  @EmbeddedId
-  private OEVPDataIdentity identity;
+  @Id
+  @Column(name = "uuid")
+  private String uuid;
+
+  @Column(name = "product_segment")
+  private String productSegment;
+
+  @Column(name = "p3Segment")
+  private String p3Segment;
+
+  @Column(name = "order_date")
+  private String order_date;
 
   @Column(name = "oecb_template")
   private String template;
