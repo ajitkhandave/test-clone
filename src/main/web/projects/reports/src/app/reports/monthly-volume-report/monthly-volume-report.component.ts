@@ -42,13 +42,13 @@ export class MonthlyVolumeReportComponent implements OnInit, AfterViewInit {
       { prop: 'itemRevisionNumber', name: 'Item Revision Number', sortable: false, draggable: false, resizeable: false, minWidth: 150, width: 150, maxWidth: 150, cellClass: 'text-right', headerClass: 'text-right' },
       { prop: 'jan', name: 'January', sortable: true, draggable: false, resizeable: false, cellClass: 'text-right', headerClass: 'text-right', width: 110, maxWidth: 110, minWidth: 110, pipe: this.qtyPipe },
       { prop: 'feb', name: 'February', sortable: true, draggable: false, resizeable: false, cellClass: 'text-right', headerClass: 'text-right', width: 110, maxWidth: 110, minWidth: 110, pipe: this.qtyPipe },
-      { prop: 'march', name: 'March', sortable: true, draggable: false, resizeable: false, cellClass: 'text-right', headerClass: 'text-right', width: 110, maxWidth: 110, minWidth: 110, pipe: this.qtyPipe },
-      { prop: 'april', name: 'April', sortable: true, draggable: false, resizeable: false, cellClass: 'text-right', headerClass: 'text-right', width: 110, maxWidth: 110, minWidth: 110, pipe: this.qtyPipe },
+      { prop: 'mar', name: 'March', sortable: true, draggable: false, resizeable: false, cellClass: 'text-right', headerClass: 'text-right', width: 110, maxWidth: 110, minWidth: 110, pipe: this.qtyPipe },
+      { prop: 'apr', name: 'April', sortable: true, draggable: false, resizeable: false, cellClass: 'text-right', headerClass: 'text-right', width: 110, maxWidth: 110, minWidth: 110, pipe: this.qtyPipe },
       { prop: 'may', name: 'May', sortable: true, draggable: false, resizeable: false, cellClass: 'text-right', headerClass: 'text-right', width: 110, maxWidth: 110, minWidth: 110, pipe: this.qtyPipe },
       { prop: 'jun', name: 'June', sortable: true, draggable: false, resizeable: false, cellClass: 'text-right', headerClass: 'text-right', width: 110, maxWidth: 110, minWidth: 110, pipe: this.qtyPipe },
-      { prop: 'july', name: 'July', sortable: true, draggable: false, resizeable: false, cellClass: 'text-right', headerClass: 'text-right', width: 110, maxWidth: 110, minWidth: 110, pipe: this.qtyPipe },
+      { prop: 'jul', name: 'July', sortable: true, draggable: false, resizeable: false, cellClass: 'text-right', headerClass: 'text-right', width: 110, maxWidth: 110, minWidth: 110, pipe: this.qtyPipe },
       { prop: 'aug', name: 'August', sortable: true, draggable: false, resizeable: false, cellClass: 'text-right', headerClass: 'text-right', width: 110, maxWidth: 110, minWidth: 110, pipe: this.qtyPipe },
-      { prop: 'sept', name: 'September', sortable: true, draggable: false, resizeable: false, cellClass: 'text-right', headerClass: 'text-right', pipe: this.qtyPipe },
+      { prop: 'sep', name: 'September', sortable: true, draggable: false, resizeable: false, cellClass: 'text-right', headerClass: 'text-right', pipe: this.qtyPipe },
       { prop: 'oct', name: 'October', sortable: true, draggable: false, resizeable: false, cellClass: 'text-right', headerClass: 'text-right', pipe: this.qtyPipe },
       { prop: 'nov', name: 'November', sortable: true, draggable: false, resizeable: false, cellClass: 'text-right', headerClass: 'text-right', pipe: this.qtyPipe },
       { prop: 'dec', name: 'December', sortable: true, draggable: false, resizeable: false, cellClass: 'text-right', headerClass: 'text-right', pipe: this.qtyPipe }
@@ -106,54 +106,47 @@ export class MonthlyVolumeReportComponent implements OnInit, AfterViewInit {
   filterMasterRows(resp): any[] {
     /** Generating the table rows */
     const rows = [];
-
-    /** Creating the array of itemNumbers */
-    const itemNumbers: string[] = resp.map(row => row.monthlyVolumeIdentity.itemNumber);
-
-    /** Creating uniqueItemNumber array and looping through each. */
-    const uniquItemNumbers = [...Array.from(new Set(itemNumbers))];
-    uniquItemNumbers.forEach(itemNumber => {
-      /** Filter data with ItemNumber to operate */
-      const rowsWithItemNumber = resp.filter(row => row.monthlyVolumeIdentity.itemNumber == itemNumber);
-
-      /** Prepare rows for EachYears */
-      this.years.forEach(year => {
-        const dataForYear = rowsWithItemNumber.filter(item => item.orderYear == year);
-        /** If no data found we'll skip the rowEntry */
-        if (!dataForYear.length) { return null; }
-
-        /** If any Entry found prepare the Object and Push to the row. */
-        rows.push(this.prepareRowData(year, dataForYear, rowsWithItemNumber[0]));
-      });
+    resp.forEach(row => {
+      const orderMonth = Number(row.orderMonth) - 1; // momentJS counts from 0;
+      const orderedQty = Number(row.orderedQty || 0);
+      const monthName = this.getMonthName(orderMonth);
+      let existingRow = rows.find(item =>
+        item.productName === row.productName &&
+        item.itemRevisionNumber === row.itemRevisionNumber &&
+        item.itemNumber === row.itemNumber &&
+        item.year == row.orderYear
+      );
+      // Record doesn't exist let's create one and apply value to that month.
+      if (!existingRow) {
+        existingRow = this.prepareRowData(row);
+        existingRow[monthName] += orderedQty;
+        rows.push(existingRow);
+        return;
+      }
+      // Record exist than apply value to relevant month.
+      existingRow[monthName] += orderedQty;
     });
     return rows;
   }
 
-  prepareRowData(year, dataForYear, order) {
-    const { productName, itemRevisionNumber, monthlyVolumeIdentity } = order;
-    const getQtyForMonth = (month) => {
-      const data = dataForYear.find(item => item.orderMonth == month);
-      if (data) { return Number(data.orderedQty); }
-      return 0;
-    };
-    return {
+  /** Utility method to generate the row signature with empty values. */
+  prepareRowData(order) {
+    const { productName, itemRevisionNumber, itemNumber, orderYear } = order;
+    const emptyRow = {
       productName,
       itemRevisionNumber,
-      itemNumber: monthlyVolumeIdentity.itemNumber,
-      year,
-      jan: getQtyForMonth(1),
-      feb: getQtyForMonth(2),
-      march: getQtyForMonth(3),
-      april: getQtyForMonth(4),
-      may: getQtyForMonth(5),
-      jun: getQtyForMonth(6),
-      july: getQtyForMonth(7),
-      aug: getQtyForMonth(8),
-      sept: getQtyForMonth(9),
-      oct: getQtyForMonth(10),
-      nov: getQtyForMonth(11),
-      dec: getQtyForMonth(12)
+      itemNumber,
+      year: orderYear
     };
+    for (let i = 0; i < 12; i++) {
+      emptyRow[this.getMonthName(i)] = 0;
+    }
+    return emptyRow;
+  }
+
+  /** Utility method to generate the keyName of the month based on the number. */
+  getMonthName(monthNumber: number): string {
+    return moment().month(monthNumber).format('MMM').toLowerCase();
   }
 
 }
