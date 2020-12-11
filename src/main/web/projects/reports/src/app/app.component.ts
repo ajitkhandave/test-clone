@@ -26,57 +26,8 @@ export class AppComponent implements OnInit {
       id: ReportEnum.AllSaversReport,
       name: 'All Savers Report',
       reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
-    }, {
-      id: ReportEnum.StatusAlertReport,
-      name: 'Status Alerts Report',
-      reportImg: '/reports/assets/images/Reporting_Accent2@2x.png'
-    }, {
-      id: ReportEnum.PopActiveProducts,
-      name: 'POP Active Products Report',
-      reportImg: '/reports/assets/images/Reporting_Accent3@2x.png'
-    }, {
-      id: ReportEnum.OrderStatusReport,
-      name: 'Order Status Report',
-      reportImg: '/reports/assets/images/Reporting_Accent4@2x.png'
-    }, {
-      id: ReportEnum.OrderDetailsReport,
-      name: 'Order Details Report',
-      reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
-      submenu: [{
-        id: ReportEnum.OrderDetailsLineItemReport,
-        name: 'Order Details - Line Item Level',
-        reportImg: '/reports/assets/images/Reporting_Accent3@2x.png'
-      }, {
-        id: ReportEnum.OrderDetailsOrderReport,
-        name: 'Order Details - Order Level',
-        reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
-      }]
-    }, {
-      id: ReportEnum.OnboardingDashboardReport,
-      name: 'Onboarding Dashboard',
-      reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
-      submenu: [{
-        id: ReportEnum.WcbsReport,
-        name: 'Onboarding Dashboard - WCBs',
-        reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
-      }, {
-        id: ReportEnum.StandardBrochuresReport,
-        name: 'Onboarding Dashboard - Standard Brochures',
-        reportImg: '/reports/assets/images/Reporting_Accent2@2x.png'
-      }]
-    }, {
-      id: ReportEnum.OeVpReport,
-      name: 'Open Enrollment VP Data Report',
-      reportImg: '/reports/assets/images/Reporting_Accent2@2x.png'
-    }, {
-      id: ReportEnum.MonthlyVolumeReport,
-      name: 'Monthly Volume Report',
-      reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
-    }, {
-      id: ReportEnum.MemberEngagementDashboardReport,
-      name: 'Member Engagement Dashboard',
-      reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
-    }, {
+    },
+      {
       id: ReportEnum.InvoicingReport,
       name: 'Invoicing Report',
       reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
@@ -113,20 +64,75 @@ export class AppComponent implements OnInit {
         id: ReportEnum.InvoicingPricingErrorReport,
         name: 'Pricing Error'
       }]
-    }, {
-      id: ReportEnum.ShipmentsOrderReport,
-      name: 'Shipments by Order',
+    },{
+      id: ReportEnum.MemberEngagementDashboardReport,
+      name: 'Member Engagement Dashboard',
       reportImg: '/reports/assets/images/Reporting_Accent3@2x.png'
-    }, {
+    },  {
+      id: ReportEnum.MonthlyVolumeReport,
+      name: 'Monthly Volume Report',
+      reportImg: '/reports/assets/images/Reporting_Accent4@2x.png'
+    },{
       id: ReportEnum.MptReport,
       name: 'MPT Report',
-      reportImg: '/reports/assets/images/Reporting_Accent4@2x.png'
-    }, {
+      reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
+    },  {
       id: ReportEnum.OeReport,
       name: 'OE Report',
-      reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
+      reportImg: '/reports/assets/images/Reporting_Accent2@2x.png',
       disabled: true
-    }].filter(report => AccessRole.isAllowed(authorities, report.id));
+    },
+      {
+      id: ReportEnum.OeVpReport,
+      name: 'Open Enrollment VP Data Report',
+      reportImg: '/reports/assets/images/Reporting_Accent3@2x.png'
+    },
+      {
+      id: ReportEnum.OnboardingDashboardReport,
+      name: 'Onboarding Dashboard',
+      reportImg: '/reports/assets/images/Reporting_Accent4@2x.png',
+      submenu: [{
+        id: ReportEnum.WcbsReport,
+        name: 'Onboarding Dashboard - WCBs',
+        reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
+      }, {
+        id: ReportEnum.StandardBrochuresReport,
+        name: 'Onboarding Dashboard - Standard Brochures',
+        reportImg: '/reports/assets/images/Reporting_Accent2@2x.png'
+      }]
+    },
+      {
+      id: ReportEnum.OrderDetailsReport,
+      name: 'Order Details Report',
+      reportImg: '/reports/assets/images/Reporting_Accent3@2x.png',
+      submenu: [{
+        id: ReportEnum.OrderDetailsLineItemReport,
+        name: 'Order Details - Line Item Level',
+        reportImg: '/reports/assets/images/Reporting_Accent3@2x.png'
+      }, {
+        id: ReportEnum.OrderDetailsOrderReport,
+        name: 'Order Details - Order Level',
+        reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
+      }]
+    },
+      {
+        id: ReportEnum.OrderStatusReport,
+        name: 'Order Status Report',
+        reportImg: '/reports/assets/images/Reporting_Accent4@2x.png'
+      },
+       {
+      id: ReportEnum.PopActiveProducts,
+      name: 'POP Active Products Report',
+      reportImg: '/reports/assets/images/Reporting_Accent1@2x.png'
+    },      {
+      id: ReportEnum.ShipmentsOrderReport,
+      name: 'Shipments by Order',
+      reportImg: '/reports/assets/images/Reporting_Accent2@2x.png'
+    },{
+        id: ReportEnum.StatusAlertReport,
+        name: 'Status Alerts Report',
+        reportImg: '/reports/assets/images/Reporting_Accent3@2x.png'
+      }].filter(report => AccessRole.isAllowed(authorities, report.id));
     this.service.setReportTypes(types);
 
     this.router.events.pipe(
