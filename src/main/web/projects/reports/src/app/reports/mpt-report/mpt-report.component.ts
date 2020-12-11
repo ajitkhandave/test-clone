@@ -13,7 +13,7 @@ import { FilterSelectedValidator } from '../../validators/filter-selected.valida
 export class MptReportComponent implements OnInit, AfterViewInit {
 
   colorScheme = {
-    domain: ['#003fa3']
+    domain: ['#5AA454', '#7aa3e5', '#C7B42C', '#aae3f5']
   };
 
   years: number[] = [];

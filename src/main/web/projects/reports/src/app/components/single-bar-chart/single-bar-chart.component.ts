@@ -20,7 +20,7 @@ export class SingleBarChartComponent implements OnInit {
   @Input() view: number[];
 
   @Input() colorScheme = {
-    domain: ['#196ECF']
+    domain: ['#5cb85c', '#C7B42C', '#0275d8','#aae3f5']
   };
 
   constructor() { }
