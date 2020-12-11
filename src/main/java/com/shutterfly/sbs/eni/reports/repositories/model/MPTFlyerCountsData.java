@@ -1,10 +1,8 @@
 package com.shutterfly.sbs.eni.reports.repositories.model;
 
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,8 +19,17 @@ import lombok.NoArgsConstructor;
 @Table
 @Builder
 public class MPTFlyerCountsData implements Serializable  {
-  @EmbeddedId
-  private MPTFlyerCountsIdentity identity;
+
+  @Id
+  @Column(name = "uuid")
+  private String uuid;
+
+  @Column(name = "product_name")
+  private String productName;
+  @Column(name = "print_vendor")
+  private String printVendor;
+  @Column(name = "order_date")
+  private String orderDate;
 
   @Column(name = "order_count")
   private String orderCount;

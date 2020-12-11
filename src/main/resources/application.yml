@@ -125,10 +125,6 @@ server:
 
 spring:
   profiles: prod
-  datasource:
-    url:  jdbc:mysql://uhgsql13-lv/eni?verifyServerCertificate=false&useSSL=true&requireSSL=false&rewriteBatchedStatements=true
-    username: sbs_prd_eni
-    password: ayVASBSb
   flyway:
     placeholders:
       schema: sbs_platform_order

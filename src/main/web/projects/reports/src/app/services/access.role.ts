@@ -117,7 +117,7 @@ export class AccessRole {
   /**************************/
 
   public static isAllowed(roles: string[], url: string): boolean {
-    const isAllowed = AccessRole[url].some(authority => roles.some(role => role === authority));
+    const isAllowed = (AccessRole[url] || []).some(authority => roles.some(role => role === authority));
     return isAllowed;
   }
 }
