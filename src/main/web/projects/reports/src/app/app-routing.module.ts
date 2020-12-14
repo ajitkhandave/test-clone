@@ -8,6 +8,7 @@ import { InvoiceReportItemCountComponent } from './reports/invoice-report-item-c
 import { InvoiceReportLineItemLevelComponent } from './reports/invoice-report-line-item-level/invoice-report-line-item-level.component';
 import { MemberEngagementDashboardComponent } from './reports/member-engagement-dashboard/member-engagement-dashboard.component';
 import { MonthlyVolumeReportComponent } from './reports/monthly-volume-report/monthly-volume-report.component';
+import { MptReportV2Component } from './reports/mpt-report-v2/mpt-report-v2.component';
 import { MptReportComponent } from './reports/mpt-report/mpt-report.component';
 import { OeVpReportComponent } from './reports/oe-vp-report/oe-vp-report.component';
 import { OrderDetailsLineItemLevelComponent } from './reports/order-details-line-item-level/order-details-line-item-level.component';
@@ -116,6 +117,9 @@ const routes: Routes = [
           path: ReportEnum.MptReport,
           canActivate: [RoleGuard],
           component: MptReportComponent
+        }, {
+          path: ReportEnum.MptReportV2,
+          component: MptReportV2Component
         }, {
           path: ReportEnum.InvoicingPricingErrorReport,
           canActivate: [RoleGuard],

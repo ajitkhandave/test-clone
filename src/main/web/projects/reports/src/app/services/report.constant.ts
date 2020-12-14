@@ -23,5 +23,6 @@ export enum ReportEnum {
   InvoicingPricingErrorReport = 'pricing-error',
   ShipmentsOrderReport = 'shipments-order',
   MptReport = 'mpt-report',
+  MptReportV2 = 'mpt-report-v2',
   OeReport = 'oe-report',
 }
