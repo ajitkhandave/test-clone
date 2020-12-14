@@ -373,6 +373,22 @@ public class ReportController {
     return invoicingReport;
   }
 
+  @ApiOperation(value = "MPT Reports Data for All Categories", authorizations = { @Authorization(value="Authorization") })
+  @GetMapping(path = "/fetchReport/mptReports", produces = "application/json")
+  public List<Object> fetchMPTReportsData() {
+    List<Object> reportResult;
+    try {
+      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.MPT_REPORTS_DATA.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.MPT_REPORTS_DATA.getRepository(), null, null);
+
+    } catch(RecordsNotFoundException ex) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+    } catch(Exception ex) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+    }
+    return reportResult;
+  }
+
 
   @ApiOperation(value = "ENI Valid Connection", authorizations = { @Authorization(value="Authorization") })
   @GetMapping(value = {"/validConnection"})
