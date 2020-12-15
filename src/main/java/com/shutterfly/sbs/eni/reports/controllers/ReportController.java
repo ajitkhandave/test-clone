@@ -375,11 +375,11 @@ public class ReportController {
 
   @ApiOperation(value = "MPT Reports Data for All Categories", authorizations = { @Authorization(value="Authorization") })
   @GetMapping(path = "/fetchReport/mptReports", produces = "application/json")
-  public List<Object> fetchMPTReportsData() {
+  public List<Object> fetchMPTReportsData(@RequestParam(value = "startDate", required = true) String startDate, @RequestParam(value = "endDate", required = true) String  endDate) {
     List<Object> reportResult;
     try {
       List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.MPT_REPORTS_DATA.getName());
-      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.MPT_REPORTS_DATA.getRepository(), null, null);
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.MPT_REPORTS_DATA.getRepository(), startDate, endDate);
 
     } catch(RecordsNotFoundException ex) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
