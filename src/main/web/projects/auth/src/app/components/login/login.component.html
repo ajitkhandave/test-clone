@@ -1,0 +1,16 @@
+<div class="bg">
+  <div class="row component px-5 py-5">
+    <div class="col-xl-4 col-sm-6">
+        <sbs-ngpc-auth-login (loginFailed)="onLoginFailed($event)" [authConfig]="authConfig"
+                             [loginConfig]="loginConfig" (forgotPasswordFailed)="onForgotPasswordFailed($event)" (forgotPasswordSuccess)="onForgotPasswordSuccess()"></sbs-ngpc-auth-login>
+    </div>
+
+    <div class="col-xl-8 col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="text-primary portal-name">Welcome, Please sign in to the UnitedHealthcare Applications Portal</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
