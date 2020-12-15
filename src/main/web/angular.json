@@ -288,7 +288,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/auth",
+            "deployUrl": "/auth/",
+            "outputPath": "../resources/static/auth",
             "index": "projects/auth/src/index.html",
             "main": "projects/auth/src/main.ts",
             "polyfills": "projects/auth/src/polyfills.ts",
