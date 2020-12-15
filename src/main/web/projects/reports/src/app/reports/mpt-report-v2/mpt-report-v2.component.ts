@@ -63,7 +63,7 @@ export class MptReportV2Component implements OnInit {
 
   ngAfterViewInit() {
     const val = {
-      startDate: moment().add(-5, 'M').startOf('M').format('YYYY-MM-DD'),
+      startDate: moment().add(-2, 'M').startOf('M').format('YYYY-MM-DD'),
       endDate: moment().endOf('M').format('YYYY-MM-DD')
     };
     this.startDateChange(val.startDate);
