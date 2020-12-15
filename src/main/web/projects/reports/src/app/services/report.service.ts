@@ -167,10 +167,12 @@ export class ReportService {
     return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
   }
 
-  fetchMptReportV2(): Observable<any[]> {
-    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/mptReportData';
-    // return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
-    return of(mockMpt)
+  fetchMptReportV2(startDate: string, endDate: string): Observable<any[]> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/mptReports';
+    const params = new HttpParams().set('startDate', startDate).set('endDate', endDate);
+    return this.http.get<any[]>(url, {
+      params
+    }).pipe(catchError(this.handleError.bind(this)));
   }
 
   fetchFormFactorTotals(startDate: string, endDate: string): Observable<any[]> {

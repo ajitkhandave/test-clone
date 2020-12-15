@@ -3,6 +3,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { take } from 'rxjs/operators';
 import * as moment from 'moment';
 import { ReportService } from '../../services/report.service';
+import { Subject } from 'rxjs';
+import { DateRange } from '../../models/date-range';
+import { LoaderService } from '@sbs/loader';
 
 @Component({
   selector: 'app-mpt-report-v2',
@@ -15,7 +18,6 @@ export class MptReportV2Component implements OnInit {
     domain: ['#5AA454', '#7aa3e5', '#C7B42C', '#aae3f5']
   };
 
-  years: number[] = [];
   viewDataBy: string[] = [
     'Order Count',
     'Kit Count',
@@ -24,6 +26,8 @@ export class MptReportV2Component implements OnInit {
   ];
   type: string = this.viewDataBy[0];
   filterForm: FormGroup;
+  dateRange: Subject<DateRange> = new Subject();
+  maxDate: string;
 
   totalChart: {
     orders: number,
@@ -35,34 +39,36 @@ export class MptReportV2Component implements OnInit {
   masterData: any[] = [];
 
   mptMonthChart: any[];
+  businessSegmentChart: any[];
+  statusChart: any[];
+  flierChart: any[];
+  kitChart: any[];
+  userChart: any[];
 
   constructor(
     private reportService: ReportService,
+    private loaderService: LoaderService,
     private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
     this.filterForm = new FormGroup({
       vendor: new FormControl(''),
-      year: new FormControl(''),
-      type: new FormControl(''),
-      quarter: new FormControl('')
+      type: new FormControl(this.viewDataBy[0]),
+      startDate: new FormControl(''),
+      endDate: new FormControl('')
     });
-    const years = [moment().year()];
-    for (let i = 1; i < 5; i++) {
-      years[i] = years[0] - i;
-    }
-    this.years = years;
-    this.fetchRecords();
+    this.maxDate = moment().endOf('y').format('YYYY-MM-DD');
   }
 
   ngAfterViewInit() {
-    this.filterForm.patchValue({
-      quarter: moment().quarter(),
-      type: this.viewDataBy[0],
-      vendor: '',
-      year: this.years[0]
-    });
+    const val = {
+      startDate: moment().add(-5, 'M').startOf('M').format('YYYY-MM-DD'),
+      endDate: moment().endOf('M').format('YYYY-MM-DD')
+    };
+    this.startDateChange(val.startDate);
+    this.endDateChange(val.endDate);
+    this.dateRange.next(val);
     this.onSearch();
     this.cdr.detectChanges();
   }
@@ -70,21 +76,35 @@ export class MptReportV2Component implements OnInit {
   onSearch() {
     const { type } = this.filterForm.value;
     this.type = type;
+    if (this.masterData.length) { this.loaderService.show(); }
     const filteredRows = this.masterData.filter(row => this.applyQuery(row));
-    this.generateMptChart([].concat(filteredRows));
+    setTimeout(()=>{ // For performance issue need to delay the process.
+      this.generateMptChart([].concat(filteredRows));
+    });
     this.generateBusinessSegmentChart([].concat(filteredRows));
     this.generateStatusChart([].concat(filteredRows));
     this.generateFlierChart([].concat(filteredRows));
     this.generateKitChart([].concat(filteredRows));
     this.generateUserChart([].concat(filteredRows));
+    this.generateTotals([].concat(filteredRows));
+    if (this.masterData.length) {
+      setTimeout(() => {
+        this.loaderService.hide();
+      });
+    }
   }
 
   clearFilter() {
-    this.ngAfterViewInit();
+    this.filterForm.patchValue({
+      type: this.viewDataBy[0],
+      vendor: '',
+    });
+    this.onSearch();
   }
 
   fetchRecords() {
-    this.reportService.fetchMptReportV2().pipe(
+    const { startDate, endDate } = this.filterForm.value;
+    this.reportService.fetchMptReportV2(startDate, endDate).pipe(
       take(1)
     ).subscribe(resp => {
       this.masterData = [].concat(resp);
@@ -93,68 +113,79 @@ export class MptReportV2Component implements OnInit {
   }
 
   generateMptChart(rows: any[]) {
-    const { year, quarter } = this.filterForm.value;
-    const startDate = moment()
-      .quarter(quarter)
-      .startOf('Q')
-      .year(year);
+    const { startDate, endDate } = this.filterForm.value;
+    const momentStartDate = moment(startDate);
+    const momentEndDate = moment(endDate);
+    const dateFormatter = (date) => moment(date).format('MM/DD/YYYY');
 
     // Generate signature for the Chart.
-    const mptMonthChart = this.generateMonths(startDate.clone());
-    rows.forEach(order => {
-      const date = order.order_date;
-      const monthName = moment(date).format('MMM');
-
+    const mptMonthChart = this.generateMonths(momentStartDate.clone(), momentEndDate.clone());
+    const uniqueDates = Array.from(new Set(rows.map(row => dateFormatter(row.orderDate))));
+    uniqueDates.forEach((date: string) => {
       // Find the existing Signature
+      const monthName = moment(date).format('MMM');
       const row = mptMonthChart.find(r => r.name === monthName);
       if (!row) { return; }
 
-      // Find if data is already logged for the day.
-      const seriesExist = row.series.find(r => r.name === date);
-
-      // Based on activeFilter key add the count.
-      const value = Number(order[this.activeKey] || 0);
-      if (seriesExist) {
-        seriesExist.value += value;
-        return;
+      const filteredRowsByDate = rows.filter(item => dateFormatter(item.orderDate) === date);
+      const value = this.activeCount(filteredRowsByDate);
+      if (value) {
+        row.series.push({
+          name: date,
+          value
+        });
       }
-      row.series.push({
-        name: date,
-        value
-      });
     });
+
     this.mptMonthChart = mptMonthChart;
   }
 
   generateBusinessSegmentChart(rows: any[]) {
-    //Todo: logic to generate the Business Segment Chart.
+    const chart = this.generateUniqueChart(rows, 'p3Segment');
+    this.businessSegmentChart = chart;
   }
 
   generateStatusChart(rows: any[]) {
-    //Todo: logic to generate the Status Chart.
+    const chart = this.generateUniqueChart(rows, 'status');
+    this.statusChart = chart;
   }
 
   generateFlierChart(rows: any[]) {
-    //Todo: logic to generate the Flier Chart.
+    const filteredRows = rows.filter(row => !!row.flierIdentifier);
+    const chart = this.generateUniqueChart(filteredRows, 'productName');
+    this.flierChart = chart.slice(0, 10); // Only top 10
   }
 
   generateKitChart(rows: any[]) {
-    //Todo: logic to generate the Kit Chart.
+    const filteredRows = rows.filter(row => !!row.isKit);
+    const chart = this.generateUniqueChart(filteredRows, 'customerProductId');
+    this.kitChart = chart.slice(0, 5); // Only top 5
   }
 
   generateUserChart(rows: any[]) {
-    //Todo: logic to generate the User Chart.
+    const chart = this.generateUniqueChart(rows, 'userName');
+    this.userChart = chart.slice(0, 5); // Only top 5
+  }
+
+  generateTotals(rows: any[]) {
+    this.totalChart = {
+      orders: this.activeCount(rows, this.viewDataBy[0]),
+      kits: this.activeCount(rows, this.viewDataBy[1]),
+      qty: this.activeCount(rows, this.viewDataBy[2]),
+      shipments: this.activeCount(rows, this.viewDataBy[3])
+    };
   }
 
   /** Generic Funciton for CountsPerDay Chart */
-  generateMonths(date: moment.Moment): { name: string, series: any[] }[] {
-    const monthName = date.format('MMM');
+  generateMonths(startDate: moment.Moment, endDate: moment.Moment): { name: string, series: any[] }[] {
+    const monthName = startDate.format('MMM');
+    const diff = endDate.diff(startDate, 'M');
     const rows = [{
       name: monthName,
       series: []
     }];
-    for (let i = 1; i < 3; i++) {
-      const updatedMonthName = date.add(1, 'M').format('MMM');
+    for (let i = 1; i <= diff; i++) {
+      const updatedMonthName = startDate.add(1, 'M').format('MMM');
       rows[i] = {
         name: updatedMonthName,
         series: []
@@ -163,34 +194,74 @@ export class MptReportV2Component implements OnInit {
     return rows;
   }
 
-  applyQuery(row: any): boolean {
-    const { year, quarter, vendor } = this.filterForm.value;
-    const startDate = moment()
-      .quarter(quarter)
-      .startOf('Q')
-      .year(year);
-    const endDate = startDate.clone().endOf('Q');
+  /** Generic Function for BusinessSegment & Status Chart */
+  generateUniqueChart(rows: any[], key: string): any[] {
+    const chartList = [];
+    const nameList = Array.from(new Set(rows.map(r => r[key]).filter(i => !!i)));
+    nameList.forEach(name => {
+      // Gather all the rows by p3Segment Name
+      const list = rows.filter(r => r[key] === name);
+      const row = {
+        name,
+        value: this.activeCount(list)
+      };
+      chartList.push(row);
+    });
+    return chartList
+      .filter(r => !!r.value)
+      .sort((a, b) => b.value - a.value);
+  }
 
-    let isInRange = moment(row.order_date).isBetween(startDate, endDate, 'day', '[]');
+  applyQuery(row: any): boolean {
+    const { vendor } = this.filterForm.value;
     let isVendor = true;
+
     if (vendor) {
-      isVendor = (row.print_vendor.toLowerCase()).includes(vendor.toLowerCase());
+      isVendor = (row.printVendor.toLowerCase()).includes(vendor.toLowerCase());
     }
-    return isInRange && isVendor;
+    return isVendor;
   }
 
   /** Generic Key Getter for picking dataBy selected value. */
-  get activeKey(): string {
-    switch (this.type) {
-      case this.viewDataBy[0]:
-        return 'orderCount';
-      case this.viewDataBy[1]:
-        return 'kitCount';
-      case this.viewDataBy[2]:
-        return 'quantity';
-      case this.viewDataBy[3]:
-        return 'shipments';
+  activeCount(rows: any[], type: string = this.type): number {
+    switch (type) {
+      case this.viewDataBy[0]: // Rule: Use COUNT DISTINCT on “po_id” to get Orders
+        return Array.from(new Set(rows.map(row => row.platformOrderId).filter(i => !!i))).length;
+
+      case this.viewDataBy[1]: // Rule: Use COUNT DISTINCT on “li_id” to get Kits (also filter on flier_identifier = 1)
+        let count = 0;
+        const checkedList = [];
+        rows.forEach(row => {
+          // Filtering the records with lineItemId and flierIdentifier count
+          const isKit = row.isKit; // flierIdentifier // isKit is used as per the tableau
+          if (!checkedList.includes(row.lineItemId) && isKit) {
+            count++;
+            checkedList.push(row.lineItemId);
+          }
+        });
+        return count;
+
+      case this.viewDataBy[2]: // Rule: SUM(quantityOrdered) for Quantity
+        return rows
+          .map(row => Number(row.quantity || 0))
+          .reduce((prev, curr) => prev + curr, 0);
+
+      case this.viewDataBy[3]: // Rule: Use COUNT DISTINCT on tracking number for Shipments
+        return Array.from(new Set(rows.map(row => row.trackingNumber).filter(i => !!i))).length;
     }
+    return 0;
   }
 
+  startDateChange(date) {
+    const control = this.filterForm.get('startDate');
+    control.patchValue(date);
+  }
+
+  endDateChange(date) {
+    const control = this.filterForm.get('endDate');
+    control.patchValue(date);
+    if (date) {
+      this.fetchRecords();
+    }
+  }
 }
