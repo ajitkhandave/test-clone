@@ -78,14 +78,20 @@ export class MptReportV2Component implements OnInit {
     this.type = type;
     if (this.masterData.length) { this.loaderService.show(); }
     const filteredRows = this.masterData.filter(row => this.applyQuery(row));
-    this.generateMptChart([].concat(filteredRows));
+    setTimeout(()=>{ // For performance issue need to delay the process.
+      this.generateMptChart([].concat(filteredRows));
+    });
     this.generateBusinessSegmentChart([].concat(filteredRows));
     this.generateStatusChart([].concat(filteredRows));
     this.generateFlierChart([].concat(filteredRows));
     this.generateKitChart([].concat(filteredRows));
     this.generateUserChart([].concat(filteredRows));
     this.generateTotals([].concat(filteredRows));
-    if (this.masterData.length) { this.loaderService.hide(); }
+    if (this.masterData.length) {
+      setTimeout(() => {
+        this.loaderService.hide();
+      });
+    }
   }
 
   clearFilter() {
@@ -114,27 +120,23 @@ export class MptReportV2Component implements OnInit {
 
     // Generate signature for the Chart.
     const mptMonthChart = this.generateMonths(momentStartDate.clone(), momentEndDate.clone());
-    const checkedOrderDates = [];
-    rows.forEach(order => {
-      const date = dateFormatter(order.orderDate);
-      const monthName = moment(date).format('MMM');
-      if (checkedOrderDates.includes(date)) { return; } //If already calculated than ignore.
-      checkedOrderDates.push(date);
-
+    const uniqueDates = Array.from(new Set(rows.map(row => dateFormatter(row.orderDate))));
+    uniqueDates.forEach((date: string) => {
       // Find the existing Signature
+      const monthName = moment(date).format('MMM');
       const row = mptMonthChart.find(r => r.name === monthName);
       if (!row) { return; }
 
-      // Based on activeFilter key add the count.
-      const filteredRowsByDate = rows.filter(item => dateFormatter(item.orderDate) === dateFormatter(order.orderDate));
+      const filteredRowsByDate = rows.filter(item => dateFormatter(item.orderDate) === date);
       const value = this.activeCount(filteredRowsByDate);
-
-      row.series.push({
-        name: date,
-        value
-      });
+      if (value) {
+        row.series.push({
+          name: date,
+          value
+        });
+      }
     });
-    mptMonthChart.forEach(row => row.series = row.series.filter(item => !!item.value));
+
     this.mptMonthChart = mptMonthChart;
   }
 
