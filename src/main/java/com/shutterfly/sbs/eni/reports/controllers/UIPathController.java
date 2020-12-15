@@ -15,4 +15,11 @@ public class UIPathController {
     response.addHeader("Cache-Control", headerValue);
     return "/reports/index";
   }
+
+  @RequestMapping(value = {"/auth", "/auth/reset-password", "/auth/forgotPassword","/auth/error" })
+  public String authIndex(HttpServletResponse response) {
+    String headerValue = CacheControl.maxAge(3600, TimeUnit.SECONDS).getHeaderValue();
+    response.addHeader("Cache-Control", headerValue);
+    return "/auth/index";
+  }
 }
