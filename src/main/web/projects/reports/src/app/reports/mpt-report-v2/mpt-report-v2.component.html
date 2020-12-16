@@ -80,6 +80,8 @@
         [showXAxisLabel]='false'
         [showYAxisLabel]='false'
         [single]="businessSegmentChart"
+        [activeOnClick]="true"
+        (onSelection)="applyChartFilter(chartFilter.p3Segment, $event)"
       ></app-single-bar-chart>
     </div>
   </div>
@@ -91,6 +93,8 @@
         [showXAxisLabel]='false'
         [showYAxisLabel]='false'
         [single]="statusChart"
+        [activeOnClick]="true"
+        (onSelection)="applyChartFilter(chartFilter.status, $event)"
       ></app-single-bar-chart>
     </div>
   </div>
@@ -102,6 +106,8 @@
         [showXAxisLabel]='false'
         [showYAxisLabel]='false'
         [single]="flierChart"
+        [activeOnClick]="true"
+        (onSelection)="applyChartFilter(chartFilter.flier, $event)"
       ></app-single-bar-chart>
     </div>
   </div>
@@ -113,6 +119,8 @@
         [showXAxisLabel]='false'
         [showYAxisLabel]='false'
         [single]="kitChart"
+        [activeOnClick]="true"
+        (onSelection)="applyChartFilter(chartFilter.customerProductId, $event)"
       ></app-single-bar-chart>
     </div>
   </div>
@@ -124,6 +132,8 @@
         [showXAxisLabel]='false'
         [showYAxisLabel]='false'
         [single]="userChart"
+        [activeOnClick]="true"
+        (onSelection)="applyChartFilter(chartFilter.userName, $event)"
       ></app-single-bar-chart>
     </div>
   </div>

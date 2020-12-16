@@ -40,10 +40,24 @@ export class MptReportV2Component implements OnInit {
 
   mptMonthChart: any[];
   businessSegmentChart: any[];
+  rawBusinessSegmentChart: any[];
   statusChart: any[];
+  rawStatusChart: any[];
   flierChart: any[];
+  rawFlierChart: any[]
   kitChart: any[];
+  rawKitChart: any[];
   userChart: any[];
+  rawUserChart: any[];
+
+  public readonly chartFilter = {
+    perDay: 'perDay',
+    p3Segment: 'p3Segment',
+    status: 'status',
+    flier: 'flier',
+    customerProductId: 'customerProductId',
+    userName: 'userName'
+  };
 
   constructor(
     private reportService: ReportService,
@@ -52,11 +66,18 @@ export class MptReportV2Component implements OnInit {
   ) { }
 
   ngOnInit() {
+    const { perDay, p3Segment, status, flier, userName, customerProductId } = this.chartFilter;
     this.filterForm = new FormGroup({
       vendor: new FormControl(''),
       type: new FormControl(this.viewDataBy[0]),
       startDate: new FormControl(''),
-      endDate: new FormControl('')
+      endDate: new FormControl(''),
+      [perDay]: new FormControl(''),
+      [p3Segment]: new FormControl(''),
+      [flier]: new FormControl(''),
+      [customerProductId]: new FormControl(''),
+      [status]: new FormControl(''),
+      [userName]: new FormControl('')
     });
     this.maxDate = moment().endOf('y').format('YYYY-MM-DD');
   }
@@ -73,20 +94,40 @@ export class MptReportV2Component implements OnInit {
     this.cdr.detectChanges();
   }
 
-  onSearch() {
+  onSearch(skipRefresh?: string) {
+    const { perDay, p3Segment, status, flier, userName, customerProductId } = this.chartFilter;
     const { type } = this.filterForm.value;
     this.type = type;
     if (this.masterData.length) { this.loaderService.show(); }
     const filteredRows = this.masterData.filter(row => this.applyQuery(row));
-    setTimeout(()=>{ // For performance issue need to delay the process.
-      this.generateMptChart([].concat(filteredRows));
-    });
-    this.generateBusinessSegmentChart([].concat(filteredRows));
-    this.generateStatusChart([].concat(filteredRows));
-    this.generateFlierChart([].concat(filteredRows));
-    this.generateKitChart([].concat(filteredRows));
-    this.generateUserChart([].concat(filteredRows));
-    this.generateTotals([].concat(filteredRows));
+
+    if (skipRefresh !== perDay) {
+      setTimeout(() => { // For performance issue need to delay the process.
+        this.generateMptChart([].concat(filteredRows));
+      });
+    }
+
+    if (skipRefresh !== p3Segment) {
+      this.generateBusinessSegmentChart([].concat(filteredRows));
+    }
+
+    if (skipRefresh !== status) {
+      this.generateStatusChart([].concat(filteredRows));
+    }
+
+    if (skipRefresh !== flier) {
+      this.generateFlierChart([].concat(filteredRows));
+    }
+
+    if (skipRefresh !== customerProductId) {
+      this.generateKitChart([].concat(filteredRows));
+    }
+
+    if (skipRefresh !== userName) {
+      this.generateUserChart([].concat(filteredRows));
+    }
+    const totaledRows = this.masterData.filter(row => this.applyQueryForTotals(row));
+    this.generateTotals([].concat(totaledRows));
     if (this.masterData.length) {
       setTimeout(() => {
         this.loaderService.hide();
@@ -98,6 +139,12 @@ export class MptReportV2Component implements OnInit {
     this.filterForm.patchValue({
       type: this.viewDataBy[0],
       vendor: '',
+      perDay: '',
+      p3Segment: '',
+      status: '',
+      flier: '',
+      customerProductId: '',
+      userName: ''
     });
     this.onSearch();
   }
@@ -141,29 +188,39 @@ export class MptReportV2Component implements OnInit {
   }
 
   generateBusinessSegmentChart(rows: any[]) {
+    this.rawBusinessSegmentChart = [].concat(rows);
     const chart = this.generateUniqueChart(rows, 'p3Segment');
+    this.reApplyFilterValue(this.chartFilter.p3Segment, chart, rows);
     this.businessSegmentChart = chart;
   }
 
   generateStatusChart(rows: any[]) {
+    this.rawStatusChart = [].concat(rows);
     const chart = this.generateUniqueChart(rows, 'status');
+    this.reApplyFilterValue(this.chartFilter.status, chart, rows);
     this.statusChart = chart;
   }
 
   generateFlierChart(rows: any[]) {
     const filteredRows = rows.filter(row => !!row.flierIdentifier);
+    this.rawFlierChart = [].concat(filteredRows);
     const chart = this.generateUniqueChart(filteredRows, 'productName');
+    this.reApplyFilterValue(this.chartFilter.flier, chart, filteredRows);
     this.flierChart = chart.slice(0, 10); // Only top 10
   }
 
   generateKitChart(rows: any[]) {
     const filteredRows = rows.filter(row => !!row.isKit);
+    this.rawKitChart = [].concat(filteredRows);
     const chart = this.generateUniqueChart(filteredRows, 'customerProductId');
+    this.reApplyFilterValue(this.chartFilter.customerProductId, chart, filteredRows);
     this.kitChart = chart.slice(0, 5); // Only top 5
   }
 
   generateUserChart(rows: any[]) {
+    this.rawUserChart = [].concat(rows);
     const chart = this.generateUniqueChart(rows, 'userName');
+    this.reApplyFilterValue(this.chartFilter.userName, chart, rows);
     this.userChart = chart.slice(0, 5); // Only top 5
   }
 
@@ -213,13 +270,67 @@ export class MptReportV2Component implements OnInit {
   }
 
   applyQuery(row: any): boolean {
-    const { vendor } = this.filterForm.value;
+    const { vendor, perDay, p3Segment, status, flier, customerProductId, userName } = this.filterForm.value;
     let isVendor = true;
+    let isChart = true;
 
     if (vendor) {
       isVendor = (row.printVendor.toLowerCase()).includes(vendor.toLowerCase());
     }
-    return isVendor;
+
+    isChart = (
+      (perDay ? moment(row.orderDate).format('MM/DD/YYYY') === perDay : false),
+      (p3Segment ? row.p3Segment === p3Segment : false) ||
+      (status ? row.status === status : false) ||
+      (flier ? row.productName === flier : false) ||
+      (customerProductId ? row.customerProductId === customerProductId : false) ||
+      (userName ? row.userName === userName : false)
+    );
+    if (!(perDay || p3Segment || status || flier || customerProductId || userName)) {
+      isChart = true;
+    }
+    return isVendor && isChart;
+  }
+
+  applyQueryForTotals(row) {
+    const { vendor, perDay, p3Segment, status, flier, customerProductId, userName } = this.filterForm.value;
+    let isVendor = true;
+    let isPerDay = true;
+    let isP3Segement = true;
+    let isStatus = true;
+    let isFlier = true;
+    let isCustomerProductId = true;
+    let isUserName = true;
+
+    if (vendor) {
+      isVendor = (row.printVendor.toLowerCase()).includes(vendor.toLowerCase());
+    }
+
+    if (perDay) {
+      isPerDay = moment(row.orderDate).format('MM/DD/YYYY') === perDay;
+    }
+
+    if (p3Segment) {
+      isP3Segement = row.p3Segment === p3Segment;
+    }
+
+    if (status) {
+      isStatus = row.status === status;
+    }
+
+    if (flier) {
+      isFlier = row.productName === flier;
+    }
+
+    if (customerProductId) {
+      isCustomerProductId = row.customerProductId === customerProductId;
+    }
+
+    if (userName) {
+      isUserName = row.userName === userName;
+    }
+
+    return isVendor && isPerDay && isP3Segement && isStatus && isFlier && isCustomerProductId && isUserName;
   }
 
   /** Generic Key Getter for picking dataBy selected value. */
@@ -262,6 +373,50 @@ export class MptReportV2Component implements OnInit {
     control.patchValue(date);
     if (date) {
       this.fetchRecords();
+    }
+  }
+
+  applyChartFilter(formControlName: string, row?: any) {
+    const { perDay, p3Segment, status, flier, customerProductId, userName } = this.chartFilter;
+    this.filterForm.get(formControlName).setValue((row && row.name) || null);
+    if (row) {
+      this.onSearch(formControlName);
+      let rawData = [];
+      switch(formControlName) {
+        case p3Segment:
+          rawData = this.rawBusinessSegmentChart;
+          break;
+        case flier:
+          rawData = this.rawFlierChart;
+          break;
+        case status:
+          rawData = this.rawStatusChart;
+          break;
+        case customerProductId:
+          rawData = this.rawKitChart;
+          break;
+        case userName:
+          rawData = this.rawUserChart;
+          break;
+      }
+      const filterRows = rawData.filter(row=> this.applyQueryForTotals(row));
+      row.value = this.activeCount(filterRows);
+    } else {
+      this.onSearch();
+    }
+  }
+
+  /**
+   * Utility Method to store and will be used for evaluation.
+   * @param filterType Type of the filter `p3Segment`, `userName`
+   * @param chart Array of the chart, use to find the value
+   */
+  reApplyFilterValue(filterType: string, chart: { name: string, value: number }[], rawData: any[]) {
+    const value = this.filterForm.get(filterType).value;
+    if (value) {
+      const chartItem = chart.find(row => row.name === value);
+      const filterRows = rawData.filter(row => this.applyQueryForTotals(row));
+      chartItem.value = this.activeCount(filterRows);
     }
   }
 }
