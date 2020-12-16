@@ -95,7 +95,7 @@ export class OeVpReportComponent implements OnInit, AfterViewInit {
     const rows = [];
     const filteredRows = this.masterData.filter((row) => {
       if (row) {
-        return moment(row.order_date).isBetween(startDate, endDate, 'day', '[]');
+        return moment(row.ship_date).isBetween(startDate, endDate, 'day', '[]');
       }
       return false; // To ignore the null data.
     });

@@ -31,7 +31,7 @@ public class OEVPData implements Serializable {
   private String p3Segment;
 
   @Column(name = "ship_date")
-  private String order_date;
+  private String ship_date;
 
   @Column(name = "oecb_template")
   private String template;
