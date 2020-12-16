@@ -107,22 +107,26 @@ export class OeVpReportComponent implements OnInit, AfterViewInit {
         const p3SegmentList = filteredRows.filter((item) => {
           return item.productSegment === segment && item.p3Segment === p3SegmentName;
         });
-        const row: any = {
-          productSegment: segment,
-          p3Segment: p3SegmentName,
-          quantity: 0,
-          orders: 0,
-          people: 0
-        };
-        p3SegmentList.forEach(item => {
-          row.template = item.template;
-          row.quantity += Number(item.quantity);
-          row.orders += Number(item.orders);
-          row.people += Number(item.people);
+        const uniqueTemplateList = Array.from(new Set(p3SegmentList.map(item => item.template)));
+        uniqueTemplateList.forEach((templateName) => {
+          const uniqueRows = p3SegmentList.filter(item => item.template === templateName);
+          const row: any = {
+            productSegment: segment,
+            p3Segment: p3SegmentName,
+            template: templateName,
+            quantity: 0,
+            orders: 0,
+            people: 0
+          };
+          uniqueRows.forEach(item => {
+            row.quantity += Number(item.quantity);
+            row.orders += Number(item.orders);
+            row.people += Number(item.people);
+          });
+          if (row.quantity || row.orders || row.people) {
+            rows.push(row);
+          }
         });
-        if (row.quantity || row.orders || row.people) {
-          rows.push(row);
-        }
       });
     });
     this.dataSource$.next(rows);
