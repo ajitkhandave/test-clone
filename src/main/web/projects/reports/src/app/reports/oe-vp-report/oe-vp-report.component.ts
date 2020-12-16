@@ -119,7 +119,6 @@ export class OeVpReportComponent implements OnInit, AfterViewInit {
             people: 0
           };
           uniqueRows.forEach(item => {
-            row.template = item.template;
             row.quantity += Number(item.quantity);
             row.orders += Number(item.orders);
             row.people += Number(item.people);
