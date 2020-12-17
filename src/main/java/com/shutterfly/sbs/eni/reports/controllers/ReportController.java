@@ -389,6 +389,38 @@ public class ReportController {
     return reportResult;
   }
 
+  @ApiOperation(value = "All Savers Reports Data for Segment, Month, Product", authorizations = { @Authorization(value="Authorization") })
+  @GetMapping(path = "/fetchReport/allSaversReportsData", produces = "application/json")
+  public List<Object> fetchAllSaversReportsData() {
+    List<Object> reportResult;
+    try {
+      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.ALL_SAVERS_REPORTS.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.ALL_SAVERS_REPORTS.getRepository(), null, null);
+
+    } catch(RecordsNotFoundException ex) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+    } catch(Exception ex) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+    }
+    return reportResult;
+  }
+
+  @ApiOperation(value = "All Member Engagement Reports Data for Segment, Month, Product", authorizations = { @Authorization(value="Authorization") })
+  @GetMapping(path = "/fetchReport/allMemberEngagementReportsData", produces = "application/json")
+  public List<Object> fetchAllMemberEngagementReportsData() {
+    List<Object> reportResult;
+    try {
+      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.MEMBER_ENGAGEMENT_REPORTS.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.MEMBER_ENGAGEMENT_REPORTS.getRepository(), null, null);
+
+    } catch(RecordsNotFoundException ex) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+    } catch(Exception ex) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+    }
+    return reportResult;
+  }
+
 
   @ApiOperation(value = "ENI Valid Connection", authorizations = { @Authorization(value="Authorization") })
   @GetMapping(value = {"/validConnection"})
