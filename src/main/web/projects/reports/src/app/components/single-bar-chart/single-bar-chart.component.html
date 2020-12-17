@@ -10,4 +10,7 @@
   [xAxisLabel]="xAxisLabel"
   [yAxisLabel]="yAxisLabel"
   [scheme]="colorScheme"
+  [customColors]="customColors"
+  [ngClass]="{'bar-activated': !!customColors.length}"
+  (select)="onColumnClick($event)"
 ></ngx-charts-bar-horizontal>
