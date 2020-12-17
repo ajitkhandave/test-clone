@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
         };
 
         this.authConfig = {
-            redirectUrl: 'storefront'
+            redirectUrl: 'reports'
         };
     }
 
