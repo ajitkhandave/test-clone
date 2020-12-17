@@ -23,8 +23,14 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MonthlyVolume implements Serializable {
 
-  @EmbeddedId
-  private MonthlyVolumeIdentity monthlyVolumeIdentity;
+    @Id
+    @Column(name = "uuid")
+    private String uuid;
+
+    @Column(name = "yearmonth")
+    private String yearMonth;
+    @Column(name = "Item_Number")
+    private String itemNumber;
 
   @Column(name = "order_year")
   private String orderYear;

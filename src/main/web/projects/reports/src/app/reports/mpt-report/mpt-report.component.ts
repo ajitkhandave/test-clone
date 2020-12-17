@@ -13,7 +13,7 @@ import { FilterSelectedValidator } from '../../validators/filter-selected.valida
 export class MptReportComponent implements OnInit, AfterViewInit {
 
   colorScheme = {
-    domain: ['#003fa3']
+    domain: ['#5AA454', '#7aa3e5', '#C7B42C', '#aae3f5']
   };
 
   years: number[] = [];
@@ -170,8 +170,24 @@ export class MptReportComponent implements OnInit, AfterViewInit {
   generateFlier(startDate, endDate) {
     if (!this.masterFlierChart) { return; }
     // Filter the records by Vendor, startDate & endDate
-    const filteredData = this.masterFlierChart.filter(row => this.filterRecords(startDate, endDate, row));
-    this.flierChart = this.generateUniqueChart(filteredData, 'productName').slice(0, 10); // Top 10 needed Fliers.
+    const filteredData = this.masterFlierChart.filter(row => this.simpleFilter(startDate, endDate, row.orderDate, row.printVendor));
+    const chartList = [];
+    const nameList = Array.from(new Set(filteredData.map(r => r.productName)));
+    nameList.forEach(name => {
+      const list = filteredData.filter(r => r.productName === name);
+      const row = {
+        name,
+        value: 0
+      };
+      list.forEach(order => {
+        row.value += Number(order[this.activeKey] || 0);
+      });
+      chartList.push(row);
+    });
+    this.flierChart = chartList
+      .filter(r => !!r.value)
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 10); // Top 10 needed Fliers.
   }
 
   /** Kit Chart */
@@ -266,15 +282,20 @@ export class MptReportComponent implements OnInit, AfterViewInit {
   /** Generic Filter. */
   filterRecords(startDate: string, endDate: string, row: any): boolean {
     if (!row || !row.identity) { return false; }
+    return this.simpleFilter(startDate, endDate, row.identity.orderDate, row.identity.printVendor);
+  }
+
+  /** To handle - Record discrepancy with and without identity */
+  simpleFilter(startDate: string, endDate: string, orderDate: string, printVendor: string) {
     const { vendor } = this.filterForm.value;
     let isInRage = true;
     let isVendor = true;
     if (startDate && endDate) {
-      isInRage = moment(row.identity.orderDate).isBetween(startDate, endDate, 'day', '[]');
+      isInRage = moment(orderDate).isBetween(startDate, endDate, 'day', '[]');
     }
 
     if (vendor) {
-      isVendor = (row.identity.printVendor.toLowerCase()).includes(vendor.toLowerCase());
+      isVendor = (printVendor.toLowerCase()).includes(vendor.toLowerCase());
     }
     return isInRage && isVendor;
   }

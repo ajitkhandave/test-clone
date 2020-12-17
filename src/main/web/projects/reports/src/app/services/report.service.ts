@@ -5,6 +5,7 @@ import { ReportType } from '../models/report-type';
 import { AppConfig } from '../../../../../src/app/common/service/app.config';
 import { ToastrService } from 'ngx-toastr';
 import { catchError } from 'rxjs/operators';
+import { mockMpt } from '../models/mock-mpt';
 
 @Injectable({
   providedIn: 'root'
@@ -164,6 +165,14 @@ export class ReportService {
   fetchMptReport(): Observable<any> {
     const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/mptReportData';
     return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
+  }
+
+  fetchMptReportV2(startDate: string, endDate: string): Observable<any[]> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/mptReports';
+    const params = new HttpParams().set('startDate', startDate).set('endDate', endDate);
+    return this.http.get<any[]>(url, {
+      params
+    }).pipe(catchError(this.handleError.bind(this)));
   }
 
   fetchFormFactorTotals(startDate: string, endDate: string): Observable<any[]> {

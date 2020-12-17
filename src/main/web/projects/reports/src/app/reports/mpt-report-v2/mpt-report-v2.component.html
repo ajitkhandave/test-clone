@@ -2,21 +2,13 @@
   <div class="order__filter-container mt-2">
     <div class="order__filter-container-input">
       <div class="form-row pl-3">
-        <div class="col-2">
-          <label for="quarter" class="filter-name">Select Quarter</label>
-          <select class="form-select form-control filters" formControlName="quarter" id="quarter">
-            <option value="1">Q1</option>
-            <option value="2">Q2</option>
-            <option value="3">Q3</option>
-            <option value="4">Q4</option>
-          </select>
+        <div class="col-3">
+          <label for="dateRange" class="filter-name">Date Range</label>
+          <app-date-range [setRange]="dateRange" [maxDate]="maxDate" (startDateChange)="startDateChange($event)"
+            (endDateChange)="endDateChange($event)"></app-date-range>
         </div>
-        <div class="col-2">
-          <label for="selectYear" class="filter-name">Select Year</label>
-          <select class="form-select form-control filters" formControlName="year" id="selectYear">
-            <option [value]="year" *ngFor="let year of years">{{year}}</option>
-          </select>
-        </div>
+      </div>
+      <div class="form-row pl-3 mt-2">
         <div class="col-2">
           <label for="vendor" class="filter-name">Vendor</label>
           <div class="position-relative">
@@ -31,36 +23,37 @@
           </select>
         </div>
 
-        <div class="col-auto align-self-end search">
+        <div class="col-2 align-self-end search p-0">
           <button class="btn btn-sm btn-link mr-1 clear-filter-btn" type="button" (click)="clearFilter()">Clear
             Filters</button>
           <button class="btn btn-secondary" type="submit" [disabled]="filterForm.invalid" id="search">
             SEARCH </button>
         </div>
+
+        <div class="col-6">
+          <div class="row">
+            <div class="col-3">
+              <h4 class="chart-title-label">Orders</h4>
+              <h5 class="chart-title"><span class="border-bottom-3">{{totalChart?.orders | qty}}</span></h5>
+            </div>
+            <div class="col-3">
+              <h4 class="chart-title-label">Kits</h4>
+              <h5 class="chart-title"><span class="border-bottom-3 blue">{{totalChart?.kits | qty}}</span></h5>
+            </div>
+            <div class="col-3">
+              <h4 class="chart-title-label">Quantity</h4>
+              <h5 class="chart-title"><span class="border-bottom-3 orange">{{totalChart?.qty | qty}}</span></h5>
+            </div>
+            <div class="col-3">
+              <h4 class="chart-title-label">Shipments</h4>
+              <h5 class="chart-title"><span class="border-bottom-3 light-blue">{{totalChart?.shipments | qty}}</span></h5>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </form>
-
-<!-- Hiding -->
-<!-- <div class="row mt-3 mb-3">
-  <div class="col-3">
-    <h4 class="chart-title-label">Orders</h4>
-    <h5 class="chart-title">{{totalChart?.orders | qty}}</h5>
-  </div>
-  <div class="col-3">
-    <h4 class="chart-title-label">Kits</h4>
-    <h5 class="chart-title">{{totalChart?.kits | qty}}</h5>
-  </div>
-  <div class="col-3">
-    <h4 class="chart-title-label">Quantity</h4>
-    <h5 class="chart-title">{{totalChart?.qty | qty}}</h5>
-  </div>
-  <div class="col-3">
-    <h4 class="chart-title-label">Shipments</h4>
-    <h5 class="chart-title">{{totalChart?.shipments | qty}}</h5>
-  </div>
-</div> -->
 
 <div class="row mt-3 mb-3">
   <div class="col-12">
@@ -68,82 +61,88 @@
       <h4 class="chart-title">{{type}} per day</h4>
       <div class="counts-per-day-chart">
         <ngx-charts-bar-vertical-2d
-          *ngIf="orderCountsPerDay"
+          *ngIf="mptMonthChart"
+          [view]=[1170,250]
           [xAxis]="true"
           [yAxis]="true"
           [roundDomains]="true"
           [showGridLines]="false"
           [noBarWhenZero]="true"
           [groupPadding]="1"
-          [results]="orderCountsPerDay"
+          [results]="mptMonthChart"
           [barPadding]="1"
           [scheme]="colorScheme">
         </ngx-charts-bar-vertical-2d>
       </div>
     </div>
   </div>
-</div>
 
-<div class="row mt-3 mb-3">
-  <div class="col-6">
-    <div class="border-wrapper">
-      <h4 class="chart-title">Business Segment (by {{type}})</h4>
-      <app-single-bar-chart
-        *ngIf="chartByBusiness"
-        [showXAxisLabel]='false'
-        [showYAxisLabel]='false'
-        [single]="chartByBusiness"
-      ></app-single-bar-chart>
-    </div>
-  </div>
-
-  <div class="col-6">
+  <div class="col-12 mt-3" *ngIf="statusChart">
     <div class="border-wrapper">
       <h4 class="chart-title">Status (by {{type}})</h4>
       <app-single-bar-chart
-        *ngIf="statusChart"
         [showXAxisLabel]='false'
         [showYAxisLabel]='false'
         [single]="statusChart"
+        [activeOnClick]="true"
+        [clearSelection]="clearSelection$"
+        (onSelection)="applyChartFilter(chartFilter.status, $event)"
       ></app-single-bar-chart>
     </div>
   </div>
-</div>
-<div class="row mt-3 mb-3">
-  <div class="col-6">
+
+  <div class="col-6 mt-3" *ngIf="businessSegmentChart">
+    <div class="border-wrapper">
+      <h4 class="chart-title">Business Segment (by {{type}})</h4>
+      <app-single-bar-chart
+        [showXAxisLabel]='false'
+        [showYAxisLabel]='false'
+        [single]="businessSegmentChart"
+        [activeOnClick]="true"
+        [clearSelection]="clearSelection$"
+        (onSelection)="applyChartFilter(chartFilter.p3Segment, $event)"
+      ></app-single-bar-chart>
+    </div>
+  </div>
+
+  <div class="col-6 mt-3" *ngIf="flierChart">
     <div class="border-wrapper">
       <h4 class="chart-title">Top 10 Fliers (by {{type}})</h4>
       <app-single-bar-chart
-        *ngIf="flierChart"
         [showXAxisLabel]='false'
         [showYAxisLabel]='false'
         [single]="flierChart"
+        [activeOnClick]="true"
+        [clearSelection]="clearSelection$"
+        (onSelection)="applyChartFilter(chartFilter.flier, $event)"
       ></app-single-bar-chart>
     </div>
   </div>
 
-  <div class="col-6">
+  <div class="col-6 mt-3" *ngIf="kitChart">
     <div class="border-wrapper">
       <h4 class="chart-title">Top 5 Kit Templates (by {{type}})</h4>
       <app-single-bar-chart
-        *ngIf="kitChart"
         [showXAxisLabel]='false'
         [showYAxisLabel]='false'
         [single]="kitChart"
+        [activeOnClick]="true"
+        [clearSelection]="clearSelection$"
+        (onSelection)="applyChartFilter(chartFilter.customerProductId, $event)"
       ></app-single-bar-chart>
     </div>
   </div>
-</div>
 
-<div class="row mt-3 mb-3">
-  <div class="col-6">
+  <div class="col-6 mt-3" *ngIf="userChart">
     <div class="border-wrapper">
       <h4 class="chart-title">Top 5 Users (by {{type}})</h4>
       <app-single-bar-chart
-        *ngIf="userChart"
         [showXAxisLabel]='false'
         [showYAxisLabel]='false'
         [single]="userChart"
+        [activeOnClick]="true"
+        [clearSelection]="clearSelection$"
+        (onSelection)="applyChartFilter(chartFilter.userName, $event)"
       ></app-single-bar-chart>
     </div>
   </div>

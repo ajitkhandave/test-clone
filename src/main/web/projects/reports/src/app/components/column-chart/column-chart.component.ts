@@ -18,7 +18,7 @@ export class ColumnChartComponent implements OnInit {
   @Input() single: any[];
 
   colorScheme = {
-    domain: ['#003fa3']
+    domain: ['#5cb85c', '#C7B42C', '#0275d8','#aae3f5']
   };
 
   constructor() { }
