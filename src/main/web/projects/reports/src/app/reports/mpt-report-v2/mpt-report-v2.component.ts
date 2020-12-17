@@ -50,6 +50,8 @@ export class MptReportV2Component implements OnInit {
   userChart: any[];
   rawUserChart: any[];
 
+  clearSelection$: Subject<void> = new Subject();
+
   public readonly chartFilter = {
     perDay: 'perDay',
     p3Segment: 'p3Segment',
@@ -146,6 +148,7 @@ export class MptReportV2Component implements OnInit {
       customerProductId: '',
       userName: ''
     });
+    this.clearSelection$.next();
     this.onSearch();
   }
 
@@ -269,7 +272,12 @@ export class MptReportV2Component implements OnInit {
       .sort((a, b) => b.value - a.value);
   }
 
-  applyQuery(row: any): boolean {
+  /**
+   * Critical Utility Method to filterout the records.
+   * @param row row object.
+   * @param skipFilter Optional flag to apply/ignore the chart filtering flag.
+   */
+  applyQuery(row: any, skipFilter: boolean = false): boolean {
     const { vendor, perDay, p3Segment, status, flier, customerProductId, userName } = this.filterForm.value;
     let isVendor = true;
     let isChart = true;
@@ -286,7 +294,7 @@ export class MptReportV2Component implements OnInit {
       (customerProductId ? row.customerProductId === customerProductId : false) ||
       (userName ? row.userName === userName : false)
     );
-    if (!(perDay || p3Segment || status || flier || customerProductId || userName)) {
+    if (!(perDay || p3Segment || status || flier || customerProductId || userName) || skipFilter) {
       isChart = true;
     }
     return isVendor && isChart;
@@ -382,7 +390,7 @@ export class MptReportV2Component implements OnInit {
     if (row) {
       this.onSearch(formControlName);
       let rawData = [];
-      switch(formControlName) {
+      switch (formControlName) {
         case p3Segment:
           rawData = this.rawBusinessSegmentChart;
           break;
@@ -399,10 +407,52 @@ export class MptReportV2Component implements OnInit {
           rawData = this.rawUserChart;
           break;
       }
-      const filterRows = rawData.filter(row=> this.applyQueryForTotals(row));
+      const filterRows = rawData.filter(row => this.applyQueryForTotals(row));
       row.value = this.activeCount(filterRows);
     } else {
+      // Find how many filters are remaining.
+      const appliedFilters = Object
+        .keys(this.filterForm.value)
+        .filter(keyName => (
+          Object.keys(this.chartFilter).includes(keyName) &&
+          this.filterForm.value[keyName]
+        ));
+      // If last filter, it comes under special case. Skip normal refresh & call special case
+      if (appliedFilters.length === 1) {
+        this.onSearch(appliedFilters[0]);
+        this.refreshSpecialCase(appliedFilters[0]);
+        return;
+      }
       this.onSearch();
+    }
+  }
+
+  /**
+   * On deselecting 2nd last filter, Last active filter chart should be rendered as normal.
+   * @param filterName Name of the chartFilter.
+   */
+  refreshSpecialCase(filterName: string) {
+    const { perDay, p3Segment, status, flier, customerProductId, userName } = this.chartFilter;
+    const filteredRows = this.masterData.filter(row => this.applyQuery(row, true));
+    switch (filterName) {
+      case perDay:
+        this.generateMptChart(filteredRows);
+        break;
+      case p3Segment:
+        this.generateBusinessSegmentChart(filteredRows);
+        break;
+      case flier:
+        this.generateFlierChart(filteredRows);
+        break;
+      case status:
+        this.generateStatusChart(filteredRows);
+        break;
+      case customerProductId:
+        this.generateKitChart(filteredRows);
+        break;
+      case userName:
+        this.generateUserChart(filteredRows);
+        break;
     }
   }
 
