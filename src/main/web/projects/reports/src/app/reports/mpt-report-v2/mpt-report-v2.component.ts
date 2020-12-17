@@ -50,6 +50,8 @@ export class MptReportV2Component implements OnInit {
   userChart: any[];
   rawUserChart: any[];
 
+  clearSelection$: Subject<void> = new Subject();
+
   public readonly chartFilter = {
     perDay: 'perDay',
     p3Segment: 'p3Segment',
@@ -146,6 +148,7 @@ export class MptReportV2Component implements OnInit {
       customerProductId: '',
       userName: ''
     });
+    this.clearSelection$.next();
     this.onSearch();
   }
 
