@@ -41,6 +41,7 @@ import { MptReportComponent } from './reports/mpt-report/mpt-report.component';
 import { PricingErrorComponent } from './reports/pricing-error/pricing-error.component';
 import { SkusToAddComponent } from './reports/skus-to-add/skus-to-add.component';
 import { SkuInformationComponent } from './reports/sku-information/sku-information.component';
+import { MptReportV2Component } from './reports/mpt-report-v2/mpt-report-v2.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { SkuInformationComponent } from './reports/sku-information/sku-informati
     MptReportComponent,
     PricingErrorComponent,
     SkusToAddComponent,
-    SkuInformationComponent
+    SkuInformationComponent,
+    MptReportV2Component
   ],
   imports: [
     BrowserModule,
