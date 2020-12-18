@@ -21,7 +21,7 @@ export const CommonModules = [
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     LoaderModule,
-    NgpcAuthModule.forRoot({loginUrl: 'reports/error', appCode: 'eni'})
+    NgpcAuthModule.forRoot({loginUrl: 'auth', appCode: 'eni'})
 ];
 
 export const CommonProviders = [
