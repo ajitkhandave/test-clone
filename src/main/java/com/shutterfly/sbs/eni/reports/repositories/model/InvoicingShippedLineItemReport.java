@@ -107,9 +107,6 @@ public class InvoicingShippedLineItemReport implements Serializable {
   @Column(name = "order_rank")
   private String orderRank;
 
-  @Column(name = "ship_to_company_name")
-  private String shipToCompanyName;
-
   @Column(name = "quantity_ordered")
   private String quantityOrdered;
 
