@@ -39,7 +39,7 @@ export class AppConfig {
       const authorities = this.authService.decodeToken().authorities;
       const allowedRoles = this.config['access-role'].split(',');
       if (!allowedRoles.some(role => authorities.some(authority => authority === role))) {
-        location.href = '\\' + 'auth/error';
+        location.href = '\\' + 'auth/error?status=403';
       }
     }
   }
