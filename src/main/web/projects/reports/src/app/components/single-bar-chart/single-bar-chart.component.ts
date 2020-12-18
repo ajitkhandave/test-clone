@@ -1,11 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-single-bar-chart',
   templateUrl: './single-bar-chart.component.html',
   styleUrls: ['./single-bar-chart.component.scss']
 })
-export class SingleBarChartComponent implements OnInit {
+export class SingleBarChartComponent implements OnInit, OnDestroy {
 
   @Input() showXAxisLabel: boolean;
 
@@ -24,13 +26,27 @@ export class SingleBarChartComponent implements OnInit {
   };
 
   @Input() activeOnClick: boolean;
+
   @Input() customColors: any[] = [];
 
+  @Input() clearSelection: Subject<void>;
+
   @Output() onSelection: EventEmitter<any> = new EventEmitter();
+
+  unsub$: Subject<void> = new Subject();
 
   constructor() { }
 
   ngOnInit() {
+    if (this.clearSelection) {
+      this.clearSelection.pipe(
+        takeUntil(this.unsub$)
+      ).subscribe(() => this.clearColumnClick())
+    }
+  }
+
+  clearColumnClick() {
+    this.customColors = [];
   }
 
   onColumnClick(event) {
@@ -48,6 +64,11 @@ export class SingleBarChartComponent implements OnInit {
     }];
 
     this.onSelection.emit(event);
+  }
+
+  ngOnDestroy() {
+    this.unsub$.next();
+    this.unsub$.complete();
   }
 
 }
