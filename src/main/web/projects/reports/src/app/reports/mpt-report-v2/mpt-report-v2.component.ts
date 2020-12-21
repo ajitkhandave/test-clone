@@ -39,6 +39,8 @@ export class MptReportV2Component implements OnInit {
   masterData: any[] = [];
 
   mptMonthChart: any[];
+  mptColors: any[] = [];
+  rawMptChart: any[];
   businessSegmentChart: any[];
   rawBusinessSegmentChart: any[];
   statusChart: any[];
@@ -149,6 +151,7 @@ export class MptReportV2Component implements OnInit {
       userName: ''
     });
     this.clearSelection$.next();
+    this.clearChartSelection();
     this.onSearch();
   }
 
@@ -163,6 +166,7 @@ export class MptReportV2Component implements OnInit {
   }
 
   generateMptChart(rows: any[]) {
+    this.rawMptChart = [].concat(rows);
     const { startDate, endDate } = this.filterForm.value;
     const momentStartDate = moment(startDate);
     const momentEndDate = moment(endDate);
@@ -287,7 +291,7 @@ export class MptReportV2Component implements OnInit {
     }
 
     isChart = (
-      (perDay ? moment(row.orderDate).format('MM/DD/YYYY') === perDay : false),
+      (perDay ? moment(row.orderDate).format('MM/DD/YYYY') === perDay : false) ||
       (p3Segment ? row.p3Segment === p3Segment : false) ||
       (status ? row.status === status : false) ||
       (flier ? row.productName === flier : false) ||
@@ -374,6 +378,7 @@ export class MptReportV2Component implements OnInit {
   startDateChange(date) {
     const control = this.filterForm.get('startDate');
     control.patchValue(date);
+    this.maxDate = moment(date).add(3, 'M').endOf('M').format('YYYY-MM-DD');
   }
 
   endDateChange(date) {
@@ -391,6 +396,9 @@ export class MptReportV2Component implements OnInit {
       this.onSearch(formControlName);
       let rawData = [];
       switch (formControlName) {
+        case perDay:
+          rawData = this.rawMptChart;
+          break;
         case p3Segment:
           rawData = this.rawBusinessSegmentChart;
           break;
@@ -468,5 +476,24 @@ export class MptReportV2Component implements OnInit {
       const filterRows = rawData.filter(row => this.applyQueryForTotals(row));
       chartItem.value = this.activeCount(filterRows);
     }
+  }
+
+  clearChartSelection() {
+    this.mptColors = [];
+  }
+
+  onMptChartClick(event) {
+    const chartType = this.chartFilter.perDay;
+    const isSelected = this.mptColors.find(color => color.name === event.name);
+    if (isSelected) {
+      this.mptColors = [];
+      this.applyChartFilter(chartType);
+      return;
+    }
+    this.mptColors = [{
+      name: event.name,
+      value: '#122377'
+    }];
+    this.applyChartFilter(chartType, event);
   }
 }
