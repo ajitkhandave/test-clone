@@ -174,10 +174,7 @@ export class ShipmentOrdersComponent implements OnInit, AfterViewInit {
 
   onRowClick(event: RowClickEvent) {
     if (event.row.addresses && !this.isAddressView) {
-      const rows = event.row.addresses.map(item => {
-        item.p3OrderId = event.row.p3OrderId;
-        return item;
-      });
+      const rows = [].concat(event.row.addresses);
       this.displayAddressReport(rows);
     }
   }
@@ -185,8 +182,6 @@ export class ShipmentOrdersComponent implements OnInit, AfterViewInit {
   displayAddressReport(rows: any[]) {
     this.isAddressView = true;
     this.columns = [
-      { prop: 'identity.platformOrderId', name: 'PO_ID', sortable: true, draggable: false, resizeable: false },
-      { prop: 'identity.clientOrderId', name: 'Order Number', sortable: true, draggable: false, resizeable: false, width: 220, minWidth: 220 },
       { prop: 'address1', name: 'Address 1', sortable: true, draggable: false, resizeable: false },
       { prop: 'address2', name: 'Address 2', sortable: true, draggable: false, resizeable: false },
       { prop: 'address3', name: 'Address 3', sortable: true, draggable: false, resizeable: false },
@@ -194,7 +189,7 @@ export class ShipmentOrdersComponent implements OnInit, AfterViewInit {
       { prop: 'state', name: 'State', sortable: true, draggable: false, resizeable: false, cellClass: 'text-uppercase' },
       { prop: 'identity.zipCode', name: 'Zip Code', sortable: true, draggable: false, resizeable: false },
     ];
-    this.sorts = [{ prop: 'identity.clientOrderId', dir: 'desc' }];
+    this.sorts = [];
     this.filterForm.get('filterBy').setValue('addressOrderDate');
     this.dataSource$.next(rows);
   }
