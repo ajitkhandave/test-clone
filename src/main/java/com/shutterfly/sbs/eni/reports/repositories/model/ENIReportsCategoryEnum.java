@@ -38,7 +38,9 @@ public enum ENIReportsCategoryEnum {
   MPT__REPORT_ORDER_COUNTS_TOTALS("MPT__REPORT_ORDER_COUNTS_TOTALS","mptRepoTotals"),
   MPT_REPORTS_DATA("MPT REPORTS DATA","mptReportsRepo"),
   MEMBER_ENGAGEMENT_REPORTS("ALL MEMBER ENGAGEMENT REPORTS","allMemberEngagementReportsRepo"),
-  ALL_SAVERS_REPORTS("ALL SAVERS REPORTS","allMemberEngagementReportsRepo");
+  ALL_SAVERS_REPORTS("ALL SAVERS REPORTS","allMemberEngagementReportsRepo"),
+  ONBOARDING_FOR_WCB("ONBOARDING WCB","onboardingDashboardRepo"),
+  ONBOARDING_FOR_STANDARD("ONBOARDING STANDARD","onboardingDashboardRepo");
 
   String name;
   String repository;

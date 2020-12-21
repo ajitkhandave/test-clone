@@ -421,6 +421,38 @@ public class ReportController {
     return reportResult;
   }
 
+  @ApiOperation(value = "Onboarding Dashboard for WCB", authorizations = { @Authorization(value="Authorization") })
+  @GetMapping(path = "/fetchReport/onboardingDashboardForWCB", produces = "application/json")
+  public List<Object> fetchOnboardingDashboardForWCB(@RequestParam(value = "startDate", required = true) String startDate, @RequestParam(value = "endDate", required = true) String endDate) {
+    List<Object> reportResult;
+    try {
+      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.ONBOARDING_FOR_WCB.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.ONBOARDING_FOR_WCB.getRepository(), startDate, endDate);
+
+    } catch(RecordsNotFoundException ex) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+    } catch(Exception ex) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+    }
+    return reportResult;
+  }
+
+  @ApiOperation(value = "Onboarding Dashboard for Standard", authorizations = { @Authorization(value="Authorization") })
+  @GetMapping(path = "/fetchReport/onboardingDashboardForStandard", produces = "application/json")
+  public List<Object> fetchOnboardingDashboardForStandard(@RequestParam(value = "startDate", required = true) String startDate, @RequestParam(value = "endDate", required = true) String endDate) {
+    List<Object> reportResult;
+    try {
+      List<String> queries = reportService.getQueriesForReport(ENIReportsCategoryEnum.ONBOARDING_FOR_STANDARD.getName());
+      reportResult = reportService.getAllActiveProducts(queries, ENIReportsCategoryEnum.ONBOARDING_FOR_STANDARD.getRepository(), startDate, endDate);
+
+    } catch(RecordsNotFoundException ex) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+    } catch(Exception ex) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+    }
+    return reportResult;
+  }
+
 
   @ApiOperation(value = "ENI Valid Connection", authorizations = { @Authorization(value="Authorization") })
   @GetMapping(value = {"/validConnection"})
