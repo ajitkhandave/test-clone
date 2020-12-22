@@ -119,11 +119,11 @@ const routes: Routes = [
           canActivate: [RoleGuard],
           component: InvoiceReportItemCountComponent
         }, {
-          path: ReportEnum.MptReport,
+          path: ReportEnum.MptReportOld,
           canActivate: [RoleGuard],
           component: MptReportComponent
         }, {
-          path: ReportEnum.MptReportV2,
+          path: ReportEnum.MptReport,
           canActivate: [RoleGuard],
           component: MptReportV2Component
         }, {

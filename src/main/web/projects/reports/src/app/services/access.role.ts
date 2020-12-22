@@ -116,12 +116,17 @@ export class AccessRole {
   ];
   /**************************/
 
+  /**
+   * Temporary Routes Created for DEVELOPMENT Purpose Only
+   * Aftering PRODUCTION release remove from the list.
+   */
   public static [ReportEnum.AllSaversReportV2]: string[] = [
     ...AccessRole[ReportEnum.AllSaversReport]
   ];
-  public static [ReportEnum.MptReportV2]: string[] = [
+  public static [ReportEnum.MptReportOld]: string[] = [
     ...AccessRole[ReportEnum.MptReport]
   ];
+  /**************************/
 
   public static isAllowed(roles: string[], url: string): boolean {
     const isAllowed = (AccessRole[url] || []).some(authority => roles.some(role => role === authority));
