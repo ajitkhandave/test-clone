@@ -1,5 +1,6 @@
 export enum ReportEnum {
   AllSaversReport = 'all-savers-report',
+  AllSaversReportV2 = 'all-savers-report-v2',
   StatusAlertReport = 'status-alert-report',
   PopActiveProducts = 'pop-active-products',
   OrderStatusReport = 'order-status-report',
@@ -23,6 +24,6 @@ export enum ReportEnum {
   InvoicingPricingErrorReport = 'pricing-error',
   ShipmentsOrderReport = 'shipments-order',
   MptReport = 'mpt-report',
-  MptReportV2 = 'mpt-report-v2',
+  MptReportOld = 'mpt-report-old',
   OeReport = 'oe-report',
 }

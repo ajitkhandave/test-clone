@@ -70,4 +70,28 @@ export class UtilService {
       .filter(r => !!r.value)
       .sort((a, b) => b.value - a.value);
   }
+
+  generateMonthList(startDate: string, endDate: string): { baseData: { name: string, value: number }[], format: string } {
+    const momentStartDate = moment(startDate);
+    const diff = moment(endDate).diff(momentStartDate, 'M');
+    let format = 'MMM';
+    if (diff >= 12) {
+      format = 'MMM YYYY';
+    }
+    const rows = [{
+      name: momentStartDate.format(format),
+      value: 0
+    }];
+    for (let i = 1; i <= diff; i++) {
+      const updatedMonthName = momentStartDate.add(1, 'M').format(format);
+      rows[i] = {
+        name: updatedMonthName,
+        value: 0
+      };
+    }
+    return {
+      baseData: rows,
+      format
+    };
+  }
 }

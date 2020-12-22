@@ -42,6 +42,7 @@ import { PricingErrorComponent } from './reports/pricing-error/pricing-error.com
 import { SkusToAddComponent } from './reports/skus-to-add/skus-to-add.component';
 import { SkuInformationComponent } from './reports/sku-information/sku-information.component';
 import { MptReportV2Component } from './reports/mpt-report-v2/mpt-report-v2.component';
+import { AllSaversReportV2Component } from './reports/all-savers-report-v2/all-savers-report-v2.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { MptReportV2Component } from './reports/mpt-report-v2/mpt-report-v2.comp
     PricingErrorComponent,
     SkusToAddComponent,
     SkuInformationComponent,
-    MptReportV2Component
+    MptReportV2Component,
+    AllSaversReportV2Component
   ],
   imports: [
     BrowserModule,

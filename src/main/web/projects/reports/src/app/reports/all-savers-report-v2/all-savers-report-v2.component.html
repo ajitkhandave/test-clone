@@ -1,0 +1,66 @@
+<form [formGroup]="filterForm" (submit)="onSearch()">
+  <div class="order__filter-container mt-2">
+    <div class="order__filter-container-input">
+      <div class="form-row pl-3">
+        <div class="col-2">
+          <label for="sku" class="filter-name">SKU</label>
+          <input class="form-control filters" id="sku" name="sku" placeholder="Enter Sku" formControlName="sku" />
+        </div>
+        <div class="col-2">
+          <label for="type" class="filter-name">View Data By</label>
+          <select class="form-select form-control filters" formControlName="type" id="type">
+            <option [value]="OrderType.printed">Printed</option>
+            <option [value]="OrderType.orders">Orders</option>
+          </select>
+        </div>
+        <div class="col-3">
+          <label for="dateRange" class="filter-name">Date Range</label>
+          <app-date-range [setRange]="dateRange" [maxDate]="maxDate" (startDateChange)="startDateChange($event)"
+            (endDateChange)="endDateChange($event)"></app-date-range>
+        </div>
+        <div class="col-auto align-self-end search">
+          <button class="btn btn-sm btn-link mr-1 clear-filter-btn" type="button" (click)="clearFilter()">Clear
+            Filters</button>
+          <button class="btn btn-secondary" type="submit" [disabled]="filterForm.invalid" id="search">
+            SEARCH </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="row mt-3 mb-3">
+  <div class="col">
+    <h4 class="chart-title-label">Total Printed</h4>
+    <h5 class="chart-title"><span class="border-bottom-3">{{totalChart?.printed | qty}}</span></h5>
+  </div>
+  <div class="col">
+    <h4 class="chart-title-label">Total Orders</h4>
+    <h5 class="chart-title"><span class="border-bottom-3 blue">{{totalChart?.orders | qty}}</span></h5>
+  </div>
+  <div class="col">
+    <h4 class="chart-title-label">Total Kits</h4>
+    <h5 class="chart-title"><span class="border-bottom-3 orange">{{totalChart?.kits | qty}}</span></h5>
+  </div>
+</div>
+
+<div class="row mt-3 mb-3">
+  <div class="col-5">
+    <div class="col-12 mb-3">
+      <h4 class="chart-title">Total {{activeType}} By Month</h4>
+      <app-column-chart *ngIf="byMonthChart" [showXAxisLabel]='false' [showYAxisLabel]='false' [single]="byMonthChart">
+      </app-column-chart>
+    </div>
+
+    <div class="col-12 mt-3">
+      <h4 class="chart-title">Business Segment <small>({{activeType}})</small></h4>
+      <app-single-bar-chart *ngIf="bySegmentChart" [view]="[440, 400]" [showXAxisLabel]='false' [showYAxisLabel]='false'
+        [single]="bySegmentChart"></app-single-bar-chart>
+    </div>
+  </div>
+
+  <div class="col-7">
+    <h4 class="chart-title">SKU Totals</h4>
+    <app-data-table [columns]="columns" [sorts]="sorts" [tableConfig]="tableConfig"></app-data-table>
+  </div>
+</div>
