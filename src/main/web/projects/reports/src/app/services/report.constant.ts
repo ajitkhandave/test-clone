@@ -1,5 +1,6 @@
 export enum ReportEnum {
   AllSaversReport = 'all-savers-report',
+  AllSaversReportV2 = 'all-savers-report-v2',
   StatusAlertReport = 'status-alert-report',
   PopActiveProducts = 'pop-active-products',
   OrderStatusReport = 'order-status-report',

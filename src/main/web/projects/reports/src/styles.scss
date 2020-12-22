@@ -97,6 +97,20 @@
   font-weight: normal;
 }
 
+.border-bottom-3 {
+  border-bottom: 3px solid #5AA454;
+
+  &.blue {
+    border-color: #7aa3e5;
+  }
+  &.orange {
+    border-color: #C7B42C;
+  }
+  &.light-blue {
+    border-color: #aae3f5;
+  }
+}
+
 app-column-chart,
 app-single-bar-chart {
   display: flex;

@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
 import { HomeComponent } from './components/home/home.component';
 import { TitleComponent } from './components/title/title.component';
+import { AllSaversReportV2Component } from './reports/all-savers-report-v2/all-savers-report-v2.component';
 import { AllSaversReportComponent } from './reports/all-savers-report/all-savers-report.component';
 import { InvoiceReportItemCountComponent } from './reports/invoice-report-item-count/invoice-report-item-count.component';
 import { InvoiceReportLineItemLevelComponent } from './reports/invoice-report-line-item-level/invoice-report-line-item-level.component';
@@ -54,6 +55,10 @@ const routes: Routes = [
           canActivate: [RoleGuard],
           component: AllSaversReportComponent
         }, {
+          path: ReportEnum.AllSaversReportV2,
+          canActivate: [RoleGuard],
+          component: AllSaversReportV2Component
+        },{
           path: ReportEnum.OrderStatusReport,
           canActivate: [RoleGuard],
           component: OrderStatusReportComponent
@@ -119,6 +124,7 @@ const routes: Routes = [
           component: MptReportComponent
         }, {
           path: ReportEnum.MptReportV2,
+          canActivate: [RoleGuard],
           component: MptReportV2Component
         }, {
           path: ReportEnum.InvoicingPricingErrorReport,

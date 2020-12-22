@@ -5,7 +5,6 @@ import { ReportType } from '../models/report-type';
 import { AppConfig } from '../../../../../src/app/common/service/app.config';
 import { ToastrService } from 'ngx-toastr';
 import { catchError } from 'rxjs/operators';
-import { mockMpt } from '../models/mock-mpt';
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +72,11 @@ export class ReportService {
 
   fetchAllSaversReport(): Observable<any> {
     const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/allSaversReports';
+    return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
+  }
+
+  fetchAllSaversReportV2(): Observable<any> {
+    const url = this.constant.get('customer-web-endpoint') + '/eni/fetchReport/allSaversReportsData';
     return this.http.get(url).pipe(catchError(this.handleError.bind(this)));
   }
 

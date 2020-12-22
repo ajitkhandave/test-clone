@@ -116,6 +116,13 @@ export class AccessRole {
   ];
   /**************************/
 
+  public static [ReportEnum.AllSaversReportV2]: string[] = [
+    ...AccessRole[ReportEnum.AllSaversReport]
+  ];
+  public static [ReportEnum.MptReportV2]: string[] = [
+    ...AccessRole[ReportEnum.MptReport]
+  ];
+
   public static isAllowed(roles: string[], url: string): boolean {
     const isAllowed = (AccessRole[url] || []).some(authority => roles.some(role => role === authority));
     return isAllowed;
