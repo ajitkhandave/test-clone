@@ -77,7 +77,7 @@ export class OrderReportLineItemLevelComponent implements OnInit, AfterViewInit 
         pipe: this.datePipe,
         comparator: this.datePipe.sort.bind(this)
       },
-      { prop: 'shipToCompanyName', name: 'Customer Name', sortable: true, draggable: false, resizeable: false },
+      { prop: 'customer_name', name: 'Customer Name', sortable: true, draggable: false, resizeable: false },
       { prop: 'customer_product_id', name: 'Customer Product Id', sortable: true, draggable: false, resizeable: false },
       { prop: 'product_name', name: 'Product Name', sortable: true, draggable: false, resizeable: false },
       { prop: 'sku', name: 'SKU', sortable: true, draggable: false, resizeable: false },
@@ -86,7 +86,7 @@ export class OrderReportLineItemLevelComponent implements OnInit, AfterViewInit 
       { prop: 'size', name: 'Size', sortable: true, draggable: false, resizeable: false },
       { prop: 'blackColor', name: 'Black/Color', sortable: true, draggable: false, resizeable: false },
       { prop: 'tracking_number', name: 'Tracking Number', sortable: true, draggable: false, resizeable: false },
-      { prop: 'printVendor', name: 'Print Vendor', sortable: true, draggable: false, resizeable: false },
+      { prop: 'printVendor', name: 'Print Vendor', sortable: true, draggable: false, resizeable: false, pipe: this.printVendorPipe() },
       { prop: 'lineItemStatus', name: 'Line Item Status', sortable: true, draggable: false, resizeable: false, minWidth: 150, width: 150 },
       { prop: 'glCode', name: 'GLCode', sortable: false, draggable: false, resizeable: false, minWidth: 150, width: 150 },
       { prop: 'quantityOrdered', name: 'Qty Ordered', sortable: true, draggable: false, resizeable: false, pipe: this.qtyPipe },
@@ -192,6 +192,17 @@ export class OrderReportLineItemLevelComponent implements OnInit, AfterViewInit 
     }
 
     return isOrderNumber && isP3OrderId && isOrderStatus;
+  }
+
+  printVendorPipe() {
+    return {
+      transform: (val) => {
+        if (!val) { val = ''; }
+        const segments = val.split('/');
+        const index = segments.findIndex(segment => 'PrintVendors' === segment);
+        return segments[index + 1] || '';
+      }
+    };
   }
 
 }
