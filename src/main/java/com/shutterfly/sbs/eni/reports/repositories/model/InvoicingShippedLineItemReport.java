@@ -41,6 +41,9 @@ public class InvoicingShippedLineItemReport implements Serializable {
   @Column(name = "customer_product_id")
   private String customer_product_id;
 
+  @Column(name = "customer_name")
+  private String customer_name;
+
   @Column(name = "customer_sku")
   private String customer_sku;
 
