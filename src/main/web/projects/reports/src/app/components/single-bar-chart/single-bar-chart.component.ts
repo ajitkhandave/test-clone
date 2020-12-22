@@ -57,7 +57,6 @@ export class SingleBarChartComponent implements OnInit, OnDestroy {
       this.onSelection.emit(null);
       return;
     }
-    this.single.filter(row => row.name !== event.name);
     this.customColors = [{
       name: event.name,
       value: '#122377'

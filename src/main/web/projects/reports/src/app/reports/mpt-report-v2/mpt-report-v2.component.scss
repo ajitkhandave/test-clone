@@ -17,3 +17,21 @@
     border-color: #aae3f5;
   }
 }
+
+::ng-deep {
+  .bar-activated {
+    .ngx-charts,
+    .bar-chart.chart {
+      .bar {
+        &:not([fill="#122377"]) {
+          opacity: 0.1;
+        }
+      }
+      .bar:hover {
+        &[fill="#122377"] {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../../../src/assets/style/variable.scss";
+@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+@import '~ngx-toastr/toastr-bs4-alert';
+@import "~ngx-toastr/toastr.css";
+
+$fa-font-path: "../../../node_modules/@fortawesome/fontawesome-free/webfonts";
+@import "../../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "../../../node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
+@import "../../../node_modules/@fortawesome/fontawesome-free/scss/brands.scss";
+
+
+.toast-success {
+  background-color: #51A351 !important;
+}
+.toast-error {
+  background-color: #BD362F !important;
+}
+.toast-info {
+  background-color: #2F96B4 !important;
+}
+.toast-warning {
+  background-color: #F89406 !important;
+}
+
+.modal-title {
+  color: $site-primary-color;
+  font-size: 22px;
+}
+
+.error-card {
+  margin-left: 30%;
+  margin-right: 30%;
+  margin-top: 5%;
+  .card-body{
+    border-left: 20px solid #122377;
+  }
+  .card-text{
+    font-size: 32px;
+    color: #122377;
+  }
+}

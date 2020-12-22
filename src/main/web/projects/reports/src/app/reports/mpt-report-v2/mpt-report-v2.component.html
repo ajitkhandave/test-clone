@@ -71,7 +71,10 @@
           [groupPadding]="1"
           [results]="mptMonthChart"
           [barPadding]="1"
-          [scheme]="colorScheme">
+          [scheme]="colorScheme"
+          [customColors]="mptColors"
+          [ngClass]="{'bar-activated': !!mptColors.length}"
+          (select)="onMptChartClick($event)">
         </ngx-charts-bar-vertical-2d>
       </div>
     </div>

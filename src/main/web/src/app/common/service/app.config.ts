@@ -35,11 +35,13 @@ export class AppConfig {
   }
 
   public roleGuard() {
-    if (this.authService.authenticated() && location.pathname.indexOf('reports/error') < 0) {
+    if (this.authService.authenticated() && location.pathname.indexOf('auth/error') < 0) {
       const authorities = this.authService.decodeToken().authorities;
-      const allowedRoles = this.config['access-role'].split(',');
-      if (!allowedRoles.some(role => authorities.some(authority => authority === role))) {
-        location.href = '\\' + 'reports/error';
+      if(this.config['access-role']) {
+        const allowedRoles = this.config['access-role'].split(',');
+        if (!allowedRoles.some(role => authorities.some(authority => authority === role))) {
+          location.href = '\\' + 'auth/error?status=403';
+        }
       }
     }
   }
