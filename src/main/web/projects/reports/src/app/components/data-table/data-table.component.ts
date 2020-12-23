@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { DatatableComponent, SelectionType, TableColumn } from '@swimlane/ngx-datatable';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -33,6 +33,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this._columns = cols;
   }
   @Input() tableConfig: TableConfig;
+  @Input() clearSelection: Subject<void>;
   @ViewChild(DatatableComponent) tableCmp: DatatableComponent;
   @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter();
   selectionType = SelectionType.checkbox;
@@ -46,9 +47,11 @@ export class DataTableComponent implements OnInit, OnDestroy {
   rows: any[] = [];
   selected: any[] = [];
   tableSelectionClick: boolean = false;
+  activeRowElement: HTMLElement;
 
   constructor(
-    private service: ReportService
+    private service: ReportService,
+    private renderer: Renderer2
   ) { }
 
   ngOnInit() {
@@ -73,6 +76,12 @@ export class DataTableComponent implements OnInit, OnDestroy {
       }
     }
     this.excelExport();
+
+    if (this.clearSelection) {
+      this.clearSelection.pipe(
+        takeUntil(this.unsub$)
+      ).subscribe(() => this.removeActiveRow());
+    }
   }
 
   applyFilters() {
@@ -112,6 +121,16 @@ export class DataTableComponent implements OnInit, OnDestroy {
         column: event.column
       };
       this.rowClick.emit(clickEvent);
+      if (this.tableConfig.rowHighlightOnClick && this.tableConfig.rowHighlightQuery) {
+        const state = this.tableConfig.rowHighlightQuery(event.row);
+        if (state) {
+          this.renderer.addClass(event.rowElement, 'active-row');
+          this.removeActiveRow();
+          this.activeRowElement = event.rowElement;
+        } else {
+          this.renderer.removeClass(event.rowElement, 'active-row');
+        }
+      }
     }
 
     if (event.type === 'click' && this.tableSelectionClick) {
@@ -154,7 +173,14 @@ export class DataTableComponent implements OnInit, OnDestroy {
       });
   }
 
+  removeActiveRow() {
+    if (this.activeRowElement) {
+      this.renderer.removeClass(this.activeRowElement, 'active-row');
+    }
+  }
+
   ngOnDestroy() {
+    this.removeActiveRow();
     this.unsub$.next();
     this.unsub$.complete();
   }

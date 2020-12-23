@@ -21,6 +21,12 @@ export interface TableConfig {
   filters?: Subject<boolean>;
 
   /**
+   * For Highlighting the rows on click.
+   * <true> Passing true will apply toggle Class on rowElement based on click/declick.
+   */
+  rowHighlightOnClick?: boolean;
+
+  /**
    * Method to call while fetching the data.
    * It will only get called once during the initialization of the dataTable.
    * Method should return the data as Array. And all the sorting/Filtering will be applied on this array.
@@ -34,5 +40,11 @@ export interface TableConfig {
    * @returns Boolean, True will display the record and False will ignore the record.
    */
   query?(row: any): boolean;
+
+
+  /**
+   * Method to help identify click/declick.
+   */
+  rowHighlightQuery?(row: any): boolean;
 
 }
