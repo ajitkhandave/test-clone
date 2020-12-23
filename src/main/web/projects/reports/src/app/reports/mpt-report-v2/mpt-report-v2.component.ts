@@ -378,7 +378,7 @@ export class MptReportV2Component implements OnInit {
   startDateChange(date) {
     const control = this.filterForm.get('startDate');
     control.patchValue(date);
-    this.maxDate = moment(date).add(3, 'M').endOf('M').format('YYYY-MM-DD');
+    this.maxDate = moment(date).add(2, 'M').endOf('M').format('YYYY-MM-DD');
   }
 
   endDateChange(date) {

@@ -117,3 +117,13 @@ app-single-bar-chart {
   // flex: 1;
   min-height: 300px;
 }
+
+.datatable-container {
+  .ngx-datatable {
+    .active-row,
+    .active-row.datatable-row-odd {
+      background: #122377;
+      color: white;
+    }
+  }
+}
