@@ -98,21 +98,15 @@ export class AllSaversReportV2Component implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  onSearch(skipFilter?: string) {
+  onSearch() {
     if (!this.masterData) { return; }
     const { type } = this.filterForm.value;
     this.activeType = type;
-    const filteredRows = this.masterData.filter(row => this.applyQuery(row));
     const totaledRows = this.masterData.filter(row => this.applyQueryWithAndClause(row));
-
-    Object.keys(this.chartFilter)
-      .filter(formControlName => !this.filterForm.get(formControlName).value && skipFilter !== formControlName)
-      .forEach(filterName => this.generateCharts(filterName, [].concat(totaledRows)));
-
-    this.appliedFilters
-      .filter(formControlName => skipFilter !== formControlName)
-      .forEach(filterName => this.generateCharts(filterName, [].concat(filteredRows)));
-
+    const filteredRows = this.masterData.filter(row => this.applyQuery(row));
+    this.generateRows(filteredRows);
+    this.prepareBusinessChart(filteredRows);
+    this.prepareByMonthChart(filteredRows);
     this.prepareTotals(totaledRows);
     this.tableConfig.filters.next(true);
   }
@@ -136,17 +130,19 @@ export class AllSaversReportV2Component implements OnInit, AfterViewInit {
   }
 
   generateRows(rows: any[]) {
-    const data = [];
-    const uniqueSkus = Array.from(new Set(rows.map(row => row.sku)));
+    const filters = this.util.getActiveFilters(this.filterForm, this.chartFilter, this.chartFilter.dataRow);
+    const filteredRows = rows.filter(row => this.generateDataWithFilters(filters, row));
+    const table = [];
+    const uniqueSkus = Array.from(new Set(filteredRows.map(row => row.sku)));
     uniqueSkus.forEach(sku => {
-      const filteredSkuData = rows.filter(row => row.sku === sku);
+      const filteredSkuData = filteredRows.filter(row => row.sku === sku);
       const uniqueProducts = Array.from(new Set(filteredSkuData.map(row => row.productName)));
       uniqueProducts.forEach(productName => {
         const filteredData = filteredSkuData.filter(row => row.productName === productName);
         const orders = this.activeCount(filteredData, this.OrderType.orders);
         const kits = this.activeCount(filteredData, this.OrderType.kits);
         const printed = this.activeCount(filteredData, this.OrderType.printed);
-        data.push({
+        table.push({
           sku,
           productName,
           orders,
@@ -155,33 +151,36 @@ export class AllSaversReportV2Component implements OnInit, AfterViewInit {
         });
       });
     });
-    this.dataSource$.next(data);
+
+    this.dataSource$.next(table);
   }
 
   prepareByMonthChart(rows: any[]) {
+    const filters = this.util.getActiveFilters(this.filterForm, this.chartFilter, this.chartFilter.selectedMonth);
+    const filteredRows = rows.filter(row => this.generateDataWithFilters(filters, row));
+
     const { startDate, endDate } = this.filterForm.value;
     const { baseData, format } = this.util.generateMonthList(startDate, endDate);
     baseData.forEach(chart => {
-      const filteredData = rows.filter(row => moment(row.orderDate).format(format) === chart.name);
+      const filteredData = filteredRows.filter(row => moment(row.orderDate).format(format) === chart.name);
       chart.value = this.activeCount(filteredData);
     });
-
-    this.reApplyFilterValue(this.chartFilter.selectedMonth, baseData, rows);
     this.byMonthChart = baseData;
   }
 
   prepareBusinessChart(rows: any[]) {
-    const uniqueSegmentList = Array.from(new Set(rows.map(row => row.p3Segment)));
+    const filters = this.util.getActiveFilters(this.filterForm, this.chartFilter, this.chartFilter.p3Segment);
+    const filteredRows = rows.filter(row => this.generateDataWithFilters(filters, row));
+
+    const uniqueSegmentList = Array.from(new Set(filteredRows.map(row => row.p3Segment)));
     const chart = [];
     uniqueSegmentList.forEach(segmentName => {
-      const filteredData = rows.filter(row => row.p3Segment === segmentName);
+      const filteredData = filteredRows.filter(row => row.p3Segment === segmentName);
       chart.push({
         name: segmentName,
         value: this.activeCount(filteredData)
       });
     });
-
-    this.reApplyFilterValue(this.chartFilter.p3Segment, chart, rows);
     this.bySegmentChart = chart.sort((a, b) => b.value - a.value);
   }
 
@@ -225,32 +224,14 @@ export class AllSaversReportV2Component implements OnInit, AfterViewInit {
    * @param row Row data object.
    * @return Boolean values, this will be used for filter.
    */
-  applyQuery(row: any, skipFilter: boolean = false): boolean {
-    const { startDate, endDate, p3Segment, selectedMonth, dataRow, sku } = this.filterForm.value;
-    const isSegment = (p3Segment ? row.p3Segment === p3Segment : false);
-    let isInRange = moment(row.orderDate).isBetween(startDate, endDate, 'day', '[]');
-    let isMonthRange = false;
-    let isDataRow = false;
-
-    if (selectedMonth) {
-      const selectedMonthStartDate = moment().month(selectedMonth).startOf('M'); // Todo Revisit for multi Series.
-      const selectedMonthEndDate = selectedMonthStartDate.clone().endOf('M');
-      isMonthRange = (selectedMonth ? moment(row.orderDate).isBetween(selectedMonthStartDate, selectedMonthEndDate, 'day', '[]') : false);
-    }
-
-    if (dataRow) {
-      isDataRow = row.sku === sku && row.productName === dataRow;
-    }
-
-    if (!(selectedMonth || p3Segment || dataRow)) {
-      skipFilter = true;
-    }
-    return isInRange && (skipFilter || isSegment || isMonthRange || isDataRow);
+  applyQuery(row: any): boolean {
+    const { startDate, endDate } = this.filterForm.value;
+    return moment(row.orderDate).isBetween(startDate, endDate, 'day', '[]');
   }
 
   applyQueryWithAndClause(row: any) {
-    const { startDate, endDate, p3Segment, selectedMonth, dataRow, sku } = this.filterForm.value;
-    const isInRange = moment(row.orderDate).isBetween(startDate, endDate, 'day', '[]');
+    const { p3Segment, selectedMonth, dataRow, sku } = this.filterForm.value;
+    const isInRange = this.applyQuery(row);
 
     let isP3Segment = true;
     let isSelectedRange = true;
@@ -289,76 +270,39 @@ export class AllSaversReportV2Component implements OnInit, AfterViewInit {
   }
 
   applyMonthChartFilter(row?: any) {
-    const type = this.chartFilter.selectedMonth;
-    this.applyFilters(type, row);
+    this.applyFilters(this.chartFilter.selectedMonth, row);
   }
 
   applySkuTotalFilter(event: any) {
-    const { sku, dataRow } = this.filterForm.value;
-    const skuControl = this.filterForm.get('sku');
-    if (sku === event.row.sku && dataRow === event.row.productName) {
-      skuControl.patchValue(null);
-      this.applyFilters(this.chartFilter.dataRow);
-    } else {
-      skuControl.patchValue(event.row.sku);
-      event.row.name = event.row.productName;
-      this.applyFilters(this.chartFilter.dataRow, event.row);
-    }
+    event.row.name =  event.row.productName;
+    this.applyFilters(this.chartFilter.dataRow, event.row);
   }
 
   applyFilters(type: string, row?: any) {
     this.filterForm.get(type).patchValue((row && row.name) || null);
-    if (row) { // Filter is applied skip that filter and refresh the charts.
-      this.onSearch(type);
-      const filteredRows = this.masterData.filter(row => this.applyQueryWithAndClause(row));
-      if (type === this.chartFilter.dataRow) {
-        row.orders = this.activeCount(filteredRows, this.OrderType.orders);
-        row.kits = this.activeCount(filteredRows, this.OrderType.kits);
-        row.printed = this.activeCount(filteredRows, this.OrderType.printed);
+    if (type === this.chartFilter.dataRow) {
+      this.filterForm.get('sku').patchValue((row && row.sku) || null);
+    }
+    this.onSearch();
+  }
+
+  generateDataWithFilters(filters: string[], row: any): boolean {
+    return filters.map(filterName => {
+      const value = this.filterForm.get(filterName).value;
+      switch (filterName) {
+        case this.chartFilter.selectedMonth:
+          const selectedMonthStartDate = moment().month(value).startOf('M'); // Todo Revisit for multi Series.
+          const selectedMonthEndDate = selectedMonthStartDate.clone().endOf('M');
+          return moment(row.orderDate).isBetween(selectedMonthStartDate, selectedMonthEndDate, 'day', '[]');
+
+        case this.chartFilter.p3Segment:
+          return row.p3Segment === value;
+
+        case this.chartFilter.dataRow:
+          const sku = this.filterForm.get('sku').value;
+          return (row.sku === sku && row.productName === value)
       }
-    } else {
-      if (this.appliedFilters.length === 1) {
-        this.onSearch(this.appliedFilters[0]);
-        const filteredRows = this.masterData.filter(row => this.applyQuery(row, true));
-        this.generateCharts(this.appliedFilters[0], filteredRows);
-        return;
-      }
-      this.onSearch();
-    }
-  }
-
-  get appliedFilters(): string[] {
-    return Object.keys(this.chartFilter)
-      .filter((keyName) => this.filterForm.get(keyName).value);
-  }
-
-  /**
-   * Utility Method to store and will be used for evaluation.
-   * @param filterType Type of the filter `p3Segment`, `userName`
-   * @param chart Array of the chart, use to find the value
-   */
-  reApplyFilterValue(filterType: string, chart: { name: string, value: number }[], rawData: any[]) {
-    const value = this.filterForm.get(filterType).value;
-    if (value) {
-      const chartItem = chart.find(row => row.name === value);
-      const filterRows = rawData.filter(row => this.applyQueryWithAndClause(row));
-      chartItem.value = this.activeCount(filterRows);
-    }
-  }
-
-  generateCharts(filterName: string, rows: any[]) {
-    const { selectedMonth, p3Segment, dataRow } = this.chartFilter;
-    switch (filterName) {
-      case dataRow:
-        this.generateRows(rows);
-        break;
-      case p3Segment:
-        this.prepareBusinessChart(rows);
-        break;
-      case selectedMonth:
-        this.prepareByMonthChart(rows);
-        break;
-    }
+    }).filter(i => !!i).length === filters.length; // IF every Filter is true, it should
   }
 
   rowHighlightQuery(row): boolean {

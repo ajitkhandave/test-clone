@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 
 export interface MonthChartConfig {
@@ -93,5 +94,10 @@ export class UtilService {
       baseData: rows,
       format
     };
+  }
+
+  getActiveFilters(form: FormGroup, filterObj: any, filter: string) {
+    return Object.keys(filterObj)
+      .filter(filterName => form.get(filterName).value && filter !== filterName);
   }
 }
