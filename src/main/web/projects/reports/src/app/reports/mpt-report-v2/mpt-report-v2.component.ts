@@ -6,6 +6,7 @@ import { ReportService } from '../../services/report.service';
 import { Subject } from 'rxjs';
 import { DateRange } from '../../models/date-range';
 import { LoaderService } from '@sbs/loader';
+import { UtilService } from '../../services/util.service';
 
 @Component({
   selector: 'app-mpt-report-v2',
@@ -40,17 +41,12 @@ export class MptReportV2Component implements OnInit {
 
   mptMonthChart: any[];
   mptColors: any[] = [];
-  rawMptChart: any[];
   businessSegmentChart: any[];
-  rawBusinessSegmentChart: any[];
   statusChart: any[];
-  rawStatusChart: any[];
   flierChart: any[];
-  rawFlierChart: any[]
   kitChart: any[];
-  rawKitChart: any[];
+
   userChart: any[];
-  rawUserChart: any[];
 
   clearSelection$: Subject<void> = new Subject();
 
@@ -66,6 +62,7 @@ export class MptReportV2Component implements OnInit {
   constructor(
     private reportService: ReportService,
     private loaderService: LoaderService,
+    private util: UtilService,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -98,40 +95,24 @@ export class MptReportV2Component implements OnInit {
     this.cdr.detectChanges();
   }
 
-  onSearch(skipRefresh?: string) {
-    const { perDay, p3Segment, status, flier, userName, customerProductId } = this.chartFilter;
+  onSearch() {
     const { type } = this.filterForm.value;
     this.type = type;
     if (this.masterData.length) { this.loaderService.show(); }
+    const totaledRows = this.masterData.filter(row => this.applyQueryForTotals(row));
     const filteredRows = this.masterData.filter(row => this.applyQuery(row));
 
-    if (skipRefresh !== perDay) {
-      setTimeout(() => { // For performance issue need to delay the process.
-        this.generateMptChart([].concat(filteredRows));
-      });
-    }
+    setTimeout(() => { // For performance issue need to delay the process.
+      this.generateMptChart(filteredRows);
+    });
+    this.generateBusinessSegmentChart(filteredRows);
+    this.generateStatusChart(filteredRows);
+    this.generateFlierChart(filteredRows);
+    this.generateKitChart(filteredRows);
+    this.generateUserChart(filteredRows);
 
-    if (skipRefresh !== p3Segment) {
-      this.generateBusinessSegmentChart([].concat(filteredRows));
-    }
+    this.generateTotals(totaledRows);
 
-    if (skipRefresh !== status) {
-      this.generateStatusChart([].concat(filteredRows));
-    }
-
-    if (skipRefresh !== flier) {
-      this.generateFlierChart([].concat(filteredRows));
-    }
-
-    if (skipRefresh !== customerProductId) {
-      this.generateKitChart([].concat(filteredRows));
-    }
-
-    if (skipRefresh !== userName) {
-      this.generateUserChart([].concat(filteredRows));
-    }
-    const totaledRows = this.masterData.filter(row => this.applyQueryForTotals(row));
-    this.generateTotals([].concat(totaledRows));
     if (this.masterData.length) {
       setTimeout(() => {
         this.loaderService.hide();
@@ -166,7 +147,9 @@ export class MptReportV2Component implements OnInit {
   }
 
   generateMptChart(rows: any[]) {
-    this.rawMptChart = [].concat(rows);
+    const filters = this.util.getActiveFilters(this.filterForm, this.chartFilter, this.chartFilter.perDay);
+    const filteredRows = rows.filter(row => this.generateDataWithFilters(filters, row));
+
     const { startDate, endDate } = this.filterForm.value;
     const momentStartDate = moment(startDate);
     const momentEndDate = moment(endDate);
@@ -174,14 +157,14 @@ export class MptReportV2Component implements OnInit {
 
     // Generate signature for the Chart.
     const mptMonthChart = this.generateMonths(momentStartDate.clone(), momentEndDate.clone());
-    const uniqueDates = Array.from(new Set(rows.map(row => dateFormatter(row.orderDate))));
+    const uniqueDates = Array.from(new Set(filteredRows.map(row => dateFormatter(row.orderDate))));
     uniqueDates.forEach((date: string) => {
       // Find the existing Signature
       const monthName = moment(date).format('MMM');
       const row = mptMonthChart.find(r => r.name === monthName);
       if (!row) { return; }
 
-      const filteredRowsByDate = rows.filter(item => dateFormatter(item.orderDate) === date);
+      const filteredRowsByDate = filteredRows.filter(item => dateFormatter(item.orderDate) === date);
       const value = this.activeCount(filteredRowsByDate);
       if (value) {
         row.series.push({
@@ -195,39 +178,44 @@ export class MptReportV2Component implements OnInit {
   }
 
   generateBusinessSegmentChart(rows: any[]) {
-    this.rawBusinessSegmentChart = [].concat(rows);
-    const chart = this.generateUniqueChart(rows, 'p3Segment');
-    this.reApplyFilterValue(this.chartFilter.p3Segment, chart, rows);
+    const filters = this.util.getActiveFilters(this.filterForm, this.chartFilter, this.chartFilter.p3Segment);
+    const filteredRows = rows.filter(row => this.generateDataWithFilters(filters, row));
+
+    const chart = this.generateUniqueChart(filteredRows, 'p3Segment');
     this.businessSegmentChart = chart;
   }
 
   generateStatusChart(rows: any[]) {
-    this.rawStatusChart = [].concat(rows);
-    const chart = this.generateUniqueChart(rows, 'status');
-    this.reApplyFilterValue(this.chartFilter.status, chart, rows);
+    const filters = this.util.getActiveFilters(this.filterForm, this.chartFilter, this.chartFilter.status);
+    const filteredRows = rows.filter(row => this.generateDataWithFilters(filters, row));
+
+    const chart = this.generateUniqueChart(filteredRows, 'status');
     this.statusChart = chart;
   }
 
   generateFlierChart(rows: any[]) {
     const filteredRows = rows.filter(row => !!row.flierIdentifier);
-    this.rawFlierChart = [].concat(filteredRows);
-    const chart = this.generateUniqueChart(filteredRows, 'productName');
-    this.reApplyFilterValue(this.chartFilter.flier, chart, filteredRows);
+    const filters = this.util.getActiveFilters(this.filterForm, this.chartFilter, this.chartFilter.flier);
+    const chartRows = filteredRows.filter(row => this.generateDataWithFilters(filters, row));
+
+    const chart = this.generateUniqueChart(chartRows, 'productName');
     this.flierChart = chart.slice(0, 10); // Only top 10
   }
 
   generateKitChart(rows: any[]) {
     const filteredRows = rows.filter(row => !!row.isKit);
-    this.rawKitChart = [].concat(filteredRows);
-    const chart = this.generateUniqueChart(filteredRows, 'customerProductId');
-    this.reApplyFilterValue(this.chartFilter.customerProductId, chart, filteredRows);
+    const filters = this.util.getActiveFilters(this.filterForm, this.chartFilter, this.chartFilter.customerProductId);
+    const chartRows = filteredRows.filter(row => this.generateDataWithFilters(filters, row));
+
+    const chart = this.generateUniqueChart(chartRows, 'customerProductId');
     this.kitChart = chart.slice(0, 5); // Only top 5
   }
 
   generateUserChart(rows: any[]) {
-    this.rawUserChart = [].concat(rows);
-    const chart = this.generateUniqueChart(rows, 'userName');
-    this.reApplyFilterValue(this.chartFilter.userName, chart, rows);
+    const filters = this.util.getActiveFilters(this.filterForm, this.chartFilter, this.chartFilter.userName);
+    const filteredRows = rows.filter(row => this.generateDataWithFilters(filters, row));
+
+    const chart = this.generateUniqueChart(filteredRows, 'userName');
     this.userChart = chart.slice(0, 5); // Only top 5
   }
 
@@ -279,44 +267,26 @@ export class MptReportV2Component implements OnInit {
   /**
    * Critical Utility Method to filterout the records.
    * @param row row object.
-   * @param skipFilter Optional flag to apply/ignore the chart filtering flag.
    */
-  applyQuery(row: any, skipFilter: boolean = false): boolean {
-    const { vendor, perDay, p3Segment, status, flier, customerProductId, userName } = this.filterForm.value;
+  applyQuery(row: any): boolean {
+    const { vendor } = this.filterForm.value;
     let isVendor = true;
-    let isChart = true;
 
     if (vendor) {
       isVendor = (row.printVendor.toLowerCase()).includes(vendor.toLowerCase());
     }
-
-    isChart = (
-      (perDay ? moment(row.orderDate).format('MM/DD/YYYY') === perDay : false) ||
-      (p3Segment ? row.p3Segment === p3Segment : false) ||
-      (status ? row.status === status : false) ||
-      (flier ? row.productName === flier : false) ||
-      (customerProductId ? row.customerProductId === customerProductId : false) ||
-      (userName ? row.userName === userName : false)
-    );
-    if (!(perDay || p3Segment || status || flier || customerProductId || userName) || skipFilter) {
-      isChart = true;
-    }
-    return isVendor && isChart;
+    return isVendor;
   }
 
   applyQueryForTotals(row) {
-    const { vendor, perDay, p3Segment, status, flier, customerProductId, userName } = this.filterForm.value;
-    let isVendor = true;
+    const { perDay, p3Segment, status, flier, customerProductId, userName } = this.filterForm.value;
+    let isVendor = this.applyQuery(row);
     let isPerDay = true;
     let isP3Segement = true;
     let isStatus = true;
     let isFlier = true;
     let isCustomerProductId = true;
     let isUserName = true;
-
-    if (vendor) {
-      isVendor = (row.printVendor.toLowerCase()).includes(vendor.toLowerCase());
-    }
 
     if (perDay) {
       isPerDay = moment(row.orderDate).format('MM/DD/YYYY') === perDay;
@@ -343,6 +313,32 @@ export class MptReportV2Component implements OnInit {
     }
 
     return isVendor && isPerDay && isP3Segement && isStatus && isFlier && isCustomerProductId && isUserName;
+  }
+
+  generateDataWithFilters(filters: string[], row: any): boolean {
+    const { perDay, p3Segment, status, flier, customerProductId, userName } = this.chartFilter;
+    return filters.map(filterName => {
+      const value = this.filterForm.get(filterName).value;
+      switch (filterName) {
+        case perDay:
+          return moment(row.orderDate).format('MM/DD/YYYY') === value;
+
+        case p3Segment:
+          return row.p3Segment === value;
+
+        case status:
+          return row.status === value;
+
+        case flier:
+          return row.productName === value;
+
+        case customerProductId:
+          return row.customerProductId === value;
+
+        case userName:
+          return row.userName === value;
+      }
+    }).filter(i => !!i).length === filters.length; // IF every Filter is true, it should
   }
 
   /** Generic Key Getter for picking dataBy selected value. */
@@ -390,92 +386,8 @@ export class MptReportV2Component implements OnInit {
   }
 
   applyChartFilter(formControlName: string, row?: any) {
-    const { perDay, p3Segment, status, flier, customerProductId, userName } = this.chartFilter;
     this.filterForm.get(formControlName).setValue((row && row.name) || null);
-    if (row) {
-      this.onSearch(formControlName);
-      let rawData = [];
-      switch (formControlName) {
-        case perDay:
-          rawData = this.rawMptChart;
-          break;
-        case p3Segment:
-          rawData = this.rawBusinessSegmentChart;
-          break;
-        case flier:
-          rawData = this.rawFlierChart;
-          break;
-        case status:
-          rawData = this.rawStatusChart;
-          break;
-        case customerProductId:
-          rawData = this.rawKitChart;
-          break;
-        case userName:
-          rawData = this.rawUserChart;
-          break;
-      }
-      const filterRows = rawData.filter(row => this.applyQueryForTotals(row));
-      row.value = this.activeCount(filterRows);
-    } else {
-      // Find how many filters are remaining.
-      const appliedFilters = Object
-        .keys(this.filterForm.value)
-        .filter(keyName => (
-          Object.keys(this.chartFilter).includes(keyName) &&
-          this.filterForm.value[keyName]
-        ));
-      // If last filter, it comes under special case. Skip normal refresh & call special case
-      if (appliedFilters.length === 1) {
-        this.onSearch(appliedFilters[0]);
-        this.refreshSpecialCase(appliedFilters[0]);
-        return;
-      }
-      this.onSearch();
-    }
-  }
-
-  /**
-   * On deselecting 2nd last filter, Last active filter chart should be rendered as normal.
-   * @param filterName Name of the chartFilter.
-   */
-  refreshSpecialCase(filterName: string) {
-    const { perDay, p3Segment, status, flier, customerProductId, userName } = this.chartFilter;
-    const filteredRows = this.masterData.filter(row => this.applyQuery(row, true));
-    switch (filterName) {
-      case perDay:
-        this.generateMptChart(filteredRows);
-        break;
-      case p3Segment:
-        this.generateBusinessSegmentChart(filteredRows);
-        break;
-      case flier:
-        this.generateFlierChart(filteredRows);
-        break;
-      case status:
-        this.generateStatusChart(filteredRows);
-        break;
-      case customerProductId:
-        this.generateKitChart(filteredRows);
-        break;
-      case userName:
-        this.generateUserChart(filteredRows);
-        break;
-    }
-  }
-
-  /**
-   * Utility Method to store and will be used for evaluation.
-   * @param filterType Type of the filter `p3Segment`, `userName`
-   * @param chart Array of the chart, use to find the value
-   */
-  reApplyFilterValue(filterType: string, chart: { name: string, value: number }[], rawData: any[]) {
-    const value = this.filterForm.get(filterType).value;
-    if (value) {
-      const chartItem = chart.find(row => row.name === value);
-      const filterRows = rawData.filter(row => this.applyQueryForTotals(row));
-      chartItem.value = this.activeCount(filterRows);
-    }
+    this.onSearch();
   }
 
   clearChartSelection() {

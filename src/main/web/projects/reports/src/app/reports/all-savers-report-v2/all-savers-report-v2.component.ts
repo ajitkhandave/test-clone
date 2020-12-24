@@ -152,7 +152,6 @@ export class AllSaversReportV2Component implements OnInit, AfterViewInit {
       });
     });
 
-    //
     this.dataSource$.next(table);
   }
 
