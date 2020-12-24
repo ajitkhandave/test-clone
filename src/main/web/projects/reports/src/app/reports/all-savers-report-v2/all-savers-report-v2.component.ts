@@ -155,6 +155,7 @@ export class AllSaversReportV2Component implements OnInit, AfterViewInit {
         });
       });
     });
+    this.reApplyFilterValue(this.chartFilter.dataRow, data);
     this.dataSource$.next(data);
   }
 
@@ -166,7 +167,7 @@ export class AllSaversReportV2Component implements OnInit, AfterViewInit {
       chart.value = this.activeCount(filteredData);
     });
 
-    this.reApplyFilterValue(this.chartFilter.selectedMonth, baseData, rows);
+    this.reApplyFilterValue(this.chartFilter.selectedMonth, baseData);
     this.byMonthChart = baseData;
   }
 
@@ -181,7 +182,7 @@ export class AllSaversReportV2Component implements OnInit, AfterViewInit {
       });
     });
 
-    this.reApplyFilterValue(this.chartFilter.p3Segment, chart, rows);
+    this.reApplyFilterValue(this.chartFilter.p3Segment, chart);
     this.bySegmentChart = chart.sort((a, b) => b.value - a.value);
   }
 
@@ -245,6 +246,11 @@ export class AllSaversReportV2Component implements OnInit, AfterViewInit {
     if (!(selectedMonth || p3Segment || dataRow)) {
       skipFilter = true;
     }
+
+    if (this.appliedFilters.length === 3) {
+      // All Filters are applied lets calculate.
+      return isInRange && (skipFilter || (isSegment && isMonthRange) || (isSegment && isDataRow) || (isMonthRange && isDataRow));
+    }
     return isInRange && (skipFilter || isSegment || isMonthRange || isDataRow);
   }
 
@@ -307,15 +313,16 @@ export class AllSaversReportV2Component implements OnInit, AfterViewInit {
   }
 
   applyFilters(type: string, row?: any) {
+    const refreshDataTable = () => {
+      if (type === this.chartFilter.dataRow) {
+        this.tableConfig.filters.next(true);
+      }
+    }
     this.filterForm.get(type).patchValue((row && row.name) || null);
     if (row) { // Filter is applied skip that filter and refresh the charts.
       this.onSearch(type);
-      const filteredRows = this.masterData.filter(row => this.applyQueryWithAndClause(row));
-      if (type === this.chartFilter.dataRow) {
-        row.orders = this.activeCount(filteredRows, this.OrderType.orders);
-        row.kits = this.activeCount(filteredRows, this.OrderType.kits);
-        row.printed = this.activeCount(filteredRows, this.OrderType.printed);
-      }
+      this.reApplyFilterValue(type, [row]);
+      refreshDataTable();
     } else {
       if (this.appliedFilters.length === 1) {
         this.onSearch(this.appliedFilters[0]);
@@ -337,12 +344,22 @@ export class AllSaversReportV2Component implements OnInit, AfterViewInit {
    * @param filterType Type of the filter `p3Segment`, `userName`
    * @param chart Array of the chart, use to find the value
    */
-  reApplyFilterValue(filterType: string, chart: { name: string, value: number }[], rawData: any[]) {
+  reApplyFilterValue(filterType: string, chart: any[]) {
     const value = this.filterForm.get(filterType).value;
     if (value) {
-      const chartItem = chart.find(row => row.name === value);
-      const filterRows = rawData.filter(row => this.applyQueryWithAndClause(row));
-      chartItem.value = this.activeCount(filterRows);
+      const filterRows = this.masterData.filter(row => this.applyQueryWithAndClause(row));
+      if (filterType !== this.chartFilter.dataRow) {
+        const chartItem = chart.find(row => row.name === value);
+        chartItem.value = this.activeCount(filterRows);
+      }
+
+      if (filterType === this.chartFilter.dataRow) {
+        const sku = this.filterForm.get('sku').value;
+        const tableItem = chart.find(row => row.productName === value && row.sku === sku);
+        tableItem.orders = this.activeCount(filterRows, this.OrderType.orders);
+        tableItem.kits = this.activeCount(filterRows, this.OrderType.kits);
+        tableItem.printed = this.activeCount(filterRows, this.OrderType.printed);
+      }
     }
   }
 
